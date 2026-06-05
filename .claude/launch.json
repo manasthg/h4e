@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "h4e-roadmap",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-l", "7823", "."],
+      "port": 7823
+    }
+  ]
+}

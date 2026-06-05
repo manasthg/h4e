@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.hashgraph-group.com)",
+      "WebFetch(domain:api.anthropic.com)",
+      "Bash(curl -s \"https://api.anthropic.com/v1/design/h/NkiV0tb9sdIOGOervzLLmw?open_file=index.html\")",
+      "Bash(gunzip)",
+      "Bash(curl -s \"https://api.anthropic.com/v1/design/h/NkiV0tb9sdIOGOervzLLmw\")",
+      "Bash(tar -xz -C /tmp/)",
+      "Read(//tmp/**)",
+      "Bash(curl -s \"https://api.anthropic.com/v1/design/h/NkiV0tb9sdIOGOervzLLmw?open_file=index.html\" -o /tmp/design.tgz)",
+      "Bash(tar -tzf /tmp/design.tgz)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(curl -s --compressed \"https://api.anthropic.com/v1/design/h/NkiV0tb9sdIOGOervzLLmw?open_file=index.html\")",
+      "Bash(xxd)",
+      "Bash(curl -s -H \"Accept-Encoding: gzip\" \"https://api.anthropic.com/v1/design/h/NkiV0tb9sdIOGOervzLLmw?open_file=index.html\")",
+      "WebSearch",
+      "Bash(python3 -m http.server 8743)",
+      "Bash(echo \"PID: $!\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8743/H4E_Roadmap.html)",
+      "mcp__figma__generate_figma_design",
+      "Bash(open \"http://localhost:8743/H4E_Roadmap.html#figmacapture=1c77f4e9-b4e9-4b99-8b1c-b18128f810d1&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2F1c77f4e9-b4e9-4b99-8b1c-b18128f810d1%2Fsubmit&figmadelay=1000\")",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npx --version)",
+      "Bash(awk -F'px' '{print $1 \"px\"}')",
+      "Bash(awk '{for\\(i=1;i<=NF;i++\\){if\\($i ~ /font-size:/\\) {match\\($i, /[0-9]+/\\); if\\(RSTART != 0 && substr\\($i, RSTART, RLENGTH\\) < 16\\) print NR\": \"$0}}}')",
+      "Bash(node -e ' *)",
+      "Bash(python3 -c ' *)",
+      "Bash(grep -B 2 \"^    },$\" /Users/sara/Documents/Claude/h4eRoadmap/H4E_Roadmap.html)",
+      "Bash(grep -B 3 \"\\\\.pgrid{grid-template-columns:repeat\\(auto-fill,minmax\\(260px\" /Users/sara/Documents/Claude/h4eRoadmap/H4E_Roadmap.html)",
+      "Bash(awk '/^  @media/{q=$0; line=NR} /\\\\.pgrid\\\\{grid-template-columns:repeat\\\\\\(auto-fill,minmax\\\\\\(260px/{print line\": \"q; exit}' /Users/sara/Documents/Claude/h4eRoadmap/H4E_Roadmap.html)",
+      "Bash(awk '/^  @media/{q=$0; line=NR} /\\\\.pgrid\\\\{grid-template-columns:1fr/{print line\": \"q; exit}' /Users/sara/Documents/Claude/h4eRoadmap/H4E_Roadmap.html)",
+      "Bash(awk '/^  @media/{q=$0; line=NR} /\\\\.pgrid\\\\{gap:10px;margin-bottom:32px/{print line\": \"q; exit}' /Users/sara/Documents/Claude/h4eRoadmap/H4E_Roadmap.html)",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "Bash(awk 'NR>=1 && NR<=5 || \\($0 ~ /22[0-9][0-9]:/\\)')"
+    ]
+  }
+}

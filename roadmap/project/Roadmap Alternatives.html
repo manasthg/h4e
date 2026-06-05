@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" class="brand-tha theme-dark">
+<head>
+<meta charset="UTF-8">
+<title>Roadmap — Alternatives to Gantt</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ds/tokens.css">
+<link rel="stylesheet" href="ds/components.css">
+
+<style>
+  html, body { margin: 0; padding: 0; background: var(--c-background); color: var(--c-on-background); font-family: var(--font-body); }
+  body { min-height: 100vh; }
+
+  /* Intro panel above the canvas */
+  .intro-bar {
+    padding: 24px 40px 20px;
+    border-bottom: 1px solid var(--c-outline-variant);
+    background: var(--c-background);
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .intro-eye {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--c-text-muted);
+    margin-bottom: 8px;
+  }
+  .intro-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--c-on-background);
+  }
+  .intro-desc {
+    font-size: 13px;
+    color: var(--c-text-muted);
+    line-height: 1.55;
+    max-width: 640px;
+    margin-top: 6px;
+  }
+  .intro-stats { display: flex; gap: 28px; }
+  .intro-stat { text-align: right; }
+  .intro-stat-num { font-family: var(--font-display); font-size: 24px; font-weight: 500; color: var(--c-on-background); line-height: 1; }
+  .intro-stat-lab { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--c-text-muted); margin-top: 4px; }
+
+  /* Canvas takes remaining viewport */
+  #app { display: flex; flex-direction: column; min-height: 100vh; }
+  #canvas-host { flex: 1; min-height: 0; }
+
+  /* Force background of the design canvas grid to match brand */
+  /* The starter component uses its own bg (#f0eee9 light). We want dark for context-matching. */
+</style>
+</head>
+
+<body data-screen-label="Roadmap Alternatives">
+<div id="app">
+  <div class="intro-bar">
+    <div>
+      <div class="intro-eye">Design Exploration · Product Roadmap</div>
+      <div class="intro-title">Four alternatives to the Gantt chart</div>
+      <div class="intro-desc">
+        The current Gantt is dense, time-grid-heavy, and visually flat. Each option below shows the
+        same IDTrust release data (21 features across 2025&ndash;2027) reorganised around a different
+        mental model: <em>delivery quarter</em>, <em>commitment horizon</em>, <em>narrative journey</em>, or <em>strategic stream</em>.
+        Drag any board around, double-click a title to rename, or click&nbsp;⤢ to focus fullscreen.
+      </div>
+    </div>
+    <div class="intro-stats">
+      <div class="intro-stat"><div class="intro-stat-num">21</div><div class="intro-stat-lab">Releases</div></div>
+      <div class="intro-stat"><div class="intro-stat-num">12</div><div class="intro-stat-lab">Quarters</div></div>
+      <div class="intro-stat"><div class="intro-stat-num">3</div><div class="intro-stat-lab">Streams</div></div>
+      <div class="intro-stat"><div class="intro-stat-num">4</div><div class="intro-stat-lab">Variants</div></div>
+    </div>
+  </div>
+
+  <div id="canvas-host"></div>
+</div>
+
+<!-- React + Babel -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<!-- Data first -->
+<script src="data.js"></script>
+
+<!-- Components -->
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="shared.jsx"></script>
+<script type="text/babel" src="option-a.jsx"></script>
+<script type="text/babel" src="option-b.jsx"></script>
+<script type="text/babel" src="option-c.jsx"></script>
+<script type="text/babel" src="option-d.jsx"></script>
+
+<script type="text/babel">
+  // Wait for components to be defined (Babel runs all scripts async-ish)
+  function App() {
+    return (
+      <DesignCanvas>
+        <DCSection id="alternatives" title="Roadmap visualisation alternatives" subtitle="Same data, four mental models — pick the one that fits the audience.">
+          <DCArtboard id="A" label="A · Quarterly Release Calendar" width={780} height={1500}>
+            <OptionA />
+          </DCArtboard>
+          <DCArtboard id="B" label="B · Milestone Path (climbing timeline)" width={2000} height={900}>
+            <OptionB />
+          </DCArtboard>
+          <DCArtboard id="C" label="C · Product Journey (horizontal)" width={1800} height={900}>
+            <OptionC />
+          </DCArtboard>
+          <DCArtboard id="D" label="D · Theme Lanes (streams)" width={1400} height={650}>
+            <OptionD />
+          </DCArtboard>
+        </DCSection>
+      </DesignCanvas>
+    );
+  }
+
+  // Mount once
+  const host = document.getElementById("canvas-host");
+  ReactDOM.createRoot(host).render(<App />);
+</script>
+
+</body>
+</html>

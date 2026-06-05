@@ -1,0 +1,2413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H4E Master Product Roadmap · The Hashgraph Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -8 48 48'%3E%3Cpath fill='%23EDF0FF' d='M 0.47 0 L 0 0 L 0 32 L 0.47 32 Z M 3.866 0 L 3.277 0 L 3.277 32 L 3.866 32 Z M 7.261 0 L 6.557 0 L 6.557 32 L 7.261 32 Z M 10.655 0 L 9.833 0 L 9.833 32 L 10.655 32 Z M 14.051 0 L 13.11 0 L 13.11 32 L 14.051 32 Z M 17.446 0 L 16.387 0 L 16.387 32 L 17.446 32 Z M 20.841 0 L 19.667 0 L 19.667 32 L 20.841 32 Z M 24.233 0 L 22.94 0 L 22.94 32 L 24.233 32 Z M 27.628 12.434 L 26.217 12.434 L 26.217 19.56 L 27.628 19.56 Z M 31.023 12.434 L 29.494 12.434 L 29.494 19.56 L 31.023 19.56 Z M 34.418 12.434 L 32.77 12.434 L 32.77 19.56 L 34.418 19.56 Z M 37.813 12.434 L 36.05 12.434 L 36.05 19.56 L 37.813 19.56 Z M 41.208 0 L 39.327 0 L 39.327 32 L 41.208 32 Z M 44.604 0 L 42.604 0 L 42.604 32 L 44.604 32 Z M 47.999 0 L 45.88 0 L 45.88 32 L 47.999 32 Z'/%3E%3C/svg%3E">
+<style>
+  @font-face{
+    font-family:'THG Swinton';
+    src:url('fonts/THGSwinton-Regular.woff2') format('woff2');
+    font-weight:400;
+    font-style:normal;
+    font-display:swap;
+  }
+  @font-face{
+    font-family:'THG Swinton';
+    src:url('fonts/THGSwinton-Medium.woff2') format('woff2');
+    font-weight:500;
+    font-style:normal;
+    font-display:swap;
+  }
+  @font-face{
+    font-family:'THG Swinton';
+    src:url('fonts/THGSwinton-Bold.woff2') format('woff2');
+    font-weight:700;
+    font-style:normal;
+    font-display:swap;
+  }
+  :root {
+    /* THG Brand Portal Typography: Swinton Regular = body/lead/notes; Medium = headlines & subheads; Bold = titles & emphasis */
+    --font-body:'Work Sans',sans-serif;
+    --font-display:'THG Swinton',Georgia,'Times New Roman',serif;
+    --bg: #010113;
+    --surface: #1a1a26;
+    --surface2: #0d0d1f;
+    --border: #313340;
+    --border-active: #4a4d5c;
+    --text: #ffffff;
+    --text-2: #d0c9d9;
+    --text-3: #7a798c;
+    --accent: #605EFF;
+    --c-transact:    #3c39e6;
+    --c-ecoguard:    #27AE60;
+    --c-idtrust:     #A78BFA;
+    --c-tracktrace:  #F0B35E;
+    --c-assetguard:  #0EA5E9;
+    --c-hashcare:    #D946EF;
+    --c-brandboost:  #22D3EE;
+    --bg-transact:   rgba(96,94,255,0.09);
+    --bg-ecoguard:   rgba(39,174,96,0.09);
+    --bg-idtrust:    rgba(139,111,255,0.09);
+    --bg-tracktrace: rgba(232,150,58,0.09);
+    --bg-assetguard: rgba(46,156,202,0.09);
+    --bg-hashcare:   rgba(232,67,147,0.09);
+    --bg-brandboost: rgba(0,197,190,0.09);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--font-body);font-weight:400;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+  .bg-orbs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+  .bg-orbs::before{content:'';position:absolute;width:700px;height:700px;top:-200px;left:-200px;background:radial-gradient(circle,rgba(96,94,255,0.07) 0%,transparent 70%);border-radius:50%;}
+  .bg-orbs::after{content:'';position:absolute;width:600px;height:600px;bottom:-150px;right:-100px;background:radial-gradient(circle,rgba(0,197,190,0.05) 0%,transparent 70%);border-radius:50%;}
+  .wrap{position:relative;z-index:1;}
+
+  /* HEADER */
+  header{height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 44px;border-bottom:1px solid var(--border);background:rgba(1,1,19,0.82);backdrop-filter:blur(14px);position:sticky;top:0;z-index:200;}
+  .thg-logo{display:inline-flex;align-items:center;text-decoration:none;color:var(--text);height:32px;transition:opacity .2s;}
+  .thg-logo:hover{opacity:.8;}
+  .thg-logo svg{height:32px;width:auto;display:block;fill:currentColor;}
+  .hdr-pill{font-family:var(--font-body);font-weight:400;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);background:var(--bg-transact);border:1px solid rgba(96,94,255,0.25);padding:4px 12px;border-radius:20px;}
+  .hdr-right{display:flex;align-items:center;gap:16px;}
+  .hdr-conf{font-family:var(--font-body);font-weight:400;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#E8963A;background:rgba(232,150,58,0.08);border:1px solid rgba(232,150,58,0.2);padding:3px 10px;border-radius:4px;}
+  .hdr-date{font-family:var(--font-body);font-weight:400;font-size:11px;color:var(--text-3);}
+
+  /* HERO */
+  .hero{padding:64px 44px 52px;border-bottom:1px solid var(--border);}
+  .hero-sec{display:none;}
+  .hero-sec.on{display:block;animation:fadeUp .3s ease both;}
+  .hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-body);font-weight:400;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:22px;}
+  .hero-eyebrow::before{content:'';width:24px;height:1px;background:var(--accent);}
+  .hero-h1{font-family:var(--font-display);font-size:clamp(44px,6vw,76px);font-weight:500;line-height:1.04;letter-spacing:-0.025em;background:linear-gradient(130deg,#EDF0FF 20%,#9198C0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;max-width:680px;margin-bottom:18px;}
+  .hero-sub{font-size:16px;color:var(--text-2);line-height:1.75;max-width:500px;margin-bottom:48px;}
+  .hero-stats{display:flex;gap:48px;flex-wrap:wrap;}
+  .hstat-n{font-family:var(--font-display);font-size:38px;font-weight:500;color:var(--text);line-height:1;}
+  .hstat-l{font-size:11px;font-family:var(--font-body);font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);margin-top:5px;}
+  .hero-product{display:flex;align-items:center;gap:24px;margin-bottom:24px;}
+  .hero-logo{width:80px;height:80px;border-radius:16px;object-fit:contain;background:rgba(255,255,255,0.04);padding:6px;}
+  .hero-logo-ph{width:80px;height:80px;border-radius:16px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;font-size:36px;}
+  .hero-title-wrap{display:flex;flex-direction:column;gap:4px;}
+  .hero-tagline{font-size:18px;font-style:normal;color:var(--text-2);}
+
+  /* NAV */
+  .main-nav{display:flex;align-items:center;gap:1px;overflow-x:auto;scrollbar-width:none;flex-shrink:1;min-width:0;}
+  .main-nav::-webkit-scrollbar{display:none;}
+  .nav-sep{width:1px;height:16px;background:var(--border);margin:0 8px;flex-shrink:0;}
+  .nav-link{display:flex;align-items:center;gap:7px;padding:7px 12px;font-family:var(--font-display);font-size:16px;font-weight:400;color:var(--text-3);border:none;border-radius:7px;background:none;cursor:pointer;white-space:nowrap;letter-spacing:0.01em;transition:color .2s,background .2s;}
+  .nav-link:hover{color:var(--text);background:rgba(255,255,255,0.05);}
+  .nav-link.on{color:var(--text);background:rgba(255,255,255,0.08);}
+  .nav-link svg,.nav-link img{width:18px;height:18px;border-radius:4px;object-fit:contain;flex-shrink:0;}
+  .nav-link .ndot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+
+  /* MAIN */
+  main{padding:44px;}
+  .sec{display:none;}
+  .sec.on{display:block;animation:fadeUp .3s ease both;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+  /* SECTION LABEL */
+  .slabel{font-family:var(--font-body);font-weight:400;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);display:flex;align-items:center;gap:14px;margin-bottom:22px;margin-top:40px;}
+  .slabel:first-child{margin-top:0;}
+  .slabel::after{content:'';flex:1;height:1px;background:var(--border);}
+
+  /* PRODUCT CARDS */
+  .pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:44px;max-width:1440px;margin-left:auto;margin-right:auto;padding:0;}
+  @media(min-width:1441px){.pgrid{padding:0 8px;}}
+  @media(max-width:1200px){.pgrid{grid-template-columns:repeat(3,1fr);max-width:none;}}
+  .pcard{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:26px;cursor:pointer;position:relative;overflow:hidden;transition:border-color .22s,transform .22s,box-shadow .22s;}
+  .pcard:hover{border-color:var(--border-active);transform:translateY(-3px);box-shadow:0 18px 48px rgba(0,0,0,0.45);}
+  .pcard::before{content:'';position:absolute;inset:0;opacity:0;border-radius:inherit;transition:opacity .25s;pointer-events:none;}
+  .pcard:hover::before{opacity:1;}
+  .pcard[data-p=transact]::before{background:radial-gradient(ellipse 80% 60% at 0% 0%,var(--bg-transact),transparent);}
+  .pcard[data-p=ecoguard]::before{background:radial-gradient(ellipse 80% 60% at 0% 0%,var(--bg-ecoguard),transparent);}
+  .pcard[data-p=idtrust]::before{background:radial-gradient(ellipse 80% 60% at 0% 0%,var(--bg-idtrust),transparent);}
+  .pcard[data-p=tracktrace]::before{background:radial-gradient(ellipse 80% 60% at 0% 0%,var(--bg-tracktrace),transparent);}
+  .pcard[data-p=assetguard]::before{background:radial-gradient(ellipse 80% 60% at 0% 0%,var(--bg-assetguard),transparent);}
+  .pcard[data-p=hashcare]::before{background:radial-gradient(ellipse 80% 60% at 0% 0%,var(--bg-hashcare),transparent);}
+  .pcard[data-p=brandboost]::before{background:radial-gradient(ellipse 80% 60% at 0% 0%,var(--bg-brandboost),transparent);}
+
+  .pcard-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;}
+  .pcard-logo{width:56px;height:56px;border-radius:12px;object-fit:contain;background:rgba(255,255,255,0.04);padding:4px;}
+  .pcard-logo-ph{width:56px;height:56px;border-radius:12px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;font-size:26px;}
+  .pbadge{font-family:var(--font-body);font-weight:400;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;padding:4px 10px;border-radius:20px;border:1px solid;}
+  .b-live{color:#22C55E;border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.07);}
+  .b-active{color:#00C5BE;border-color:rgba(0,197,190,.3);background:rgba(0,197,190,.07);}
+  .b-new{color:#E8963A;border-color:rgba(232,150,58,.3);background:rgba(232,150,58,.07);}
+  .b-evo{color:#E84393;border-color:rgba(232,67,147,.3);background:rgba(232,67,147,.07);}
+
+  .pcard-name{font-family:var(--font-display);font-size:20px;font-weight:500;color:var(--text);margin-bottom:4px;}
+  .pcard-tag{font-size:13px;font-style:normal;font-weight:400;color:var(--text-3);margin-bottom:10px;}
+  .pcard-desc{font-size:16px;color:var(--text-2);line-height:1.6;margin-bottom:18px;}
+  .pill-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px;}
+  .pill{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;border:1px solid;}
+  .prog-meta{display:flex;justify-content:space-between;font-size:11px;font-family:var(--font-body);font-weight:400;color:var(--text-3);margin-bottom:6px;}
+  .prog-bar{height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
+  .prog-fill{height:100%;border-radius:2px;transition:width 1.1s cubic-bezier(.4,0,.2,1);}
+  .pcard-cta{margin-top:14px;font-size:12px;color:var(--text-3);transition:color .2s;}
+  .pcard:hover .pcard-cta{color:var(--accent);}
+
+  /* INFRA */
+  .infra-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:44px;}
+  .infra-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;}
+  .infra-icon{font-size:20px;margin-bottom:8px;}
+  .infra-title{font-family:var(--font-display);font-size:14px;font-weight:500;color:var(--text);margin-bottom:5px;}
+  .infra-desc{font-size:16px;color:var(--text-2);line-height:1.6;}
+
+  /* TIMELINE */
+  .tl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:16px;background:var(--surface);}
+  .tl-inner{min-width:860px;}
+  .tl-year-row{display:grid;grid-template-columns:168px 4fr 4fr;background:rgba(255,255,255,0.025);border-bottom:1px solid var(--border);}
+  .tl-yr-cell{padding:9px 14px;font-family:var(--font-body);font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;border-right:1px solid var(--border);text-align:center;}
+  .tl-yr-cell.y26{color:var(--accent);}
+  .tl-yr-cell.y27{color:var(--c-brandboost);}
+  .tl-head{display:grid;grid-template-columns:168px repeat(8,1fr);background:var(--surface2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10;}
+  .tl-hc{padding:13px 10px;font-family:var(--font-body);font-weight:400;font-size:10px;color:var(--text-3);letter-spacing:0.08em;text-align:center;border-right:1px solid var(--border);}
+  .tl-hc:first-child{text-align:left;padding-left:16px;}
+  .tl-hc.now{color:var(--c-brandboost);}
+  .tl-row{display:grid;grid-template-columns:168px repeat(8,1fr);border-bottom:1px solid var(--border);min-height:54px;align-items:center;}
+  .tl-row:last-child{border-bottom:none;}
+  .tl-row:hover{background:rgba(255,255,255,0.018);}
+  .tl-prod{padding:10px 14px;display:flex;align-items:center;gap:9px;border-right:1px solid var(--border);}
+  .tl-plogo{width:22px;height:22px;border-radius:5px;object-fit:contain;flex-shrink:0;background:rgba(255,255,255,0.04);padding:2px;}
+  .tl-pname{font-family:var(--font-display);font-size:12px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .tl-cell{padding:7px 4px;border-right:1px solid var(--border);height:100%;display:flex;align-items:center;}
+  .tl-block{border-radius:6px;padding:5px 9px;font-size:10px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;}
+
+  /* DETAIL */
+  .back-btn{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--text-2);cursor:pointer;background:none;border:none;font-family:inherit;padding:0;margin-bottom:30px;transition:color .2s;}
+  .back-btn:hover{color:var(--text);}
+  .back-btn svg{transition:transform .2s;}
+  .back-btn:hover svg{transform:translateX(-3px);}
+  .d-hero{display:grid;grid-template-columns:1fr 270px;gap:30px;margin-bottom:36px;align-items:start;}
+  @media(max-width:720px){.d-hero{grid-template-columns:1fr;}}
+  .d-product-identity{display:flex;align-items:center;gap:18px;margin-bottom:20px;}
+  .d-logo{width:68px;height:68px;border-radius:14px;object-fit:contain;background:rgba(255,255,255,0.04);padding:5px;}
+  .d-logo-ph{width:68px;height:68px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:30px;}
+  .d-eyebrow{font-family:var(--font-body);font-weight:400;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:4px;}
+  .d-title{font-family:var(--font-display);font-size:36px;font-weight:700;color:var(--text);line-height:1;}
+  .d-tagline{font-size:16px;font-style:normal;font-weight:400;color:var(--text-3);margin-top:4px;}
+  .d-desc{font-size:16px;color:var(--text-2);line-height:1.75;max-width:480px;margin-bottom:22px;}
+  .d-meta{display:flex;gap:28px;flex-wrap:wrap;}
+  .dm-label{font-family:var(--font-body);font-weight:400;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:4px;}
+  .dm-val{font-family:var(--font-display);font-size:14px;font-weight:500;color:var(--text);}
+  .d-stat-box{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px;}
+  .dsrow{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--border);}
+  .dsrow:last-child{border-bottom:none;}
+  .dsrow-l{font-size:12px;color:var(--text-2);}
+  .dsrow-v{font-family:var(--font-display);font-size:22px;font-weight:700;}
+
+  /* PHASES */
+  .phases-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px;margin-bottom:36px;}
+  .phase-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px;position:relative;overflow:hidden;}
+  .phase-card-accent{position:absolute;top:0;left:0;right:0;height:3px;border-radius:14px 14px 0 0;}
+  .ph-num{font-family:var(--font-body);font-weight:400;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:7px;display:flex;align-items:center;gap:7px;}
+  .ph-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+  .ph-title{font-family:var(--font-display);font-size:17px;font-weight:700;color:var(--text);margin-bottom:3px;}
+  .ph-time{font-family:var(--font-body);font-weight:400;font-size:11px;color:var(--text-3);margin-bottom:14px;}
+  .feat-list{list-style:none;}
+  .feat-li{display:flex;align-items:flex-start;gap:8px;padding:5px 0;font-size:14px;color:var(--text-2);border-bottom:1px solid rgba(255,255,255,0.035);line-height:1.5;}
+  .feat-li:last-child{border-bottom:none;}
+  .feat-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:7px;opacity:.55;}
+
+  /* DECISIONS */
+  .dec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:36px;}
+  .dec-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;}
+  .dec-title{font-family:var(--font-display);font-size:14px;font-weight:500;color:var(--text);margin-bottom:5px;}
+  .dec-body{font-size:16px;color:var(--text-2);line-height:1.6;margin-bottom:10px;}
+  .dtag{font-family:var(--font-body);font-weight:400;font-size:10px;padding:3px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:0.06em;}
+  .dt-res{background:rgba(34,197,94,.1);color:#22C55E;}
+  .dt-tbf{background:rgba(232,150,58,.1);color:#E8963A;}
+  .dt-oos{background:rgba(239,68,68,.1);color:#EF4444;}
+  .dt-open{background:rgba(96,94,255,.1);color:#605EFF;}
+
+  /* PROJECTS */
+  .proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-bottom:36px;}
+  .proj-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;}
+  .proj-tag{font-family:var(--font-body);font-weight:400;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;}
+  .proj-name{font-family:var(--font-display);font-size:14px;font-weight:500;color:var(--text);margin-bottom:4px;}
+  .proj-desc{font-size:16px;color:var(--text-2);}
+
+  /* INFO BANNER */
+  .info-banner{border-radius:12px;padding:18px;margin-bottom:36px;font-size:13px;line-height:1.65;}
+  .info-banner strong{display:block;font-size:13px;font-weight:700;margin-bottom:5px;}
+
+  /* OVERVIEW HERO */
+  .overview-hero{display:flex;flex-direction:column;gap:32px;margin-bottom:64px;}
+  .overview-hero-content{display:flex;flex-direction:column;gap:18px;max-width:820px;margin:0 auto;text-align:center;align-items:center;}
+  .overview-title{font-family:var(--font-display);font-size:44px;font-weight:500;color:var(--text);line-height:1.05;letter-spacing:-0.02em;background:linear-gradient(130deg,#EDF0FF 20%,#9198C0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .overview-desc{font-size:16px;color:var(--text-2);line-height:1.75;}
+  .overview-hero-image{width:100vw;position:relative;left:50%;transform:translateX(-50%);background:var(--bg);border:none;border-top:1px solid var(--border);border-bottom:1px solid var(--border);border-radius:0;padding:48px 44px;box-sizing:border-box;}
+  .platform-diagram{width:80%;max-width:1100px;height:auto;border-radius:10px;display:block;margin:0 auto;}
+  @media(max-width:900px){.overview-title{font-size:34px;}}
+
+  /* SPLIT SECTIONS (Scalable / Tech Roadmap) */
+  .split-section{display:grid;grid-template-columns:1fr 1.4fr;gap:64px;margin-bottom:88px;align-items:start;padding-top:24px;}
+  .split-left{position:sticky;top:148px;}
+  .split-eyebrow{font-family:var(--font-body);font-weight:400;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:16px;}
+  .split-title{font-family:var(--font-display);font-size:44px;font-weight:500;color:var(--text);line-height:1.05;letter-spacing:-0.02em;background:linear-gradient(130deg,#EDF0FF 20%,#9198C0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:20px;}
+  .split-intro{font-family:var(--font-body);font-size:16px;font-weight:400;color:var(--text-2);line-height:1.8;max-width:380px;}
+  .split-right{display:flex;flex-direction:column;gap:30px;}
+  .icon-list-item{display:flex;gap:20px;align-items:flex-start;padding:6px 0;}
+  .ili-icon{width:44px;height:44px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:rgba(96,94,255,0.07);border:1px solid rgba(96,94,255,0.18);border-radius:10px;color:var(--accent);}
+  .ili-icon svg{width:22px;height:22px;display:block;}
+  .ili-content{flex:1;padding-top:2px;}
+  .ili-title{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-0.005em;}
+  .ili-desc{font-size:16px;color:var(--text-2);line-height:1.7;}
+  .ili-list{margin-top:10px;display:flex;flex-direction:column;gap:6px;}
+  .ili-li{display:flex;gap:8px;align-items:flex-start;font-size:16px;color:var(--text-2);line-height:1.55;}
+  .ili-li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:8px;opacity:.7;}
+  @media(max-width:900px){.split-section{grid-template-columns:1fr;gap:36px;}.split-left{position:static;}.split-title{font-size:34px;}}
+
+  /* PRODUCT SUITE - split layout (title left, list right) */
+  .suite-heading-title{font-family:var(--font-display);font-size:44px;font-weight:500;color:var(--text);line-height:1.05;letter-spacing:-0.02em;background:linear-gradient(130deg,#EDF0FF 20%,#9198C0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .suite-cards-section{margin-bottom:32px;padding-top:24px;}
+  #suite-pgrid .pcard::before{background:radial-gradient(ellipse 80% 60% at 0% 0%,rgba(96,94,255,0.1),transparent);}
+  #suite-pgrid .pcard-logo-ph{width:64px;height:64px;border-radius:14px;flex-shrink:0;}
+  #suite-pgrid .pcard-logo-ph img{width:100%;height:100%;object-fit:contain;border-radius:10px;}
+  @media(max-width:900px){.suite-heading-title{font-size:34px;}}
+
+  /* FOOTER */
+  footer{padding:28px 44px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;}
+  .ft-l{font-size:12px;color:var(--text-3);}
+  .ft-r{display:flex;align-items:center;gap:12px;font-family:var(--font-body);font-weight:400;font-size:10px;color:var(--text-3);}
+
+  @media(max-width:640px){
+    header{padding:0 20px;}
+    .hero{padding:36px 20px 32px;}
+    main{padding:24px 20px;}
+    footer{padding:24px 20px;flex-direction:column;align-items:flex-start;}
+    .d-hero{grid-template-columns:1fr;}
+  }
+
+  /* ============================================================
+     H4E MEGA HERO + LIVE TICKER (ported from Roadmap Remix)
+     ============================================================ */
+  .h4e-mega-hero{position:relative;overflow:hidden;background:var(--bg);color:#fff;border-bottom:1px solid var(--border);}
+  .h4e-mega-hero .mh-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;display:block;}
+  .h4e-mega-hero .mh-glow{position:absolute;inset:0;background:radial-gradient(ellipse 90% 60% at 50% 0%,rgba(96,94,255,0.28) 0%,transparent 60%);pointer-events:none;}
+  .h4e-mega-hero .mh-breathe{position:absolute;top:30%;left:50%;width:600px;height:600px;margin-left:-300px;margin-top:-300px;border-radius:50%;background:radial-gradient(circle,rgba(96,94,255,0.30) 0%,transparent 60%);filter:blur(50px);pointer-events:none;animation:mhBreathe 6s ease-in-out infinite;}
+  .h4e-mega-hero .mh-noise{position:absolute;inset:0;pointer-events:none;opacity:0.05;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+  .h4e-mega-hero .mh-glyph-wrap{position:absolute;top:14%;right:6%;width:180px;height:180px;pointer-events:none;will-change:transform;}
+  .h4e-mega-hero .mh-glyph{width:100%;height:100%;opacity:0.4;animation:mhSpinSlow 24s linear infinite;}
+  .h4e-mega-hero .mh-glyph svg{width:100%;height:100%;display:block;}
+
+  .h4e-mega-hero .mh-inner{position:relative;padding:120px 44px 80px;max-width:1440px;margin:0 auto;z-index:5;}
+  .h4e-mega-hero .mh-eyebrow{display:inline-flex;align-items:center;gap:16px;font-family:var(--font-body);font-weight:400;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:40px;}
+  .h4e-mega-hero .mh-eyebrow::before{content:'';width:24px;height:1px;background:currentColor;}
+  .h4e-mega-hero .mh-title{font-family:var(--font-display);font-weight:500;font-size:clamp(56px,10vw,148px);line-height:0.95;letter-spacing:-0.03em;margin:0;}
+  .h4e-mega-hero .mh-title-line{display:block;background:linear-gradient(130deg,#EDF0FF 25%,#9198C0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .h4e-mega-hero .mh-title-suffix{display:inline-block;color:var(--accent);font-family:var(--font-display);font-style:normal;font-weight:500;margin-left:24px;-webkit-text-fill-color:var(--accent);}
+  .h4e-mega-hero .mh-body{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:56px;align-items:end;}
+  .h4e-mega-hero .mh-lead{font-family:var(--font-body);font-size:24px;line-height:1.65;color:var(--text-2);max-width:580px;font-weight:400;margin:0;}
+  .h4e-mega-hero .mh-lead strong{color:var(--text);font-weight:700;}
+  .h4e-mega-hero .mh-cta-row{display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap;}
+  .h4e-mega-hero .mh-stats{margin-top:88px;padding-top:40px;border-top:1px solid rgba(255,255,255,0.08);display:grid;grid-template-columns:repeat(4,1fr);gap:48px;}
+  .h4e-mega-hero .mh-stat-n{font-family:var(--font-display);font-weight:500;font-size:56px;line-height:1;letter-spacing:-0.04em;color:var(--text);}
+  .h4e-mega-hero .mh-stat-n--meta{font-size:26px;letter-spacing:-0.01em;}
+  .h4e-mega-hero .mh-stat-l{margin-top:12px;font-family:var(--font-body);font-weight:400;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-3);}
+  .h4e-mega-hero .mh-stat-bar{margin-top:14px;height:2px;background:rgba(255,255,255,0.08);overflow:hidden;}
+  .h4e-mega-hero .mh-stat-bar > span{display:block;height:100%;background:var(--accent);transform:scaleX(0);transform-origin:left;}
+  .h4e-mega-hero.in .mh-stat-bar > span{animation:mhLineGrow 1.4s cubic-bezier(.2,.8,.2,1) forwards;}
+
+  /* Master hero — centered layout */
+  .mh-inner--master{text-align:center;}
+  .mh-inner--master .mh-eyebrow{justify-content:center;}
+  .mh-inner--master .mh-title{margin:0 auto;}
+  .mh-inner--master .mh-lead{text-align:center;max-width:860px;margin:48px auto 0;}
+  .mh-lead--centered{text-align:center;max-width:680px;margin:48px auto 0;font-size:18px;line-height:1.7;color:var(--text-2);}
+  .mh-stats--master{margin-top:72px;padding-top:40px;border-top:1px solid rgba(255,255,255,0.08);display:grid;grid-template-columns:repeat(4,1fr);gap:48px;}
+
+  /* Product page hero */
+  .mh-product-symbol{width:130px;height:130px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;}
+  .mh-product-symbol img{width:130px;height:130px;object-fit:contain;}
+  .mh-product-symbol svg{width:130px;height:130px;}
+  .mh-product-name{font-family:var(--font-display);font-size:clamp(56px,9vw,128px);font-weight:500;line-height:0.94;letter-spacing:-0.03em;margin:0 0 14px;background:linear-gradient(130deg,#EDF0FF 25%,#9198C0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .ph-layout{display:grid;grid-template-columns:1fr 288px;gap:52px;align-items:end;}
+  .ph-logo{width:40px;height:40px;border-radius:9px;background:rgba(255,255,255,0.05);flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  .ph-logo img,.ph-logo svg{width:32px;height:32px;object-fit:contain;}
+  .ph-name{font-family:var(--font-display);font-size:clamp(44px,7vw,88px);font-weight:700;line-height:0.94;letter-spacing:-0.03em;margin:0 0 14px;background:linear-gradient(130deg,#EDF0FF 25%,#9198C0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .ph-tagline{font-size:17px;font-weight:400;color:var(--text-3);margin:0 0 22px;font-style:italic;}
+  .ph-summary{font-size:16px;color:var(--text-2);line-height:1.75;max-width:600px;margin:0 0 32px;}
+  .ph-strip{display:flex;gap:36px;padding-top:22px;flex-wrap:wrap;}
+  .ph-strip-item{display:flex;flex-direction:column;gap:5px;}
+  .ph-strip-lbl{font-size:13px;color:var(--text-3);font-family:var(--font-body);}
+  .ph-strip-val{font-family:var(--font-display);font-size:38px;font-weight:500;color:var(--text);line-height:1;}
+  .ph-strip-val--accent{color:var(--accent);-webkit-text-fill-color:var(--accent);}
+  .ph-card{border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+  .ph-stat-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:13px 20px;border-bottom:1px solid var(--border);}
+  .ph-stat-row:last-child{border-bottom:none;}
+  .ph-stat-lbl{font-size:13px;color:var(--text-3);}
+  .ph-stat-val{font-family:var(--font-display);font-size:18px;font-weight:500;color:var(--accent);-webkit-text-fill-color:var(--accent);}
+  @media(max-width:900px){.ph-layout{grid-template-columns:1fr;}.ph-card{display:none;}}
+
+  /* Product highlights card grid */
+  .ps-hi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding-top:20px;}
+  .ps-hi-card{border:1px solid var(--border);border-radius:12px;padding:20px 20px 22px;display:flex;flex-direction:column;gap:10px;transition:border-color .22s,transform .22s;}
+  .ps-hi-card:hover{border-color:var(--border-active);transform:translateY(-2px);}
+  .ps-hi-num{font-family:var(--font-display);font-size:11px;font-weight:500;letter-spacing:0.1em;opacity:0.55;}
+  .ps-hi-text{font-size:14px;color:var(--text-2);line-height:1.55;margin:0;}
+  @media(max-width:720px){.ps-hi-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:480px){.ps-hi-grid{grid-template-columns:1fr;}}
+
+  /* Premium horizontal Product Highlights strip — single container, vertical dividers */
+  .ps-highlights-strip{
+    margin-top:24px;
+    padding:38px 40px;
+    background:linear-gradient(135deg, rgba(22,24,40,0.55) 0%, rgba(14,15,28,0.4) 100%);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:18px;
+    backdrop-filter:blur(24px) saturate(140%);
+    -webkit-backdrop-filter:blur(24px) saturate(140%);
+    position:relative;
+    overflow:hidden;
+  }
+  .ps-highlights-strip::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:radial-gradient(ellipse 70% 100% at 50% 0%, rgba(139,111,255,0.07) 0%, transparent 65%);
+    pointer-events:none;
+  }
+  .ps-highlights-strip-inner{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
+    gap:0;
+    position:relative;
+  }
+  .ps-strip-item{
+    padding:4px 26px;
+    border-left:1px solid rgba(255,255,255,0.07);
+    display:flex;
+    flex-direction:column;
+    gap:11px;
+    min-width:0;
+    position:relative;
+  }
+  .ps-strip-item:first-child{padding-left:0;border-left:none;}
+  .ps-strip-item:last-child{padding-right:0;}
+  .ps-strip-marker{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:2px;
+  }
+  .ps-strip-dot{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    flex-shrink:0;
+    box-shadow:0 0 12px currentColor, 0 0 4px currentColor;
+    animation:mhPulseDot 2.4s ease-in-out infinite;
+  }
+  @media(prefers-reduced-motion:reduce){
+    .ps-strip-dot{animation:none;}
+  }
+  .ps-strip-num{
+    font-family:var(--font-display);
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:0.12em;
+    color:var(--text-2);
+    text-transform:uppercase;
+  }
+  .ps-strip-title{
+    font-family:var(--font-display);
+    font-size:17px;
+    font-weight:600;
+    color:var(--text);
+    line-height:1.25;
+    letter-spacing:-0.012em;
+  }
+  .ps-strip-desc{
+    font-family:var(--font-body);
+    font-size:13px;
+    color:var(--text-3);
+    line-height:1.5;
+    margin:0;
+    font-weight:400;
+  }
+  @media(max-width:1200px){
+    .ps-highlights-strip{padding:32px 32px;}
+    .ps-highlights-strip-inner{grid-template-columns:repeat(3,1fr);row-gap:0;}
+    .ps-strip-item{padding:4px 24px;border-left:1px solid rgba(255,255,255,0.07);}
+    .ps-strip-item:nth-child(3n+1){padding-left:0;border-left:none;}
+    .ps-strip-item:nth-child(3n){padding-right:0;}
+    .ps-strip-item:nth-child(n+4){margin-top:30px;padding-top:30px;border-top:1px solid rgba(255,255,255,0.07);}
+  }
+  @media(max-width:720px){
+    .ps-highlights-strip{padding:28px 22px;border-radius:14px;}
+    .ps-highlights-strip-inner{grid-template-columns:1fr;}
+    .ps-strip-item{
+      padding:22px 0 0 0;
+      border-left:none;
+      border-top:1px solid rgba(255,255,255,0.07);
+      margin-top:0;
+    }
+    .ps-strip-item:first-child{border-top:none;padding-top:0;}
+    .ps-strip-item:nth-child(n+4){margin-top:0;padding-top:22px;border-top:1px solid rgba(255,255,255,0.07);}
+    .ps-strip-title{font-size:16px;}
+    .ps-strip-desc{font-size:13px;}
+  }
+  .h4e-mega-hero .mh-marquee{position:relative;border-top:1px solid rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.08);padding:20px 0;background:rgba(96,94,255,0.04);overflow:hidden;z-index:5;}
+  .mh-marquee-track{display:flex;width:max-content;will-change:transform;animation:mhMarquee 100s linear infinite;}
+  .mh-marquee-token{display:inline-flex;align-items:center;padding:0 30px;white-space:nowrap;font-family:var(--font-body);font-weight:400;font-size:13px;letter-spacing:0.16em;color:rgba(255,255,255,0.7);}
+  .mh-marquee-token.diamond{color:var(--accent);}
+
+  .h4e-ticker{background:var(--bg);color:#fff;border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid var(--border);overflow:hidden;padding:18px 0;}
+  .h4e-ticker-track{display:flex;width:max-content;will-change:transform;animation:mhMarquee 80s linear infinite reverse;}
+  .h4e-ticker-item{display:inline-flex;align-items:center;gap:14px;padding:0 28px;white-space:nowrap;border-right:1px solid rgba(255,255,255,0.06);}
+  .h4e-ticker-item .ti-product{font-family:var(--font-body);font-weight:400;font-size:11px;color:var(--text-3);letter-spacing:0.12em;}
+  .h4e-ticker-item .ti-name{font-size:14px;font-weight:500;color:var(--text);}
+  .h4e-ticker-item .ti-status{font-family:var(--font-body);font-weight:400;font-size:11px;letter-spacing:0.10em;}
+  .h4e-ticker-item .ti-dot{width:6px;height:6px;border-radius:99px;display:inline-block;}
+
+  .mh-btn-primary{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;background:var(--accent);color:#fff;font-weight:500;font-size:14px;border-radius:999px;text-decoration:none;transition:transform .2s ease,background .2s ease,box-shadow .2s ease;box-shadow:0 8px 20px -8px rgba(96,94,255,0.6);}
+  .mh-btn-primary:hover{transform:translateY(-1px);background:#4F4DEB;box-shadow:0 12px 28px -8px rgba(96,94,255,0.8);}
+  .mh-btn-ghost{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;background:transparent;color:var(--text);font-weight:500;font-size:14px;border:1px solid rgba(255,255,255,0.18);border-radius:999px;text-decoration:none;transition:background .2s ease,border-color .2s ease;}
+  .mh-btn-ghost:hover{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.3);}
+  .counter-num{font-variant-numeric:tabular-nums;}
+
+  .mh-reveal{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1);}
+  .mh-reveal.in{opacity:1;transform:translateY(0);}
+
+  @keyframes mhMarquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  @keyframes mhPulseDot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.55;transform:scale(0.75);}}
+  .mh-pulse-dot{animation:mhPulseDot 2s ease-in-out infinite;}
+  @keyframes mhBreathe{0%,100%{opacity:0.55;transform:scale(1);}50%{opacity:0.85;transform:scale(1.05);}}
+  @keyframes mhSpinSlow{to{transform:rotate(360deg);}}
+  @keyframes mhLetterIn{from{opacity:0;transform:translateY(40%);}to{opacity:1;transform:translateY(0);}}
+  .mh-letter{display:inline-block;opacity:0;animation:mhLetterIn .8s cubic-bezier(.2,.8,.2,1) forwards;}
+  @keyframes mhLineGrow{from{transform:scaleX(0);}to{transform:scaleX(1);}}
+
+  @media (max-width: 900px){
+    .h4e-mega-hero .mh-inner{padding:80px 24px 56px;}
+    .h4e-mega-hero .mh-body{grid-template-columns:1fr;gap:32px;}
+    .h4e-mega-hero .mh-cta-row{justify-content:flex-start;}
+    .h4e-mega-hero .mh-stats{grid-template-columns:repeat(2,1fr);gap:32px;margin-top:56px;padding-top:32px;}
+    .h4e-mega-hero .mh-stat-n{font-size:40px;}
+    .h4e-mega-hero .mh-glyph-wrap{display:none;}
+  }
+  @media (max-width: 560px){
+    .h4e-mega-hero .mh-inner{padding:64px 20px 48px;}
+    .h4e-mega-hero .mh-stats{grid-template-columns:1fr 1fr;gap:24px;}
+    .h4e-mega-hero .mh-stat-n{font-size:34px;}
+    .h4e-mega-hero .mh-title-suffix{margin-left:12px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .h4e-mega-hero .mh-canvas{display:none;}
+    .h4e-mega-hero .mh-breathe,
+    .h4e-mega-hero .mh-glyph{animation:none;}
+    .mh-marquee-track,
+    .h4e-ticker-track{animation:none;}
+    .mh-pulse-dot{animation:none;}
+    .mh-letter{opacity:1;animation:none;}
+    .mh-reveal{opacity:1;transform:none;transition:none;}
+    .h4e-mega-hero.in .mh-stat-bar > span{transform:scaleX(1);animation:none;}
+  }
+
+  /* ============================================================
+     STRATEGIC THEMES (Overview tab content; replaces #hero-master)
+     ============================================================ */
+  .h4e-themes{padding:110px 44px;background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+  .h4e-themes .thm-grid-bg{position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(96,94,255,0.06) 1px,transparent 0);background-size:32px 32px;pointer-events:none;opacity:0.4;animation:mhGridDrift 8s linear infinite;}
+  .h4e-themes .thm-inner{max-width:1440px;margin:0 auto;position:relative;}
+  .h4e-themes .thm-eyebrow{font-family:var(--font-body);font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:20px;}
+  .h4e-themes .thm-title{font-family:var(--font-display);font-weight:500;font-size:clamp(36px,5.4vw,76px);line-height:1.02;letter-spacing:-0.025em;max-width:1100px;margin:0 0 64px;color:var(--text);}
+  .h4e-themes .thm-title em{color:var(--accent);font-style:normal;font-weight:500;}
+  .h4e-themes .thm-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--border);}
+  .h4e-themes .thm-card{padding:36px 28px 36px 28px;border-right:1px solid var(--border);transition:transform .5s cubic-bezier(.2,.8,.2,1),background .4s ease;}
+  .h4e-themes .thm-card:first-child{padding-left:0;}
+  .h4e-themes .thm-card:last-child{padding-right:0;border-right:none;}
+  .h4e-themes .thm-card:hover{background:rgba(96,94,255,0.04);}
+  .h4e-themes .thm-card:hover .thm-num{color:var(--accent);}
+  .h4e-themes .thm-num{font-family:var(--font-body);font-weight:400;font-size:12px;color:var(--text-3);margin-bottom:28px;transition:color .4s ease;}
+  .h4e-themes .thm-card-title{font-family:var(--font-display);font-weight:700;font-size:26px;line-height:1.15;letter-spacing:-0.015em;margin:0 0 14px;color:var(--text);}
+  .h4e-themes .thm-desc{font-family:var(--font-body);color:var(--text-2);margin:0 0 22px;font-size:14px;line-height:1.65;font-weight:400;}
+  .h4e-themes .thm-points{list-style:none;margin:0;padding:0;}
+  .h4e-themes .thm-points li{display:flex;gap:12px;padding:10px 0;border-top:1px solid var(--border);font-size:13.5px;color:var(--text-2);line-height:1.5;}
+  .h4e-themes .thm-points li span{color:var(--accent);flex-shrink:0;}
+  @keyframes mhGridDrift{from{background-position:0 0;}to{background-position:32px 32px;}}
+
+  @media (max-width: 900px){
+    .h4e-themes{padding:64px 24px;}
+    .h4e-themes .thm-title{font-size:34px;margin-bottom:40px;}
+    .h4e-themes .thm-cards{grid-template-columns:1fr;}
+    .h4e-themes .thm-card{padding:32px 0;border-right:none;border-bottom:1px solid var(--border);}
+    .h4e-themes .thm-card:last-child{border-bottom:none;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .h4e-themes .thm-grid-bg{animation:none;}
+  }
+
+  /* ============================================================
+     PRODUCT SECTION + GANTT CHART (Remix-style)
+     ============================================================ */
+  .product-section{padding:64px 44px 80px;border-bottom:1px solid var(--border);background:var(--bg);position:relative;}
+  .product-section .ps-glow{position:absolute;top:0;left:50%;transform:translateX(-50%);width:800px;height:200px;pointer-events:none;}
+  .product-section .ps-inner{max-width:1440px;margin:0 auto;position:relative;}
+  .product-section .ps-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-bottom:56px;}
+  .product-section .ps-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:22px;}
+  .product-section .ps-eyebrow span:first-child{width:24px;height:1px;}
+  .product-section .ps-eyebrow span:last-child{font-family:var(--font-body);font-weight:400;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;}
+  .product-section .ps-title{font-family:var(--font-display);font-size:clamp(48px,7vw,92px);line-height:0.95;letter-spacing:-0.03em;margin-bottom:18px;color:var(--text);font-weight:500;}
+  .product-section .ps-tagline{font-size:20px;line-height:1.3;font-weight:400;max-width:520px;font-style:normal;font-family:var(--font-body);}
+  .product-section .ps-summary{font-family:var(--font-body);font-size:16px;font-weight:400;color:var(--text-2);line-height:1.75;margin-bottom:28px;}
+  .product-section .ps-lead{display:flex;align-items:center;gap:16px;padding:16px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:24px;}
+  .product-section .ps-lead-avatar{width:44px;height:44px;border-radius:99px;position:relative;overflow:hidden;flex-shrink:0;}
+  .product-section .ps-lead-name{font-size:14px;font-weight:500;color:var(--text);}
+  .product-section .ps-lead-role{font-family:var(--font-body);font-weight:400;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);margin-top:2px;}
+  .product-section .ps-status-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px;}
+  .product-section .ps-status-card{padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;transition:transform .3s,border-color .3s;}
+  .product-section .ps-status-card:hover{transform:translateY(-2px);}
+  .product-section .ps-status-label{display:flex;align-items:center;gap:6px;margin-bottom:8px;font-family:var(--font-body);font-weight:400;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);}
+  .product-section .ps-status-dot{width:6px;height:6px;border-radius:99px;}
+  .product-section .ps-status-count{font-family:var(--font-display);font-size:26px;font-weight:700;color:var(--text);}
+  .product-section .ps-request-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;font-size:13px;font-weight:500;transition:all .2s ease;border:1px solid;}
+  .product-section .ps-request-btn:hover{transform:translateY(-2px);}
+
+  .product-section .ps-gantt-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px;}
+  .product-section .ps-gantt-label{display:flex;align-items:center;gap:12px;font-family:var(--font-body);font-weight:400;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);}
+  .product-section .ps-gantt-label span:first-child{width:16px;height:1px;}
+  .product-section .ps-gantt-meta{font-family:var(--font-body);font-weight:400;font-size:10px;color:var(--text-3);letter-spacing:0.1em;}
+  .product-section .ps-legend{margin-top:16px;display:flex;gap:20px;flex-wrap:wrap;font-family:var(--font-body);font-weight:400;font-size:10.5px;color:var(--text-3);letter-spacing:0.08em;text-transform:uppercase;}
+  .product-section .ps-legend span{display:inline-flex;align-items:center;gap:6px;}
+  .product-section .ps-legend .ps-legend-dot{width:8px;height:8px;border-radius:99px;}
+
+  /* Product Highlights */
+  .ps-highlights{margin-top:32px;padding-top:28px;border-top:1px solid var(--border);}
+  .ps-highlights-title{font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--text);margin-bottom:20px;letter-spacing:-0.01em;}
+  .ps-highlights-list{display:flex;flex-direction:column;gap:14px;}
+  .ps-highlight-item{display:flex;align-items:flex-start;gap:12px;font-size:14px;color:var(--text-2);line-height:1.55;}
+  .ps-highlight-check{width:22px;height:22px;flex-shrink:0;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+  .ps-highlight-check svg{width:12px;height:12px;}
+
+  /* Capability numbered list */
+  .ps-cap-section{margin-bottom:56px;padding-top:8px;}
+  .ps-cap-eyebrow{font-family:var(--font-body);font-weight:400;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0;display:flex;align-items:center;gap:10px;color:var(--text-3)}
+  .ps-cap-eyebrow::before{content:'';width:16px;height:1px;background:currentColor;flex-shrink:0;border-radius:0;}
+  .ps-num-list{display:grid;grid-template-columns:1fr 1fr;}
+  .ps-num-item{display:flex;gap:20px;padding:18px 0;border-bottom:1px solid var(--border);align-items:flex-start;justify-content:space-between;}
+  .ps-num-item:nth-child(odd){padding-right:40px;border-right:1px solid var(--border);}
+  .ps-num-item:nth-child(even){padding-left:40px;}
+  .ps-num-item:nth-last-child(-n+2){border-bottom:none;}
+  .ps-num{font-family:var(--font-body);font-weight:400;font-size:11px;color:var(--text-3);line-height:1.6;min-width:22px;letter-spacing:0.04em;padding-top:1px;flex-shrink:0;}
+  .ps-num-text{font-size:20px;color:var(--text-2);line-height:1.6;flex:1;text-align:right;}
+  @media(max-width:720px){.ps-num-list{grid-template-columns:1fr;}.ps-num-item:nth-child(odd){padding-right:0;border-right:none;}.ps-num-item:nth-child(even){padding-left:0;}.ps-num-item:nth-last-child(-n+2){border-bottom:1px solid var(--border);}.ps-num-item:last-child{border-bottom:none;}}
+
+  /* Progress arc SVG */
+  .ps-arc{transition:stroke-dasharray 1.4s cubic-bezier(.2,.8,.2,1);}
+
+  /* GANTT CHART */
+  .gantt-wrapper{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -20px;padding:0 20px;}
+  .gantt{border:1px solid var(--border);border-radius:14px;background:var(--surface2);min-width:1400px;position:relative;}
+  .gantt-now-line{position:absolute;top:0;bottom:0;width:1px;left:calc(180px + var(--now-col,5) * (100% - 180px) / 12);background:linear-gradient(to bottom,transparent 0%,rgba(96,94,255,0.55) 6%,rgba(96,94,255,0.4) 94%,transparent 100%);pointer-events:none;z-index:5;}
+  .gantt-now-line::after{content:'NOW';position:absolute;top:46px;left:5px;font-family:var(--font-body);font-size:7px;font-weight:500;letter-spacing:0.14em;color:rgba(96,94,255,0.8);}
+  .gantt-year-row{display:grid;grid-template-columns:180px 4fr 4fr 4fr;background:rgba(255,255,255,0.025);border-bottom:1px solid var(--border);font-family:var(--font-body);font-weight:400;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;}
+  .gantt-yr-cell{padding:10px 16px;text-align:center;border-right:1px solid var(--border);}
+  .gantt-yr-cell.label{text-align:left;color:var(--text-3);font-size:9px;position:sticky;left:0;z-index:4;background:rgba(255,255,255,0.025);}
+  .gantt-yr-cell.y25{color:var(--text-3);}
+  .gantt-yr-cell.y26{color:var(--accent);}
+  .gantt-yr-cell.y27{color:var(--c-brandboost);}
+  .gantt-head{display:grid;grid-template-columns:180px repeat(12,1fr);background:var(--surface2);border-bottom:1px solid var(--border);}
+  .gantt-hc{padding:13px 10px;font-family:var(--font-body);font-weight:400;font-size:10px;letter-spacing:0.1em;color:var(--text-3);text-align:center;border-right:1px solid var(--border);text-transform:uppercase;}
+  .gantt-hc:first-child{text-align:left;padding-left:14px;color:var(--text-2);position:sticky;left:0;z-index:4;background:var(--surface2);}
+  .gantt-hc.now{color:var(--c-brandboost);position:relative;}
+  .gantt-hc.now::before{content:"◀ NOW";position:absolute;top:50%;right:-32px;transform:translateY(-50%);font-size:8px;color:var(--c-brandboost);letter-spacing:0.12em;}
+  /* Active rows */
+  .gantt-row{display:grid;grid-template-columns:180px repeat(12,1fr);border-bottom:1px solid var(--border);min-height:64px;align-items:stretch;cursor:pointer;transition:background .15s ease;position:relative;}
+  .gantt-row:last-child{border-bottom:none;}
+  .gantt-row.selected,.gantt-row.fd-active{background:rgba(96,94,255,0.05) !important;}
+  .gantt-row[data-status="progress"]{background:var(--row-bg,rgba(255,255,255,0.02));}
+  .gantt-row[data-status="planned"]{background:transparent;}
+  .gantt-row[data-status="exploring"]{background:repeating-linear-gradient(135deg,transparent 0,transparent 10px,rgba(255,255,255,0.022) 10px,rgba(255,255,255,0.022) 11px);}
+  .gantt-row[data-status="exploring"]:hover{background:rgba(255,255,255,0.03);}
+  /* Shipped group row — single "Live Today" row */
+  .gantt-row--shipped{background:rgba(34,197,94,0.025) !important;cursor:default;}
+  .gantt-row--shipped:hover{background:rgba(34,197,94,0.05) !important;}
+  /* Label column */
+  .gantt-feat-col{padding:12px 14px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:6px;justify-content:center;background:var(--surface);position:sticky;left:0;z-index:3;grid-column:1;grid-row:1;}
+  .gantt-feat-title{font-family:var(--font-display);font-size:12px;font-weight:500;color:var(--text);line-height:1.3;}
+  .gantt-feat-sub{font-family:var(--font-body);font-weight:400;font-size:9px;color:var(--text-3);display:flex;align-items:center;gap:5px;letter-spacing:0.04em;text-transform:uppercase;flex-wrap:wrap;}
+  /* Grid cells */
+  .gantt-cell{border-right:1px solid var(--border);position:relative;grid-row:1;}
+  .gantt-cell--now{background:rgba(96,94,255,0.022);}
+  /* Bar wrap */
+  .gantt-bar-wrap{display:flex;align-items:center;padding:8px 6px;border-right:1px solid var(--border);position:relative;z-index:1;grid-row:1;min-width:0;overflow:hidden;}
+  /* Bars */
+  .gantt-bar{width:100%;min-height:38px;border-radius:8px;padding:7px 10px;display:flex;align-items:center;gap:8px;font-size:11px;font-weight:500;background:var(--bar-bg,rgba(96,94,255,0.13));border:1px solid var(--bar-border,rgba(96,94,255,0.32));color:var(--bar-color,var(--accent));position:relative;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;cursor:pointer;}
+  .gantt-bar:hover{transform:translateY(-1px);box-shadow:0 8px 22px -10px var(--bar-glow,rgba(96,94,255,0.6));border-color:var(--bar-color);}
+  .gantt-bar .gantt-bar-label{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500;letter-spacing:0;}
+  .gantt-bar .gantt-bar-dot{width:6px;height:6px;border-radius:99px;flex-shrink:0;}
+  .gantt-bar .gantt-bar-meta{font-family:var(--font-body);font-weight:400;font-size:8px;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-3);flex-shrink:0;}
+  .gantt-bar.status-progress::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.06) 50%,transparent 100%);background-size:200% 100%;animation:shimmer 3s linear infinite;}
+  .gantt-bar.status-planned{background:repeating-linear-gradient(45deg,var(--bar-bg) 0 8px,transparent 8px 16px),var(--bar-bg);}
+  .gantt-bar.status-exploring{background:repeating-linear-gradient(90deg,var(--bar-bg) 0 2px,transparent 2px 6px),var(--bar-bg);opacity:0.85;}
+  .gantt-bar.status-shipped{}
+  .gantt-empty{padding:36px;text-align:center;color:var(--text-3);font-size:13px;border-bottom:1px solid var(--border);}
+  @keyframes shimmer{from{background-position:-200% 0;}to{background-position:200% 0;}}
+
+  /* FEATURE DETAIL PANEL — non-blocking, slides in from right */
+  .fd-panel{position:fixed;top:64px;right:0;width:min(480px,42vw);height:calc(100vh - 64px);background:linear-gradient(180deg,var(--surface) 0%,var(--bg) 100%);border-left:1px solid var(--border);box-shadow:-24px 0 64px -12px rgba(0,0,0,0.5);overflow-y:auto;overflow-x:hidden;z-index:150;transform:translateX(100%);transition:transform .38s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;}
+  .fd-panel.open{transform:translateX(0);}
+  .fd-panel-inner{padding:32px 32px 56px;flex:1;}
+  .fd-accent{position:absolute;left:0;top:0;bottom:0;width:3px;opacity:0.8;}
+  .fd-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.05);color:var(--text-3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s,border-color .2s;cursor:pointer;flex-shrink:0;}
+  .fd-close:hover{background:rgba(255,255,255,0.1);color:var(--text);border-color:var(--border-active);}
+  .fd-eyebrow{font-family:var(--font-body);font-weight:400;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:12px;}
+  .fd-title{font-family:var(--font-display);font-size:28px;line-height:1.1;letter-spacing:-0.02em;margin-bottom:16px;color:var(--text);font-weight:500;}
+  .fd-pills{display:flex;align-items:center;gap:8px;margin-bottom:24px;flex-wrap:wrap;}
+  .fd-status-pill{display:inline-flex;align-items:center;gap:8px;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);font-family:var(--font-body);font-weight:400;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.85);}
+  .fd-theme-pill{display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:4px;font-family:var(--font-body);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;font-weight:500;border:1px solid;}
+  .fd-target{font-family:var(--font-body);font-weight:400;font-size:11px;color:var(--text-3);letter-spacing:0.08em;}
+  .fd-desc{font-size:16px;line-height:1.75;color:var(--text-2);margin-bottom:28px;}
+  .fd-section-label{font-family:var(--font-body);font-weight:400;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:10px;}
+  .fd-details-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:28px;}
+  .fd-detail-cell{background:var(--surface);padding:12px 14px;}
+  .fd-detail-label{font-family:var(--font-body);font-weight:400;font-size:9.5px;color:var(--text-3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:5px;}
+  .fd-detail-value{font-size:13px;color:var(--text);font-weight:500;}
+  .fd-vote-btn{width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:13px 20px;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:12px;font-size:13px;font-weight:500;transition:all .2s ease;cursor:pointer;}
+  .fd-vote-btn:hover{transform:translateY(-1px);border-color:var(--border-active);}
+  /* Highlight active gantt row when panel open */
+  .gantt-row.fd-active{background:rgba(255,255,255,0.04);}
+  @keyframes drawerIn{from{opacity:0;transform:translateX(40px);}to{opacity:1;transform:translateX(0);}}
+
+  @media (max-width:1100px){
+    .gantt-head,.gantt-row{grid-template-columns:160px repeat(12,minmax(65px,1fr));}
+    .gantt-year-row{grid-template-columns:160px 4fr 4fr 4fr;}
+    .gantt-feat-title{font-size:11px;}
+    .gantt-feat-sub{font-size:8px;gap:4px;}
+    .gantt-bar{font-size:10px;padding:6px 8px;min-height:34px;}
+    .gantt-bar .gantt-bar-meta{font-size:7px;}
+    .gantt-hc.now::before{display:none;}
+  }
+  @media (max-width:980px){
+    .product-section .ps-grid{grid-template-columns:1fr;gap:40px;}
+    .product-section .ps-status-grid{grid-template-columns:repeat(2,1fr);}
+    .gantt{min-width:650px;}
+    .gantt-head,.gantt-row{grid-template-columns:140px repeat(12,minmax(60px,1fr));}
+    .gantt-year-row{grid-template-columns:140px 4fr 4fr 4fr;}
+    .gantt-feat-col{padding:10px 12px;}
+  }
+  @media (max-width:768px){
+    .product-section{padding:60px 20px;}
+    .product-section .ps-title{font-size:40px;}
+    .product-section .ps-tagline{font-size:16px;}
+    .product-section .ps-summary{font-size:14px;}
+    .gantt-wrapper{margin:0 -10px;padding:0 10px;}
+  }
+  @media (max-width:600px){
+    .product-section{padding:48px 16px;}
+    .product-section .ps-title{font-size:32px;}
+    .product-section .ps-status-grid{grid-template-columns:1fr 1fr;}
+    .product-section .ps-status-card{padding:10px 12px;}
+    .product-section .ps-status-count{font-size:22px;}
+    .fd-drawer{padding:24px 20px 40px;}
+    .fd-title{font-size:28px;}
+    .gantt-wrapper{margin:0 -6px;padding:0 6px;}
+  }
+
+  /* ============================================================
+     COMPREHENSIVE RESPONSIVE ENHANCEMENTS
+     ============================================================ */
+
+  /* ---- TABLET (max-width: 900px) ---- */
+  @media (max-width:900px){
+    header{padding:0 24px;height:56px;}
+    .hdr-pill{font-size:9px;padding:3px 10px;}
+    .hdr-conf{display:none;}
+    .hdr-date{font-size:10px;}
+    .hero{padding:48px 24px 40px;}
+    .hero-h1{font-size:clamp(32px,5vw,52px);}
+    .hero-sub{font-size:15px;margin-bottom:36px;}
+    .hero-stats{gap:32px;}
+    .hstat-n{font-size:30px;}
+    .nav-bar{padding:0 16px;top:56px;}
+    .ntab{padding:14px 16px;font-size:12px;}
+    .ntab img{width:18px;height:18px;}
+    main{padding:32px 24px;}
+    .overview-hero{gap:24px;margin-bottom:48px;}
+    .overview-title{font-size:32px;}
+    .overview-desc{font-size:14px;}
+    .infra-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+    .infra-card{padding:14px;}
+    .infra-title{font-size:13px;}
+    .infra-desc{font-size:11px;}
+    .pgrid{grid-template-columns:repeat(2,1fr);gap:14px;}
+    .pcard{padding:20px;}
+    .pcard-name{font-size:18px;}
+    .pcard-tag{font-size:12px;}
+    .pcard-desc{font-size:12px;}
+    .tl-inner{min-width:700px;}
+    .tl-row{min-height:48px;}
+    .tl-prod{padding:8px 10px;}
+    .tl-pname{font-size:11px;}
+    .tl-block{padding:4px 7px;font-size:9px;}
+    .d-title{font-size:28px;}
+    .d-desc{font-size:14px;}
+    .d-meta{gap:20px;}
+    .phases-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;}
+    .phase-card{padding:18px;}
+    .ph-title{font-size:15px;}
+    .dec-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;}
+    .proj-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+  }
+
+  /* ---- SMALL TABLET / LARGE PHONE (max-width: 768px) ---- */
+  @media (max-width:768px){
+    header{padding:0 16px;gap:12px;}
+    .thg-logo svg{height:26px;}
+    .hdr-right{gap:10px;}
+    .hdr-pill{padding:2px 8px;font-size:8px;}
+    .hero{padding:36px 16px 32px;}
+    .hero-h1{font-size:clamp(28px,6vw,44px);margin-bottom:14px;}
+    .hero-sub{font-size:14px;line-height:1.65;margin-bottom:28px;}
+    .hero-stats{gap:24px;}
+    .hstat-n{font-size:26px;}
+    .hstat-l{font-size:10px;}
+    .hero-product{gap:16px;margin-bottom:18px;}
+    .hero-logo,.hero-logo-ph{width:60px;height:60px;border-radius:12px;}
+    .hero-tagline{font-size:15px;}
+    .nav-bar{padding:0 12px;}
+    .ntab{padding:12px 12px;font-size:11px;gap:6px;}
+    .ntab img{width:16px;height:16px;border-radius:4px;}
+    .ntab .ndot{width:6px;height:6px;}
+    main{padding:24px 16px;}
+    .slabel{font-size:9px;gap:10px;margin-bottom:18px;margin-top:32px;}
+    .overview-hero{margin-bottom:40px;}
+    .overview-title{font-size:28px;}
+    .overview-desc{font-size:13px;line-height:1.7;}
+    .overview-hero-image{padding:36px 24px;}
+    .split-section{gap:28px;margin-bottom:64px;padding-top:16px;}
+    .split-eyebrow{font-size:9px;margin-bottom:12px;}
+    .split-title{font-size:28px;margin-bottom:14px;}
+    .split-intro{font-size:16px;}
+    .icon-list-item{gap:16px;}
+    .ili-icon{width:38px;height:38px;}
+    .ili-icon svg{width:18px;height:18px;}
+    .ili-title{font-size:14px;}
+    .ili-desc{font-size:12px;}
+    .ili-li{font-size:11.5px;}
+    .pgrid{grid-template-columns:1fr;gap:12px;}
+    .pcard{padding:18px;}
+    .pcard-top{margin-bottom:12px;}
+    .pcard-logo,.pcard-logo-ph{width:48px;height:48px;border-radius:10px;}
+    .infra-grid{grid-template-columns:1fr 1fr;gap:10px;}
+    .infra-card{padding:12px;}
+    .infra-icon{font-size:18px;margin-bottom:6px;}
+    .infra-title{font-size:12px;}
+    .infra-desc{font-size:11px;}
+    .tl-wrap{border-radius:12px;}
+    .tl-inner{min-width:600px;}
+    .tl-year-row{grid-template-columns:140px 4fr 4fr;}
+    .tl-yr-cell{padding:7px 10px;font-size:9px;}
+    .tl-head{grid-template-columns:140px repeat(8,1fr);}
+    .tl-hc{padding:10px 6px;font-size:9px;}
+    .tl-row{grid-template-columns:140px repeat(8,1fr);min-height:44px;}
+    .tl-prod{padding:6px 8px;gap:6px;}
+    .tl-plogo{width:18px;height:18px;}
+    .tl-pname{font-size:10px;}
+    .tl-cell{padding:5px 3px;}
+    .tl-block{padding:3px 5px;font-size:8px;border-radius:4px;}
+    .d-hero{gap:20px;margin-bottom:28px;}
+    .d-product-identity{gap:14px;margin-bottom:16px;}
+    .d-logo,.d-logo-ph{width:56px;height:56px;border-radius:12px;}
+    .d-eyebrow{font-size:9px;}
+    .d-title{font-size:24px;}
+    .d-tagline{font-size:12px;}
+    .d-desc{font-size:13px;line-height:1.7;margin-bottom:18px;}
+    .d-meta{gap:16px;}
+    .dm-label{font-size:9px;}
+    .dm-val{font-size:13px;}
+    .d-stat-box{padding:16px;border-radius:12px;}
+    .dsrow{padding:7px 0;}
+    .dsrow-l{font-size:11px;}
+    .dsrow-v{font-size:18px;}
+    .phases-grid{grid-template-columns:1fr;gap:12px;margin-bottom:28px;}
+    .phase-card{padding:16px;border-radius:12px;}
+    .ph-num{font-size:9px;margin-bottom:5px;}
+    .ph-title{font-size:14px;}
+    .ph-time{font-size:10px;margin-bottom:10px;}
+    .feat-li{font-size:12px;padding:4px 0;}
+    .dec-grid{grid-template-columns:1fr;gap:10px;margin-bottom:28px;}
+    .dec-card{padding:14px;border-radius:10px;}
+    .dec-title{font-size:13px;}
+    .dec-body{font-size:11px;}
+    .dtag{font-size:9px;padding:2px 6px;}
+    .proj-grid{grid-template-columns:1fr 1fr;gap:10px;margin-bottom:28px;}
+    .proj-card{padding:14px;border-radius:10px;}
+    .proj-tag{font-size:9px;}
+    .proj-name{font-size:13px;}
+    .proj-desc{font-size:11px;}
+    .info-banner{padding:14px;border-radius:10px;font-size:12px;margin-bottom:28px;}
+    .info-banner strong{font-size:12px;}
+    footer{padding:20px 16px;}
+    .ft-l{font-size:11px;}
+    .ft-r{font-size:9px;gap:8px;}
+    .fd-overlay{padding:0;}
+    .fd-drawer{width:85vw;max-width:85vw;border-left:1px solid rgba(139,111,255,0.3);border-radius:0;padding:20px 16px 32px;overflow-x:hidden;}
+    .fd-close{top:12px;right:12px;width:32px;height:32px;}
+    .fd-eyebrow{font-size:10px;margin-bottom:10px;}
+    .fd-title{font-size:24px;margin-bottom:12px;}
+    .fd-pills{gap:8px;margin-bottom:20px;}
+    .fd-status-pill{font-size:9px;padding:3px 8px;}
+    .fd-theme-pill{font-size:9px;padding:2px 7px;}
+    .fd-desc{font-size:13px;margin-bottom:24px;}
+    .fd-section-label{font-size:9px;margin-bottom:8px;}
+    .fd-details-grid{border-radius:10px;margin-bottom:24px;}
+    .fd-detail-cell{padding:10px 12px;}
+    .fd-detail-label{font-size:8px;}
+    .fd-detail-value{font-size:12px;}
+    .fd-vote-btn{padding:12px 18px;font-size:13px;border-radius:10px;}
+  }
+
+  /* ---- PHONE (max-width: 480px) ---- */
+  @media (max-width:480px){
+    header{height:52px;padding:0 12px;}
+    .thg-logo svg{height:22px;}
+    .hdr-pill{display:none;}
+    .hdr-date{font-size:9px;}
+    .hero{padding:28px 12px 24px;}
+    .hero-eyebrow{font-size:9px;gap:8px;margin-bottom:16px;}
+    .hero-eyebrow::before{width:16px;}
+    .hero-h1{font-size:clamp(24px,7vw,36px);margin-bottom:12px;}
+    .hero-sub{font-size:13px;margin-bottom:24px;}
+    .hero-stats{gap:16px;flex-direction:column;}
+    .hstat-n{font-size:28px;}
+    .hstat-l{font-size:9px;}
+    .hero-product{flex-direction:column;align-items:flex-start;gap:12px;}
+    .hero-logo,.hero-logo-ph{width:52px;height:52px;}
+    .hero-tagline{font-size:14px;}
+    .h4e-mega-hero .mh-inner{padding:48px 12px 36px;}
+    .h4e-mega-hero .mh-eyebrow{font-size:9px;gap:10px;margin-bottom:24px;}
+    .h4e-mega-hero .mh-title{font-size:clamp(36px,10vw,56px);}
+    .h4e-mega-hero .mh-body{margin-top:32px;gap:20px;}
+    .h4e-mega-hero .mh-lead{font-size:14px;line-height:1.6;}
+    .h4e-mega-hero .mh-cta-row{flex-direction:column;gap:10px;}
+    .mh-btn-primary,.mh-btn-ghost{width:100%;justify-content:center;padding:12px 18px;font-size:13px;}
+    .h4e-mega-hero .mh-stats{margin-top:40px;padding-top:24px;grid-template-columns:1fr 1fr;gap:16px;}
+    .h4e-mega-hero .mh-stat-n{font-size:28px;}
+    .h4e-mega-hero .mh-stat-l{font-size:9px;margin-top:8px;}
+    .h4e-mega-hero .mh-stat-bar{margin-top:10px;}
+    .mh-marquee{padding:14px 0;}
+    .mh-marquee-token{padding:0 16px;font-size:10px;}
+    .h4e-ticker{padding:12px 0;}
+    .h4e-ticker-item{padding:0 16px;gap:10px;}
+    .h4e-ticker-item .ti-product{font-size:9px;}
+    .h4e-ticker-item .ti-name{font-size:12px;}
+    .h4e-ticker-item .ti-status{font-size:9px;}
+    .h4e-ticker-item .ti-dot{width:5px;height:5px;}
+    .nav-bar{top:52px;padding:0 8px;}
+    .ntab{padding:10px 8px;font-size:10px;gap:5px;}
+    .ntab img{width:14px;height:14px;}
+    .ntab .ndot{width:5px;height:5px;}
+    main{padding:16px 12px;}
+    .slabel{font-size:8px;gap:8px;margin-bottom:14px;margin-top:24px;}
+    .overview-hero{gap:16px;margin-bottom:32px;}
+    .overview-title{font-size:24px;}
+    .overview-desc{font-size:12px;}
+    .overview-hero-image{padding:24px 16px;}
+    .split-section{gap:20px;margin-bottom:48px;padding-top:12px;}
+    .split-eyebrow{font-size:8px;}
+    .split-title{font-size:24px;margin-bottom:12px;}
+    .split-intro{font-size:12px;}
+    .split-right{gap:20px;}
+    .icon-list-item{gap:12px;padding:4px 0;}
+    .ili-icon{width:32px;height:32px;border-radius:8px;}
+    .ili-icon svg{width:16px;height:16px;}
+    .ili-title{font-size:13px;margin-bottom:4px;}
+    .ili-desc{font-size:11px;}
+    .ili-list{gap:4px;margin-top:8px;}
+    .ili-li{font-size:10.5px;}
+    .ili-li::before{width:3px;height:3px;margin-top:6px;}
+    .pgrid{gap:10px;margin-bottom:32px;}
+    .pcard{padding:14px;border-radius:12px;}
+    .pcard-top{margin-bottom:10px;}
+    .pcard-logo,.pcard-logo-ph{width:44px;height:44px;border-radius:8px;}
+    .pbadge{font-size:8px;padding:3px 8px;}
+    .pcard-name{font-size:16px;margin-bottom:3px;}
+    .pcard-tag{font-size:11px;margin-bottom:8px;}
+    .pcard-desc{font-size:11px;margin-bottom:14px;}
+    .pill-row{gap:4px;margin-bottom:14px;}
+    .pill{font-size:9px;padding:2px 8px;}
+    .prog-meta{font-size:9px;margin-bottom:4px;}
+    .prog-bar{height:2px;}
+    .pcard-cta{font-size:11px;margin-top:10px;}
+    .infra-grid{grid-template-columns:1fr;gap:8px;margin-bottom:32px;}
+    .infra-card{padding:10px;border-radius:8px;}
+    .infra-icon{font-size:16px;margin-bottom:4px;}
+    .infra-title{font-size:11px;margin-bottom:4px;}
+    .infra-desc{font-size:10px;}
+    .tl-wrap{border-radius:10px;margin-bottom:32px;}
+    .tl-inner{min-width:520px;}
+    .tl-year-row{grid-template-columns:100px 4fr 4fr;}
+    .tl-yr-cell{padding:5px 6px;font-size:8px;}
+    .tl-head{grid-template-columns:100px repeat(8,1fr);}
+    .tl-hc{padding:8px 4px;font-size:7px;letter-spacing:0.06em;}
+    .tl-hc:first-child{padding-left:8px;}
+    .tl-row{grid-template-columns:100px repeat(8,1fr);min-height:38px;}
+    .tl-prod{padding:5px 6px;gap:4px;}
+    .tl-plogo{width:14px;height:14px;border-radius:3px;}
+    .tl-pname{font-size:9px;}
+    .tl-cell{padding:4px 2px;}
+    .tl-block{padding:2px 4px;font-size:7px;border-radius:3px;}
+    .back-btn{font-size:12px;margin-bottom:20px;}
+    .d-hero{gap:16px;margin-bottom:24px;}
+    .d-product-identity{gap:12px;margin-bottom:14px;}
+    .d-logo,.d-logo-ph{width:48px;height:48px;border-radius:10px;}
+    .d-eyebrow{font-size:8px;margin-bottom:3px;}
+    .d-title{font-size:22px;}
+    .d-tagline{font-size:11px;}
+    .d-desc{font-size:12px;margin-bottom:16px;}
+    .d-meta{gap:12px;}
+    .dm-label{font-size:8px;margin-bottom:2px;}
+    .dm-val{font-size:12px;}
+    .d-stat-box{padding:14px;border-radius:10px;}
+    .dsrow{padding:6px 0;}
+    .dsrow-l{font-size:10px;}
+    .dsrow-v{font-size:16px;}
+    .phases-grid{gap:10px;margin-bottom:24px;}
+    .phase-card{padding:14px;border-radius:10px;}
+    .phase-card-accent{height:2px;}
+    .ph-num{font-size:8px;margin-bottom:4px;gap:5px;}
+    .ph-dot{width:5px;height:5px;}
+    .ph-title{font-size:13px;margin-bottom:2px;}
+    .ph-time{font-size:9px;margin-bottom:8px;}
+    .feat-li{font-size:11px;padding:3px 0;gap:6px;}
+    .feat-dot{width:4px;height:4px;margin-top:5px;}
+    .dec-grid{gap:8px;margin-bottom:24px;}
+    .dec-card{padding:12px;border-radius:8px;}
+    .dec-title{font-size:12px;margin-bottom:4px;}
+    .dec-body{font-size:10px;margin-bottom:8px;}
+    .dtag{font-size:8px;padding:2px 5px;}
+    .proj-grid{grid-template-columns:1fr;gap:8px;margin-bottom:24px;}
+    .proj-card{padding:12px;border-radius:8px;}
+    .proj-tag{font-size:8px;margin-bottom:6px;}
+    .proj-name{font-size:12px;margin-bottom:3px;}
+    .proj-desc{font-size:10px;}
+    .info-banner{padding:12px;border-radius:8px;font-size:11px;margin-bottom:24px;}
+    .info-banner strong{font-size:11px;margin-bottom:4px;}
+    .h4e-themes{padding:48px 12px;}
+    .h4e-themes .thm-eyebrow{font-size:9px;margin-bottom:14px;}
+    .h4e-themes .thm-title{font-size:26px;margin-bottom:32px;}
+    .h4e-themes .thm-card{padding:24px 0;}
+    .h4e-themes .thm-num{font-size:10px;margin-bottom:18px;}
+    .h4e-themes .thm-card-title{font-size:20px;margin-bottom:10px;}
+    .h4e-themes .thm-desc{font-size:12px;margin-bottom:16px;}
+    .h4e-themes .thm-points li{font-size:11px;padding:8px 0;gap:10px;}
+    .suite-heading-title{font-size:26px;}
+    footer{padding:16px 12px;gap:12px;}
+    .ft-l{font-size:10px;}
+    .ft-r{font-size:8px;gap:6px;}
+    .product-section{padding:36px 12px;}
+    .product-section .ps-eyebrow span:first-child{width:16px;}
+    .product-section .ps-eyebrow span:last-child{font-size:9px;}
+    .product-section .ps-title{font-size:28px;}
+    .product-section .ps-tagline{font-size:14px;}
+    .product-section .ps-summary{font-size:13px;margin-bottom:20px;}
+    .product-section .ps-status-grid{gap:8px;margin-bottom:16px;}
+    .product-section .ps-status-card{padding:8px 10px;border-radius:8px;}
+    .product-section .ps-status-label{font-size:8px;gap:4px;margin-bottom:6px;}
+    .product-section .ps-status-dot{width:5px;height:5px;}
+    .product-section .ps-status-count{font-size:20px;}
+    .product-section .ps-gantt-head{margin-bottom:12px;flex-direction:column;align-items:flex-start;gap:8px;}
+    .product-section .ps-gantt-label{font-size:9px;gap:8px;}
+    .product-section .ps-gantt-meta{font-size:9px;}
+    .product-section .ps-legend{margin-top:12px;gap:12px;font-size:9px;}
+    .product-section .ps-legend .ps-legend-dot{width:6px;height:6px;}
+    .ps-highlights{margin-top:32px;padding-top:28px;}
+    .ps-highlights-title{font-size:16px;margin-bottom:18px;}
+    .ps-highlights-list{gap:12px;}
+    .ps-highlight-item{font-size:13px;gap:12px;}
+    .ps-highlight-check{width:20px;height:20px;}
+    .ps-highlight-check svg{width:11px;height:11px;}
+    .fd-drawer{padding:16px 12px 24px;}
+    .fd-close{top:10px;right:10px;width:28px;height:28px;border-radius:6px;}
+    .fd-eyebrow{font-size:9px;margin-bottom:8px;}
+    .fd-title{font-size:22px;margin-bottom:10px;padding-right:32px;}
+    .fd-pills{gap:6px;margin-bottom:16px;}
+    .fd-status-pill{font-size:8px;padding:2px 6px;gap:6px;}
+    .fd-theme-pill{font-size:8px;padding:2px 6px;}
+    .fd-target{font-size:9px;}
+    .fd-desc{font-size:12px;line-height:1.65;margin-bottom:20px;}
+    .fd-section-label{font-size:8px;margin-bottom:6px;}
+    .fd-details-grid{border-radius:8px;margin-bottom:20px;}
+    .fd-detail-cell{padding:8px 10px;}
+    .fd-detail-label{font-size:7px;margin-bottom:4px;}
+    .fd-detail-value{font-size:11px;}
+    .fd-vote-btn{padding:10px 14px;font-size:12px;border-radius:8px;gap:8px;}
+  }
+
+  /* ---- EXTRA SMALL PHONE (max-width: 360px) ---- */
+  @media (max-width:360px){
+    header{padding:0 8px;}
+    .thg-logo svg{height:20px;}
+    .h4e-mega-hero .mh-inner{padding:36px 8px 28px;}
+    .h4e-mega-hero .mh-title{font-size:clamp(28px,9vw,40px);}
+    .h4e-mega-hero .mh-lead{font-size:13px;}
+    .h4e-mega-hero .mh-stats{gap:12px;}
+    .h4e-mega-hero .mh-stat-n{font-size:24px;}
+    .hero{padding:20px 8px 18px;}
+    .hero-h1{font-size:22px;}
+    .hero-sub{font-size:12px;}
+    .nav-bar{padding:0 4px;}
+    .ntab{padding:8px 6px;font-size:9px;}
+    main{padding:12px 8px;}
+    .overview-title{font-size:22px;}
+    .split-title,.suite-heading-title{font-size:22px;}
+    .product-section{padding:28px 8px;}
+    .product-section .ps-title{font-size:24px;}
+    .fd-title{font-size:20px;}
+  }
+
+  /* ---- LANDSCAPE PHONE ADJUSTMENTS ---- */
+  @media (max-height:500px) and (orientation:landscape){
+    header{height:48px;position:relative;}
+    .nav-bar{top:0;position:relative;}
+    .h4e-mega-hero .mh-inner{padding:40px 24px 32px;}
+    .h4e-mega-hero .mh-stats{grid-template-columns:repeat(4,1fr);gap:16px;margin-top:24px;padding-top:16px;}
+    .h4e-mega-hero .mh-stat-n{font-size:24px;}
+    .hero{padding:24px 20px;}
+  }
+
+  /* Give display headings enough room for descenders when using clipped gradient text. */
+  .hero-h1,
+  .overview-title,
+  .split-title,
+  .suite-heading-title,
+  .h4e-mega-hero .mh-title,
+  .product-section .ps-title,
+  .fd-title{
+    line-height:1.16;
+    padding-bottom:0.08em;
+    overflow:visible;
+  }
+</style>
+<script>
+// H4E Roadmap data — 7 products, features by status & theme
+// Gantt: [startQuarterIndex, spanInQuarters] over 12 quarters Q1'25..Q4'27 (indices 0..11)
+window.H4E_DATA = {
+  meta: { year: "2025 — 2027", productsCount: 7, activeMarkets: 12, plannedFeatures: 100, releasePhases: 4 },
+  quarters: ["Q1 '25", "Q2 '25", "Q3 '25", "Q4 '25", "Q1 '26", "Q2 '26", "Q3 '26", "Q4 '26", "Q1 '27", "Q2 '27", "Q3 '27", "Q4 '27"],
+  nowIndex: 5,
+  themes: {
+    ai:        { id: "ai",        label: "AI-First Enterprise", color: "#605EFF" },
+    sovereign: { id: "sovereign", label: "Sovereign Data",      color: "#605EFF" },
+    governance:{ id: "governance",label: "Autonomous Governance",color: "#605EFF" }
+  },
+  statuses: {
+    shipped:   { id: "shipped",   label: "Shipped",     dot: "#22C55E" },
+    progress:  { id: "progress",  label: "In Progress", dot: "#605EFF" },
+    planned:   { id: "planned",   label: "Planned",     dot: "#A1A1AA" },
+    exploring: { id: "exploring", label: "Exploring",   dot: "#F59E0B" }
+  },
+  products: [
+    {
+      id: "idtrust", name: "IDTrust", color: "#8B6FFF",
+      tagline: "A production-grade SSI platform on Hedera issuing, managing, and verifying W3C Verifiable Credentials for regulated, multi-party ecosystems.",
+      summary: "IDTrust enables organizations to issue cryptographically verifiable credentials and manage decentralized identities on Hedera. The platform authenticates users and AI agents without passwords or shared API keys — built on open standards including W3C DID/VC, OID4VCI, and OID4VP. Serving as the identity infrastructure layer for regulated enterprises, universities, and AI-driven systems.",
+      lead: { name: "Dr. Anya Petrov", role: "VP, Identity Products" },
+      meta: [
+        { label: "Status", value: "Live" },
+        { label: "Maturity", value: "Production" },
+        { label: "Last Update", value: "Apr 2026" }
+      ],
+      features: [
+        { id: "id-1", title: "Identity Wallet v1.0", desc: "iOS & Android identity wallet with biometric authentication — store, manage and present W3C Verifiable Credentials from any OID4VCI-compliant issuer.", status: "shipped", theme: "sovereign", quarter: "Q1 2025", votes: 521, gantt: [0,1] },
+        { id: "id-2", title: "Identity Manager", desc: "Enterprise credential schema management — define, version, and govern credential schemas with full lifecycle control and cryptographic versioning.", status: "shipped", theme: "governance", quarter: "Q2 2025", votes: 412, gantt: [1,1] },
+        { id: "id-3", title: "Issuer Service (OID4VCI)", desc: "Production issuer service with multi-issuer support, batch issuance, revocation, and full OID4VCI draft 13 compliance.", status: "shipped", theme: "governance", quarter: "Q2 2025", votes: 387, gantt: [1,1] },
+        { id: "id-4", title: "Verifier Service (OID4VP)", desc: "Policy-driven credential verification with DCQL-based presentation policies, selective disclosure, and real-time revocation checks.", status: "shipped", theme: "sovereign", quarter: "Q3 2025", votes: 344, gantt: [2,1] },
+        { id: "id-5", title: "dSSO — Decentralised Single Sign-On", desc: "Wallet-based login replacing passwords — enterprise SSO powered by Verifiable Credentials with no shared secrets or centralized identity store.", status: "shipped", theme: "sovereign", quarter: "Q4 2025", votes: 498, gantt: [3,1] },
+        { id: "id-6", title: "Auxiliary Services", desc: "Supporting infrastructure: revocation registry, audit trail, universal DID resolver, and on-ledger trust registry anchored to Hedera.", status: "shipped", theme: "governance", quarter: "Q1 2026", votes: 271, gantt: [4,1] },
+        { id: "id-7", title: "DID SDK v2.0", desc: "did:hedera 2.0 with improved key rotation, multi-controller DIDs, and native SDK support for TypeScript, Java, and Python.", status: "progress", theme: "sovereign", quarter: "Q2 2026", votes: 389, gantt: [5,1] },
+        { id: "id-8", title: "Agentic Identity: Agent ID & Authorization", desc: "Issue Verifiable Credentials to autonomous AI agents — Agent ID issuance, delegation chains, and on-ledger authorization with audit-grade provenance.", status: "progress", theme: "ai", quarter: "Q2 2026", votes: 547, gantt: [5,2] },
+        { id: "id-9", title: "IDTrust Client SDK v1.0", desc: "Client-side SDK library enabling any application to manage DIDs, request credentials, build VPs, and authenticate via dSSO.", status: "progress", theme: "sovereign", quarter: "Q2 2026", votes: 412, gantt: [5,1] },
+        { id: "id-10", title: "Identity Wallet v2.0", desc: "Enhanced UX with multi-wallet support, credential sharing flows, and enterprise MDM compatibility for corporate device deployment.", status: "progress", theme: "sovereign", quarter: "Q3 2026", votes: 318, gantt: [6,1] },
+        { id: "id-11", title: "DID Management Service v2.0", desc: "Centralised DID operations with caching, did:hedera Universal Resolver adapters, and optimised resolution at scale.", status: "progress", theme: "governance", quarter: "Q3 2026", votes: 289, gantt: [6,1] },
+        { id: "id-12", title: "Delegate to Agent", desc: "Allow human principals to delegate scoped, time-bound authority to AI agents with revocation and audit trail.", status: "progress", theme: "ai", quarter: "Q3 2026", votes: 267, gantt: [6,1] },
+        { id: "id-13", title: "Cloud Identity Wallet v1.0", desc: "Web-based, enterprise-custodied wallet with private keys secured in HashiCorp Vault. Enables organizations to manage credentials on behalf of users.", status: "progress", theme: "governance", quarter: "Q3 2026", votes: 276, gantt: [6,2] },
+        { id: "id-14", title: "Unified Documentation v1.0", desc: "Consolidated developer and integration documentation covering all platform services and SDKs.", status: "progress", theme: "governance", quarter: "Q4 2026", votes: 214, gantt: [7,1] },
+        { id: "id-15", title: "SD-JWT Selective Disclosure", desc: "IETF SD-JWT credential format support alongside W3C VC — enabling selective attribute disclosure for high-privacy regulated use cases.", status: "planned", theme: "sovereign", quarter: "Q1 2027", votes: 198, gantt: [8,2] },
+        { id: "id-16", title: "dSSO v2.0", desc: "Enhanced decentralised SSO with improved performance, broader protocol support, and enterprise integration connectors (HRIS, CRM, ERP).", status: "planned", theme: "sovereign", quarter: "Q1 2027", votes: 176, gantt: [8,1] },
+        { id: "id-17", title: "Organisation Management & RBAC", desc: "Organisation DIDs with multi-signature governance, role-based access control, enterprise wallets, and delegated credential authority.", status: "planned", theme: "governance", quarter: "Q1 2027", votes: 198, gantt: [8,2] },
+        { id: "id-18", title: "AI-powered credential workflows", desc: "Conversational schema creation and policy configuration powered by AI, reducing setup time for new credential programmes.", status: "planned", theme: "ai", quarter: "Q2 2027", votes: 187, gantt: [9,1] },
+        { id: "id-19", title: "Federated Issuer Model", desc: "Enterprises become trusted issuers within IDTrust's trust registry, enabling cross-organisation credential recognition without central authority.", status: "planned", theme: "governance", quarter: "Q2 2027", votes: 167, gantt: [9,2] },
+        { id: "id-20", title: "Unified Documentation v2.0", desc: "Advanced features, enterprise integration guides, and agentic identity developer documentation.", status: "planned", theme: "governance", quarter: "Q3 2027", votes: 143, gantt: [10,1] },
+        { id: "id-21", title: "eIDAS 2.0 / EUID", desc: "Native alignment with the EU Digital Identity regulation — EUDI Wallet interop, eIDAS 2.0 trust anchor registration, and cross-border identity federation.", status: "planned", theme: "sovereign", quarter: "Q3 2027", votes: 312, gantt: [10,2] }
+      ]
+    },
+    {
+      id: "tracktrace", name: "TrackTrace", color: "#E8963A",
+      tagline: "A production-grade traceability platform on Hedera enabling end-to-end supply chain visibility.",
+      summary: "TrackTrace allows organizations to establish tamper-proof supply chain records using Digital Product Passports (DPPs), ensuring every stage from raw materials through final delivery remains traceable, verifiable, and audit-ready — with cryptographically verified workflow steps tied to decentralized identities.",
+      lead: { name: "Mateo Alves", role: "VP, Supply Chain Products" },
+      meta: [
+        { label: "Status", value: "Live" },
+        { label: "Maturity", value: "Beta" },
+        { label: "Last Update", value: "Apr 2026" },
+        { label: "Standard", value: "W3C DPP" }
+      ],
+      features: [
+        { id: "tt-1", title: "Verifiable Workflow Execution", desc: "Multi-step business process management with DID tracking. Define a workflow, instantiate it, track every step with cryptographic proof.", status: "shipped", theme: "governance", quarter: "Q1 2025", votes: 412, gantt: [0,1] },
+        { id: "tt-2", title: "Mobile Data Capture with Verifiable Credentials", desc: "Operators in the field capture data on mobile, self-issue credentials, submit as Verifiable Presentations. Works with role-based authorization.", status: "shipped", theme: "sovereign", quarter: "Q2 2025", votes: 334, gantt: [1,1] },
+        { id: "tt-3", title: "Hardware Device Integration", desc: "Connect IoT devices and scanning hardware (M-Trust SEC-Reader live; framework supports more). Generate verifiable credentials directly from device readings.", status: "shipped", theme: "governance", quarter: "Q2 2025", votes: 289, gantt: [1,1] },
+        { id: "tt-4", title: "Hedera-anchored Audit Trail", desc: "Every step, every credential, every verification anchored to Hedera Consensus Service. CLI tool available for auditors and regulators to verify any record independently.", status: "shipped", theme: "governance", quarter: "Q3 2025", votes: 371, gantt: [2,1] },
+        { id: "tt-5", title: "VP Exchange & Verification", desc: "Full Verifiable Presentation lifecycle: session management, request creation, QR-code based mobile wallet exchange, verification status tracking.", status: "shipped", theme: "sovereign", quarter: "Q4 2025", votes: 256, gantt: [3,1] },
+        { id: "tt-6", title: "Admin Dashboard Suite", desc: "Three-part admin interface: Workflow Viewer, Internal DID/DPP view, External DPP view (consumer-facing template, customizable per client).", status: "progress", theme: "governance", quarter: "Q2 2026", votes: 489, gantt: [5,2] },
+        { id: "tt-7", title: "Step & VP Data Retrieval API", desc: "Expose Fides step data and stored VPs to external systems (dashboards, mobile apps, partner integrations).", status: "progress", theme: "governance", quarter: "Q2 2026", votes: 367, gantt: [5,1] },
+        { id: "tt-8", title: "Enterprise Authentication", desc: "Keycloak integration for SSO and IBPM identity authentication. Enables multi-user, role-controlled access at enterprise scale.", status: "progress", theme: "sovereign", quarter: "Q3 2026", votes: 298, gantt: [6,1] },
+        { id: "tt-9", title: "Industry Demonstrators", desc: "Reference implementations across industries.", status: "progress", theme: "governance", quarter: "Q3 2026", votes: 214, gantt: [6,1] },
+        { id: "tt-10", title: "Credential Delivery via Email", desc: "Issue credentials to recipients via email when wallet adoption is gradual.", status: "progress", theme: "governance", quarter: "Q3 2026", votes: 187, gantt: [6,1] },
+        { id: "tt-11", title: "Token-based Ownership Tracking", desc: "ERC-1155 tokens represent physical goods on the ledger. Transfer ownership at every handoff. Mathematical proof that you never consumed more than what was produced. Anti-fraud at the protocol level.", status: "progress", theme: "governance", quarter: "Q4 2026", votes: 234, gantt: [7,1] },
+        { id: "tt-12", title: "AI-powered Workflow Generation", desc: "Natural language interface: the platform generates a valid BPMN 2.0 workflow ready for human review and activation.", status: "planned", theme: "ai", quarter: "Q1 2027", votes: 342, gantt: [8,2] },
+        { id: "tt-13", title: "Enterprise Data Connectors", desc: "Native integrations with SAP, Oracle, and other enterprise systems. Two-way data feeds with import/export. TrackTrace becomes the trust layer on top of existing infrastructure.", status: "planned", theme: "governance", quarter: "Q2 2027", votes: 276, gantt: [9,2] },
+        { id: "tt-14", title: "Multi-Process Platform", desc: "Multi-user per organization, role-based access control, organization-level data isolation and enterprise-grade deployment model.", status: "planned", theme: "governance", quarter: "Q2 2027", votes: 198, gantt: [9,1] },
+        { id: "tt-15", title: "Reporting & Analytics", desc: "Aggregate dashboards, trend analysis, alerting on threshold breaches. Operational intelligence layer on top of the trust layer.", status: "planned", theme: "governance", quarter: "Q3 2027", votes: 267, gantt: [10,1] },
+        { id: "tt-16", title: "Cloud Wallet for End Users", desc: "Hosted wallet infrastructure for consumers and small operators who do not manage their own keys.", status: "planned", theme: "sovereign", quarter: "Q3 2027", votes: 189, gantt: [10,2] }
+      ]
+    },
+    {
+      id: "ecoguard", name: "EcoGuard", color: "#27AE60",
+      tagline: "An end-to-end platform for ESG workflows, carbon credit lifecycle, tokenization, and marketplace operations.",
+      summary: "EcoGuard streamlines environmental, social, and governance workflows and the complete carbon credit lifecycle — from initial project setup through monitoring, reporting, and verification (MRV) to tokenization and trading. The platform integrates decentralized identity, compliance standards, and market operations for verified, audit-ready climate outcomes.",
+      lead: { name: "Lina Okafor", role: "VP, Sustainability Products" },
+      meta: [
+        { label: "Status", value: "Live" },
+        { label: "Maturity", value: "Production" },
+        { label: "Last Update", value: "Feb 2026" },
+        { label: "Standard", value: "ERC-1155" }
+      ],
+      features: [
+        { id: "eg-1", title: "VP Exchange & Validation", desc: "Share and verify VPs for validation and verification of project and monitoring data.", status: "shipped", theme: "governance", quarter: "Q1 2025", votes: 387, gantt: [0,1] },
+        { id: "eg-2", title: "DID-based Tracking", desc: "Track projects, processes, and carbon credits across their entire lifecycle using decentralized identifiers.", status: "shipped", theme: "sovereign", quarter: "Q2 2025", votes: 312, gantt: [1,1] },
+        { id: "eg-3", title: "ERC-1155 Contracts", desc: "Token schemas for carbon credits for better performance and voiding double spending.", status: "shipped", theme: "governance", quarter: "Q2 2025", votes: 445, gantt: [1,1] },
+        { id: "eg-4", title: "dMRV", desc: "Process workflow and methodology digitization and device inputs feed verified field data with an immutable record per submission.", status: "shipped", theme: "governance", quarter: "Q3 2025", votes: 521, gantt: [2,1] },
+        { id: "eg-5", title: "Verifiable Workflow Execution", desc: "Multi-step methodology process flow with DID tracking. Define a workflow, instantiate it, track every step with cryptographic proof.", status: "shipped", theme: "governance", quarter: "Q4 2025", votes: 267, gantt: [3,1] },
+        { id: "eg-6", title: "Audit & Compliance", desc: "Ensure compliance with global carbon standards through transparent, verifiable records accessible to auditors and regulators.", status: "shipped", theme: "governance", quarter: "Q1 2026", votes: 298, gantt: [4,1] },
+        { id: "eg-7", title: "User Onboarding & KYB", desc: "Streamlined business verification and onboarding.", status: "progress", theme: "sovereign", quarter: "Q2 2026", votes: 334, gantt: [5,1] },
+        { id: "eg-8", title: "Advanced Admin Console", desc: "Manage users, transactions, and configurations at scale.", status: "progress", theme: "governance", quarter: "Q2 2026", votes: 289, gantt: [5,1] },
+        { id: "eg-9", title: "Cloud Wallet", desc: "Offer managed key custody via cloud wallets.", status: "progress", theme: "governance", quarter: "Q2 2026", votes: 276, gantt: [5,1] },
+        { id: "eg-10", title: "Spot Marketplace", desc: "Enable spot trading for listed credits.", status: "progress", theme: "governance", quarter: "Q3 2026", votes: 489, gantt: [6,2] },
+        { id: "eg-11", title: "AI Agent for Digitizing Methodology", desc: "Parse PDFs/docs, extract rules, map to MRV model, draft machine-readable steps, reviewer edits/approves and publishes to library to link to MRV workflows.", status: "progress", theme: "ai", quarter: "Q3 2026", votes: 412, gantt: [6,1] },
+        { id: "eg-12", title: "Simple Trade & Tokenization", desc: "Enable easy minting of carbon credits and facilitate straightforward peer-to-peer trading.", status: "progress", theme: "governance", quarter: "Q3 2026", votes: 234, gantt: [6,1] },
+        { id: "eg-13", title: "ESG Reporting Dashboard", desc: "Configurable dashboards and exportable reports aligned to GRI, TCFD, and CSRD frameworks.", status: "progress", theme: "governance", quarter: "Q4 2026", votes: 376, gantt: [7,2] },
+        { id: "eg-14", title: "AI Anomaly Detection", desc: "Automatically detect unusual activity and potential fraud across MRV, tokenization, and trading workflows.", status: "planned", theme: "ai", quarter: "Q1 2027", votes: 287, gantt: [8,2] },
+        { id: "eg-15", title: "Registry & Payments", desc: "Integrate registries and payment rails for settlement.", status: "planned", theme: "governance", quarter: "Q2 2027", votes: 234, gantt: [9,2] },
+        { id: "eg-16", title: "OTC Trading & Reporting", desc: "Support negotiated trades with compliance-ready reports.", status: "planned", theme: "governance", quarter: "Q2 2027", votes: 178, gantt: [9,1] },
+        { id: "eg-17", title: "AI Workflow Automation", desc: "Generate BPMN flows and automate routine steps.", status: "planned", theme: "ai", quarter: "Q3 2027", votes: 198, gantt: [10,1] },
+        { id: "eg-18", title: "External Credit Listing", desc: "Onboard third-party credits into EcoGuard.", status: "planned", theme: "governance", quarter: "Q3 2027", votes: 167, gantt: [10,2] }
+      ]
+    },
+    {
+      id: "brandboost", name: "BrandBoost", color: "#00C5BE",
+      tagline: "Engaged. Gamified. Rewarded.",
+      summary: "BrandBoost is a consumer engagement platform combining gamification, blockchain technology, and behavioral science to convert passive users into actively engaged, high-value participants. It enables brands to design interactive experiences, distribute tokenized incentives, and generate actionable insights through AI-driven analytics.",
+      lead: { name: "Tomás Rivera", role: "VP, Engagement Products" },
+      meta: [
+        { label: "Status", value: "Beta" },
+        { label: "Maturity", value: "Beta" },
+        { label: "Last Update", value: "Apr 2026" },
+        { label: "Engine", value: "Gamification" },
+        { label: "Technology", value: "Web3 + AI" }
+      ],
+      features: [
+        { id: "bb-1", title: "Gamification Engine", desc: "Configurable engagement mechanics driven by behavioral science.", status: "shipped", theme: "governance", quarter: "Q1 2025", votes: 412, gantt: [0,1] },
+        { id: "bb-2", title: "Web3 Wallet Integration", desc: "Self-custody wallet for incentives, identity, and tokenized rewards.", status: "shipped", theme: "governance", quarter: "Q1 2025", votes: 378, gantt: [0,1] },
+        { id: "bb-3", title: "Ultra-Wide Band Connectivity", desc: "Proximity-based engagement and real-time interaction triggers.", status: "shipped", theme: "governance", quarter: "Q2 2025", votes: 334, gantt: [1,1] },
+        { id: "bb-4", title: "Token Design Studio", desc: "Create, mint, and manage tokenised incentives (currencies, XP points, vouchers, discounts); inventory management and award-rules connected to engagement features.", status: "shipped", theme: "governance", quarter: "Q3 2025", votes: 289, gantt: [2,1] },
+        { id: "bb-5", title: "Advanced AI/ML Insights", desc: "Predictive analytics and behavior modeling for engagement optimization.", status: "progress", theme: "ai", quarter: "Q2 2026", votes: 489, gantt: [5,1] },
+        { id: "bb-6", title: "Ultra-Wide Band \"Proof of Presence\"", desc: "UWB USB dongles (or TV/STB integration) plus mobile SDK for precise position relative to the screen, enabling user profiling, fraud prevention, and proximity-aware engagement.", status: "progress", theme: "governance", quarter: "Q2 2026", votes: 356, gantt: [5,1] },
+        { id: "bb-7", title: "Real-time Engagement Loop", desc: "Personalisation, challenges, achievements, polls/quizzes/trivia, mini-games, and notifications/airdrops orchestrated through Live-Ops.", status: "progress", theme: "governance", quarter: "Q2 2026", votes: 298, gantt: [5,1] },
+        { id: "bb-8", title: "Treasury Wallet & Operator Console", desc: "Enterprise-side wallet for treasury management, incentive issuance, inventory, and back-office reporting.", status: "progress", theme: "governance", quarter: "Q3 2026", votes: 267, gantt: [6,1] },
+        { id: "bb-9", title: "Community & Social Layer v1", desc: "Leaderboards, friend passes, gifting, and referrals anchored to consumer DIDs, building first-party social graph.", status: "progress", theme: "governance", quarter: "Q3 2026", votes: 234, gantt: [6,1] },
+        { id: "bb-10", title: "Targeted & Interactive TV Ads", desc: "\"2d battles\" and interactive overlays activated via UWB proximity to the screen, unlocking now monetisation for broadcasters.", status: "progress", theme: "governance", quarter: "Q4 2026", votes: 312, gantt: [7,1] },
+        { id: "bb-11", title: "Operator & Broadcaster App SDK", desc: "Drop-in integration for TV operator and broadcaster apps, including wallet handoff and content-protection hooks.", status: "progress", theme: "governance", quarter: "Q4 2026", votes: 198, gantt: [7,1] },
+        { id: "bb-12", title: "Community Guilds", desc: "Structured user groups with shared incentives and engagement loops.", status: "planned", theme: "governance", quarter: "Q1 2027", votes: 187, gantt: [8,1] },
+        { id: "bb-13", title: "Peer-to-Peer Marketplace", desc: "Trading layer for assets, rewards, and digital incentives.", status: "planned", theme: "governance", quarter: "Q2 2027", votes: 243, gantt: [9,1] },
+        { id: "bb-14", title: "Multi-Venue Geo-Targeting", desc: "Cross-venue activation with hybrid UWB, GPS, and beacon signal, enabling tour-style engagement programmes.", status: "planned", theme: "governance", quarter: "Q2 2027", votes: 167, gantt: [9,1] },
+        { id: "bb-15", title: "Betting & Wagering Module", desc: "Compliance-aware wagering features, jurisdiction-gated, designed to meet regulatory requirements for licensed operators.", status: "planned", theme: "governance", quarter: "Q3 2027", votes: 221, gantt: [10,1] }
+      ]
+    },
+    {
+      id: "assetguard", name: "AssetGuard", color: "#2E9CCA",
+      tagline: "A secure Hedera wallet for rewards today and an agent-ready foundation for what's next.",
+      summary: "AssetGuard is a production-grade wallet for the Hedera ecosystem. It powers reliable distribution and management of tokens, NFTs, and on-chain rewards for programs and communities — live on Android, iOS, and Chrome, with an agentic wallet architecture in development.",
+      lead: { name: "Henrik Voss", role: "VP, Asset Products" },
+      meta: [
+        { label: "Status", value: "Live" },
+        { label: "Maturity", value: "Production" },
+        { label: "Last Update", value: "Apr 2026" },
+        { label: "Platforms", value: "iOS · Android · Chrome" }
+      ],
+      features: [
+        { id: "ag-1", title: "Cross-Platform Retail Wallet", desc: "Production wallet available on Android, iOS, and Chrome extension — unified asset management across platforms with consistent UX and shared secure keystore.", status: "shipped", theme: "governance", quarter: "Q1 2025", votes: 521, gantt: [0,1] },
+        { id: "ag-2", title: "Core HBAR & Token Management", desc: "Full HBAR and HTS token management with association controls — send, receive, swap, and configure token associations with fine-grained approval flows.", status: "shipped", theme: "governance", quarter: "Q1 2025", votes: 478, gantt: [0,1] },
+        { id: "ag-3", title: "NFT Gallery & On-chain Identity", desc: "NFT gallery surface for collectibles, credentials, and rewards — display, verify, and present on-chain assets including Verifiable Credentials and soulbound tokens.", status: "shipped", theme: "governance", quarter: "Q2 2025", votes: 389, gantt: [1,1] },
+        { id: "ag-4", title: "Seamless Onboarding & Recovery", desc: "Frictionless wallet creation with secure backup and social recovery — new users onboard in under two minutes with encrypted key backup and multi-factor recovery options.", status: "shipped", theme: "governance", quarter: "Q2 2025", votes: 334, gantt: [1,1] },
+        { id: "ag-5", title: "Security Settings & Network Controls", desc: "Granular security controls including biometric lock, transaction limits, network selection, and device management — enterprise-grade custody controls in a consumer wallet.", status: "shipped", theme: "governance", quarter: "Q3 2025", votes: 298, gantt: [2,1] },
+        { id: "ag-6", title: "dApp Connectivity & WalletConnect", desc: "Full WalletConnect v2 support and Hedera dApp browser — connect to any Hedera-native application with session management, permission scoping, and transaction signing.", status: "shipped", theme: "governance", quarter: "Q3 2025", votes: 312, gantt: [2,1] },
+        { id: "ag-7", title: "Rewards via THA Academy", desc: "Live reward distribution via THA Academy certificates — learners receive on-chain credential tokens upon course completion, redeemable for ecosystem benefits.", status: "shipped", theme: "governance", quarter: "Q4 2025", votes: 267, gantt: [3,1] },
+        { id: "ag-8", title: "Membership Portal Rewards", desc: "Token-gated membership portal integration — wallet-holders unlock exclusive content, early access, and community benefits tied to their on-chain reward balance and credential status.", status: "progress", theme: "governance", quarter: "Q2 2026", votes: 387, gantt: [5,2] },
+        { id: "ag-9", title: "Engagement Loops with Education & Quests", desc: "Gamified learning and quest engagement loops — complete educational modules, earn tokens, advance through achievement tiers, and unlock wallet-native rewards and badges.", status: "progress", theme: "governance", quarter: "Q2 2026", votes: 312, gantt: [5,1] },
+        { id: "ag-10", title: "Agentic Wallet Foundations", desc: "Agent-ready wallet architecture — programmatic key management, delegated signing, and agent session controls laying the groundwork for AI agent wallet operations.", status: "planned", theme: "ai", quarter: "Q3 2026", votes: 445, gantt: [6,2] },
+        { id: "ag-11", title: "AssetGuard MCP Server & Guardrail UI", desc: "Model Context Protocol server exposing wallet capabilities to AI agents — with a guardrail UI giving users visibility and control over every agent-initiated transaction.", status: "exploring", theme: "ai", quarter: "Q1 2027", votes: 398, gantt: [8,2] },
+        { id: "ag-12", title: "Autonomous Treasury & A2A Pilots", desc: "Agent-to-agent payment pilots enabling autonomous treasury operations — AI agents negotiate, authorise, and settle micropayments on behalf of enterprise clients without human-in-the-loop.", status: "exploring", theme: "ai", quarter: "Q1 2027", votes: 334, gantt: [8,1] },
+        { id: "ag-13", title: "Open Wallet Standard Compatibility", desc: "Full compliance with emerging Open Wallet Foundation standards — interoperability with external wallets, credential ecosystems, and cross-platform agent frameworks.", status: "exploring", theme: "sovereign", quarter: "Q2 2027", votes: 276, gantt: [9,2] },
+        { id: "ag-14", title: "Enterprise Digital-Asset Governance", desc: "Standardised enterprise governance framework for digital-asset management — policy engines, multi-sig approval workflows, audit trails, and compliance reporting for institutional deployments.", status: "exploring", theme: "governance", quarter: "Q3 2027", votes: 198, gantt: [10,2] }
+      ]
+    },
+    {
+      id: "transact", name: "TransAct", color: "#605EFF",
+      tagline: "Simple. Abstract. Secure.",
+      summary: "TransAct is a securely managed transaction gateway that enables crypto-free transactions for enterprises in the Web3 economy. By abstracting away the need to hold crypto or manage wallets, enterprises can settle transactions in USD and eliminate compliance risks related to digital assets.",
+      meta: [
+        { label: "Status", value: "Live" },
+        { label: "Maturity", value: "Production" },
+        { label: "Last Update", value: "Apr 2026" },
+        { label: "Type", value: "API Gateway" }
+      ],
+      lead: { name: "Kavi Ramesh", role: "VP, Transaction Products" },
+      features: [
+        { id: "ta-1", title: "Transaction Gateway", desc: "Submit, sign, and track Hedera transactions through a unified API — enterprise-grade gateway with deterministic finality and full audit trail.", status: "shipped", theme: "sovereign", quarter: "Q1 2025", votes: 512, gantt: [0,3] },
+        { id: "ta-2", title: "Real-Time Network Monitoring", desc: "Live status tracking of Hedera network health with configurable alerts, threshold notifications, and incident escalation — zero manual polling.", status: "shipped", theme: "governance", quarter: "Q2 2025", votes: 378, gantt: [1,2] },
+        { id: "ta-3", title: "Self-Serve Billing & Subscriptions", desc: "Plan management, self-serve checkout, upgrades, and cancellations — enterprise billing lifecycle without sales friction.", status: "shipped", theme: "governance", quarter: "Q3 2025", votes: 291, gantt: [2,1] },
+        { id: "ta-4", title: "Invoicing & Billing History", desc: "On-demand invoice generation with transaction-level billing records, exportable for ERP integration and financial audits.", status: "shipped", theme: "governance", quarter: "Q4 2025", votes: 263, gantt: [3,1] },
+        { id: "ta-5", title: "Transaction Metrics & Security Logs", desc: "Per-transaction performance metrics and immutable security audit logs — full observability into submission latency, confirmation times, and error rates.", status: "progress", theme: "governance", quarter: "Q2 2026", votes: 419, gantt: [5,1] },
+        { id: "ta-6", title: "Webhook Event System", desc: "Event-driven webhook delivery for transaction state changes, billing events, and network alerts — integrates with any enterprise event bus or workflow engine.", status: "progress", theme: "sovereign", quarter: "Q2 2026", votes: 367, gantt: [5,2] },
+        { id: "ta-7", title: "Sandbox Environment", desc: "Full-featured TransAct sandbox with Hedera testnet routing — isolated environment for integration testing, load testing, and developer onboarding.", status: "planned", theme: "governance", quarter: "Q3 2026", votes: 298, gantt: [6,1] },
+        { id: "ta-8", title: "Agent Wallet Provisioning", desc: "Automated wallet lifecycle management for AI agents — provision, fund, revoke, and audit agent-controlled wallets with policy-enforced spend limits.", status: "planned", theme: "ai", quarter: "Q3 2026", votes: 445, gantt: [6,1] },
+        { id: "ta-9", title: "Per-Agent Controls & Guardrails", desc: "Fine-grained execution controls per agent — transaction caps, allowlist destinations, time-bounded permissions, and human-in-the-loop escalation triggers.", status: "planned", theme: "ai", quarter: "Q4 2026", votes: 398, gantt: [7,1] },
+        { id: "ta-10", title: "Native Agent Tooling (MCP)", desc: "Model Context Protocol server exposing TransAct capabilities to AI frameworks — transact, query balances, and manage wallets directly from agent tool calls.", status: "planned", theme: "ai", quarter: "Q4 2026", votes: 476, gantt: [7,2] },
+        { id: "ta-11", title: "Enterprise Treasury Controls", desc: "Multi-account treasury management with policy engines, approval workflows, and enterprise-grade custody controls — designed for institutional B2B payment operations.", status: "exploring", theme: "governance", quarter: "Q1 2027", votes: 312, gantt: [8,2] },
+        { id: "ta-12", title: "Multi-Operator Access Control", desc: "Role-based operator access with granular permission scoping across teams, departments, and external service providers — zero-trust access model for payment infrastructure.", status: "exploring", theme: "governance", quarter: "Q1 2027", votes: 267, gantt: [8,1] },
+        { id: "ta-13", title: "Predictive Usage Forecasting", desc: "ML-powered forecasting of transaction volumes, network fee fluctuations, and billing cycles — helps enterprises optimise API tier selection and treasury pre-funding.", status: "exploring", theme: "ai", quarter: "Q2 2027", votes: 234, gantt: [9,2] }
+      ]
+    },
+    {
+      id: "hashcare", name: "HashCare", color: "#E84393",
+      tagline: "Agentic. Efficient. Proactive.",
+      summary: "HashCare is a customer-centric support service that offers enterprises comprehensive remote technical assistance for the Hedera network — with autonomous AI agents dispatching tickets, resolving L1 queries, and proactively monitoring DLT applications.",
+      meta: [
+        { label: "Status", value: "Live" },
+        { label: "Maturity", value: "Production" },
+        { label: "Last Update", value: "Apr 2026" },
+        { label: "Support", value: "24/7 GCC" }
+      ],
+      lead: { name: "Dr. Sara Mendel", role: "VP, Enterprise Support" },
+      features: [
+        { id: "hc-1", title: "Enterprise Support Console & Ticketing", desc: "Centralised remote technical assistance for enterprise clients — ticketing, SLA tracking, incident management, and escalation routing across the H4E product suite.", status: "shipped", theme: "governance", quarter: "Q1 2025", votes: 271, gantt: [0,2] },
+        { id: "hc-2", title: "24/7 Global Capabilities Centre (GCC)", desc: "Round-the-clock global support operations with dedicated on-call engineers — continuous coverage across time zones for production Hedera environments.", status: "shipped", theme: "sovereign", quarter: "Q2 2025", votes: 318, gantt: [1,2] },
+        { id: "hc-3", title: "Tiered SLA Framework", desc: "Standard, Advanced, and Premium service tiers with defined response SLAs, escalation paths, and service credits — enterprise support agreements with measurable commitments.", status: "shipped", theme: "governance", quarter: "Q3 2025", votes: 247, gantt: [2,1] },
+        { id: "hc-4", title: "Conversational AI Support Agent", desc: "Streamlined fault resolution via conversational AI — improved response times by 83% and productivity by 60% through intelligent first-response handling before human escalation.", status: "shipped", theme: "ai", quarter: "Q4 2025", votes: 389, gantt: [3,2] },
+        { id: "hc-5", title: "L1 Query Automation", desc: "Autonomous handling of Hedera L1 queries — account info, transaction status, token metadata, and network state resolved without human intervention.", status: "shipped", theme: "ai", quarter: "Q4 2025", votes: 312, gantt: [3,1] },
+        { id: "hc-6", title: "Cross-Product Diagnostics", desc: "Unified diagnostics spanning the full H4E suite — root-cause analysis correlating events across IDTrust, TrackTrace, EcoGuard, and other products in a single incident timeline.", status: "progress", theme: "sovereign", quarter: "Q2 2026", votes: 356, gantt: [5,2] },
+        { id: "hc-7", title: "Agentic AI Triage & Routing", desc: "AI agent autonomously classifies, prioritises, and routes inbound issues to the right specialist queue — with full audit trail and human override at every step.", status: "progress", theme: "ai", quarter: "Q2 2026", votes: 412, gantt: [5,1] },
+        { id: "hc-8", title: "Proactive DLT Application Monitoring", desc: "Continuous monitoring of enterprise DLT applications built on Hedera — surfaces anomalies and predicted failures before clients are impacted, reducing reactive incidents.", status: "planned", theme: "ai", quarter: "Q3 2026", votes: 378, gantt: [6,2] },
+        { id: "hc-9", title: "Autonomous Incident Resolution", desc: "End-to-end autonomous resolution for known Hedera incident patterns — AI agent executes remediation playbooks, verifies resolution, and closes tickets without human touch.", status: "planned", theme: "ai", quarter: "Q4 2026", votes: 334, gantt: [7,1] },
+        { id: "hc-10", title: "SLA Analytics & Reporting Dashboard", desc: "Executive-level SLA performance reporting with trend analysis, breach detection, and service-credit calculation — full transparency into support operations.", status: "planned", theme: "governance", quarter: "Q4 2026", votes: 256, gantt: [7,2] },
+        { id: "hc-11", title: "Predictive Issue Detection", desc: "ML models trained on Hedera network patterns and H4E usage data to predict issues hours before they materialise — shifts support from reactive to truly proactive.", status: "exploring", theme: "ai", quarter: "Q1 2027", votes: 298, gantt: [8,2] }
+      ]
+    }
+  ],
+  highlights: {
+    idtrust: [
+      "Production live on Hedera Mainnet — did:hedera identity anchoring",
+      "Full W3C DID/VC stack — OID4VCI draft 13 + OID4VP credential exchange",
+      "iOS & Android Identity Wallet — with biometric authentication",
+      "dSSO — wallet-based enterprise SSO with no passwords, no shared secrets",
+      "Agentic Identity in progress — Verifiable Credentials for AI agents",
+      "Production-validated — Africa Hackathon with 10,000+ participants"
+    ],
+    tracktrace: [
+      "Production live on Hedera — tamper-proof Digital Product Passports (DPPs)",
+      "IoT integration with M-Trust — SEC-Reader for verifiable field data capture",
+      "End-to-end traceability — from raw materials through final delivery",
+      "Cryptographically verified workflow — steps tied to decentralized identities",
+      "Standards-compliant Verifiable Presentation — exchange for B2B and regulatory use"
+    ],
+    ecoguard: [
+      "Production live on Hedera — full carbon credit lifecycle from MRV to tokenization",
+      "ERC-1155 token contracts — with double-spend prevention and on-chain custody",
+      "Digital MRV — immutable submission records anchored to Hedera",
+      "DID-based project lifecycle — tracking across issuers, validators, and auditors",
+      "Spot marketplace — for carbon credit trading in development",
+      "ESG reporting aligned — to GRI, TCFD, and CSRD standards"
+    ],
+    brandboost: [
+      "Behavioral science-driven — gamification engine",
+      "Web3 wallet — with tokenized incentives and identity",
+      "AI-powered consumer — analytics and recommendations",
+      "No-code configuration — for engagement design",
+      "Mobile-first engagement — and operations workflows"
+    ],
+    assetguard: [
+      "Live on Android, iOS — and Chrome extension",
+      "HBAR and HTS token — management with association controls",
+      "NFT gallery — for collectibles, credentials, and rewards",
+      "Seamless onboarding — secure backup and recovery",
+      "WalletConnect support — validated in quests and hackathons"
+    ],
+    transact: [
+      "Unified transaction submission — and tracking API",
+      "Agent-ready execution — infrastructure with wallet provisioning",
+      "Real-time network monitoring — and alerting",
+      "Self-serve billing — invoicing and subscription management",
+      "Event-driven architecture — with webhook integrations",
+      "Fine-grained controls — for secure and governed execution"
+    ],
+    hashcare: [
+      "24/7 Global Capabilities Centre — Standard, Advanced, and Premium SLA tiers",
+      "Autonomous AI agent dispatch — 83% faster response times, 60% productivity uplift",
+      "Proactive monitoring — of DLT applications built on Hedera",
+      "Conversational AI — for streamlined fault resolution and L1 query handling",
+      "Autonomous ticket triage — and routing without human intervention",
+      "Cross-product diagnostics — spanning the full H4E suite"
+    ]
+  }
+};
+</script>
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+</head>
+<body>
+<div class="bg-orbs"></div>
+<div class="wrap">
+
+<header>
+  <a class="thg-logo" href="https://www.hashgraph-group.com" target="_blank" rel="noopener" aria-label="The Hashgraph Group">
+    <svg width="148" height="32" viewBox="0 0 148 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g clip-path="url(#h4e-logo-clip)"><path d="M0.480539 0H0V32H0.480539V0ZM3.27728 0H2.72305V32H3.27728V0ZM6.07722 0H5.44611V32H6.07722V0ZM8.87716 0H8.16916V32H8.87716V0ZM11.6739 0H10.8922V32H11.6739V0ZM14.4738 0H13.6153V32H14.4738V0ZM17.2706 0H16.3383V32H17.2706V0ZM20.0705 0H19.0614V32H20.0705V0ZM22.8672 0H21.7844V32H22.8672V0ZM25.6672 12.4352H24.5075V19.5616H25.6672V12.4352ZM28.4639 12.4352H27.2305V19.5616H28.4639V12.4352ZM31.2639 12.4352H29.9536V19.5616H31.2639V12.4352ZM34.0606 12.4352H32.6766V19.5616H34.0606V12.4352ZM36.8605 12.4352H35.3997V19.5616H36.8605V12.4352ZM39.6573 0H38.1228V32H39.6573V0ZM42.4572 0H40.8458V32H42.4572V0ZM45.2572 0H43.5689V32H45.2572V0ZM48.0539 0H46.2919V32H48.0539V0ZM57.2674 3.3664H55.1883V2.3328H60.6056V3.3664H58.5136V9.4592H57.2674V3.3664ZM61.5186 1.9296H62.7552L62.7231 6.0416C63.0211 4.592 63.7675 4.1344 64.6101 4.1344C65.7409 4.1344 66.3368 4.912 66.3368 6.16V9.4624H65.1002V6.2656C65.1002 5.4144 64.7062 5.072 64.1295 5.072C63.3414 5.072 62.7424 5.7536 62.7424 7.6288V9.4624H61.5154V1.9296H61.5186ZM67.378 6.8512C67.378 5.1456 68.4768 4.1024 69.9697 4.1024C71.3761 4.1024 72.5069 5.0304 72.5069 6.8288C72.5069 6.9024 72.5069 6.9792 72.4973 7.0624H68.5953C68.5953 8.0224 69.2232 8.7136 70.0562 8.7136C70.7161 8.7136 71.2095 8.2976 71.3248 7.7536H72.4653C72.3275 8.8096 71.376 9.5872 70.0337 9.5872C68.4672 9.5872 67.378 8.4672 67.378 6.848V6.8512ZM71.2928 6.5312C71.2191 5.4432 70.6424 4.976 69.9825 4.976C69.1175 4.976 68.6178 5.7216 68.6081 6.5312H71.296H71.2928ZM55.9668 12.4352H57.213V15.4176H60.3365V12.4352H61.5827V19.5616H60.3365V16.4608H57.213V19.5616H55.9668V12.4352ZM62.8833 18.2944C62.8833 17.2064 63.9277 16.5056 66.2855 16.4928V16.0768C66.2855 15.4368 65.9556 15.0848 65.3373 15.0848C64.6004 15.0848 64.3121 15.5328 64.2609 16.032H63.1076C63.1813 14.9888 63.9501 14.2208 65.4013 14.2208C66.702 14.2208 67.4613 14.9024 67.4613 16.0736V18.4928C67.4613 18.6304 67.5349 18.7168 67.6759 18.7168H68.0379V19.5904H67.3555C66.6828 19.5904 66.2887 19.2384 66.2887 18.6208V18.1632C66.0965 19.0912 65.5423 19.696 64.5172 19.696C63.5881 19.696 62.8865 19.184 62.8865 18.2912L62.8833 18.2944ZM64.9208 18.7968C65.7313 18.7968 66.2855 18.2432 66.2855 16.9952V16.9408C64.9112 16.9408 64.1007 17.376 64.1007 18.1024C64.1007 18.56 64.4723 18.7936 64.9208 18.7936V18.7968ZM68.6818 17.9232H69.7807C69.8447 18.4768 70.2932 18.8928 71.0717 18.8928C71.6259 18.8928 72.0969 18.6688 72.0969 18.1888C72.0969 17.7728 71.7669 17.5392 70.8282 17.3568C69.4411 17.1008 68.8324 16.6208 68.8324 15.76C68.8324 14.8992 69.5884 14.1824 70.9115 14.1824C72.2346 14.1824 73.0547 14.8736 73.0996 15.92H72.0232C72.0008 15.3888 71.5747 14.992 70.9019 14.992C70.3253 14.992 69.9537 15.2384 69.9537 15.664C69.9537 16.0896 70.2644 16.272 71.328 16.464C72.587 16.6976 73.2149 17.1776 73.2149 18.0512C73.2149 19.1584 72.3307 19.7024 71.0172 19.7024C69.4827 19.7024 68.7139 18.8832 68.6818 17.9232ZM74.3394 12.032H75.576L75.5439 16.144C75.8419 14.6944 76.5883 14.2368 77.4308 14.2368C78.5617 14.2368 79.1576 15.0144 79.1576 16.2624V19.5648H77.921V16.368C77.921 15.5168 77.5269 15.1744 76.9503 15.1744C76.1622 15.1744 75.5631 15.856 75.5631 17.7312V19.5648H74.3362V12.032H74.3394ZM80.0065 20.8C80.0065 20.1728 80.5607 19.776 81.1054 19.6928C80.6376 19.5648 80.3269 19.2576 80.3269 18.8416C80.3269 18.3296 80.7337 17.9584 81.4898 17.904C80.8074 17.584 80.3814 16.9344 80.3814 16.1888C80.3814 15.0912 81.2784 14.2272 82.547 14.2272C82.8545 14.2272 83.1428 14.2816 83.3991 14.3776C83.6971 14.3456 83.8252 14.0672 83.8252 13.6224V13.1424H84.9337V13.5904C84.9337 14.2304 84.5268 14.528 83.7163 14.528C84.2929 14.8704 84.6549 15.4656 84.6549 16.1568C84.6549 17.264 83.7707 18.128 82.5213 18.128C82.2747 18.128 82.0408 18.096 81.8166 18.032C81.4866 18.064 81.3584 18.224 81.3584 18.4352C81.3584 18.6592 81.5282 18.8512 82.0728 18.8512H83.2037C84.357 18.8512 85.1867 19.4464 85.1867 20.416C85.1867 21.504 84.2064 22.0576 82.5854 22.0576C81.1566 22.0576 80.0033 21.728 80.0033 20.8H80.0065ZM82.6303 21.2352C83.6875 21.2352 84.0687 20.9248 84.0687 20.4672C84.0687 20.0096 83.665 19.7632 82.9923 19.7632H81.6596C81.3488 19.8368 81.0317 20.1152 81.0317 20.4768C81.0317 21.1168 81.8326 21.232 82.6303 21.232V21.2352ZM82.5246 17.2832C83.1332 17.2832 83.5593 16.8128 83.5593 16.1536C83.5593 15.4944 83.1332 15.056 82.547 15.056C81.9159 15.056 81.4898 15.536 81.4898 16.1856C81.4898 16.8352 81.9159 17.2832 82.5246 17.2832ZM85.994 14.3232H87.221L87.2114 16.2624C87.394 14.9824 88.0443 14.2176 89.2265 14.2912V15.5264H88.5761C87.6919 15.5264 87.2306 16.24 87.2306 17.392V19.5648H85.994V14.3232ZM89.6814 18.2944C89.6814 17.2064 90.7258 16.5056 93.0836 16.4928V16.0768C93.0836 15.4368 92.7536 15.0848 92.1353 15.0848C91.3985 15.0848 91.1102 15.5328 91.0589 16.032H89.9056C89.9793 14.9888 90.7482 14.2208 92.1994 14.2208C93.5001 14.2208 94.2593 14.9024 94.2593 16.0736V18.4928C94.2593 18.6304 94.333 18.7168 94.474 18.7168H94.836V19.5904H94.1536C93.4808 19.5904 93.0868 19.2384 93.0868 18.6208V18.1632C92.8946 19.0912 92.3404 19.696 91.3152 19.696C90.3862 19.696 89.6846 19.184 89.6846 18.2912L89.6814 18.2944ZM91.7157 18.7968C92.5262 18.7968 93.0804 18.2432 93.0804 16.9952V16.9408C91.706 16.9408 90.8955 17.376 90.8955 18.1024C90.8955 18.56 91.2672 18.7936 91.7157 18.7936V18.7968ZM95.8483 14.3232H97.0849L97.0753 15.6768C97.3316 14.8448 97.9819 14.2272 98.9109 14.2272C100.074 14.2272 101.003 15.1968 101.003 16.9344C101.003 18.672 99.9777 19.7056 98.8372 19.7056C97.9306 19.7056 97.3348 19.12 97.0881 18.288V21.9008H95.8515V14.3264L95.8483 14.3232ZM98.3887 18.8192C99.1128 18.8192 99.7439 18.16 99.7439 16.944C99.7439 15.728 99.148 15.1104 98.4208 15.1104C97.6007 15.1104 97.024 15.8464 97.024 16.9632C97.024 18.08 97.5782 18.816 98.3887 18.816V18.8192ZM102.179 12.032H103.415L103.383 16.144C103.681 14.6944 104.428 14.2368 105.27 14.2368C106.401 14.2368 106.997 15.0144 106.997 16.2624V19.5648H105.76V16.368C105.76 15.5168 105.366 15.1744 104.79 15.1744C104.001 15.1744 103.402 15.856 103.402 17.7312V19.5648H102.175V12.032H102.179ZM55.5087 26.1408C55.5087 23.84 56.8189 22.4 58.7187 22.4C60.1795 22.4 61.32 23.3376 61.5666 24.7648H60.3301C60.0738 23.9232 59.4779 23.4336 58.7187 23.4336C57.5878 23.4336 56.7869 24.5088 56.7869 26.1184C56.7869 27.728 57.5333 28.8256 58.7475 28.8256C59.526 28.8256 60.4326 28.336 60.455 26.8224H58.7699V25.8944H61.6179V29.6672H60.455L60.4646 27.984C60.1987 29.0176 59.5484 29.8048 58.3438 29.8048C56.6908 29.8048 55.5054 28.2912 55.5054 26.1408H55.5087ZM63.1076 24.4256H64.3346L64.3249 26.3648C64.5075 25.0848 65.1579 24.32 66.34 24.3936V25.6288H65.6897C64.8055 25.6288 64.3442 26.3424 64.3442 27.4944V29.6672H63.1076V24.4256ZM66.7821 27.0368C66.7821 25.408 67.8585 24.3104 69.3738 24.3104C70.8891 24.3104 71.9751 25.408 71.9751 27.0368C71.9751 28.6656 70.8987 29.7952 69.3738 29.7952C67.8489 29.7952 66.7821 28.6752 66.7821 27.0368ZM69.3738 28.8992C70.1939 28.8992 70.7385 28.1856 70.7385 27.0336C70.7385 25.8816 70.1843 25.2 69.3738 25.2C68.5633 25.2 68.0187 25.872 68.0187 27.0336C68.0187 28.1952 68.5633 28.8992 69.3738 28.8992ZM73.0067 27.696V24.4256H74.2433V27.5584C74.2433 28.4736 74.6597 28.8384 75.214 28.8384C75.9828 28.8384 76.5595 28.1472 76.5595 26.2592V24.4256H77.796V29.6672H76.5595L76.5819 27.9104C76.3032 29.2416 75.6336 29.776 74.7142 29.776C73.625 29.776 73.0067 28.976 73.0067 27.6992V27.696ZM79.2921 24.4256H80.5287L80.5191 25.7792C80.7754 24.9472 81.4257 24.3296 82.3548 24.3296C83.5177 24.3296 84.4467 25.2992 84.4467 27.0368C84.4467 28.7744 83.4216 29.808 82.2811 29.808C81.3745 29.808 80.7786 29.2224 80.5319 28.3904V32.0032H79.2953V24.4288L79.2921 24.4256ZM81.8294 28.9216C82.5534 28.9216 83.1845 28.2624 83.1845 27.0464C83.1845 25.8304 82.5886 25.2128 81.8614 25.2128C81.0413 25.2128 80.4646 25.9488 80.4646 27.0656C80.4646 28.1824 81.0189 28.9184 81.8294 28.9184V28.9216Z" fill="white"/></g><mask id="h4e-logo-mask" fill="white"><path d="M114 0.5H147.687V31.5H114V0.5Z"/></mask><path d="M114 31.5H115V0.5H114H113V31.5H114Z" fill="#7A798C" mask="url(#h4e-logo-mask)"/><path d="M141.027 22.0174V11.9824H147.552V13.4524H142.737V16.2124H147.132V17.6374H142.737V20.5474H147.687V22.0174H141.027Z" fill="white"/><path d="M136.179 22.0174V20.1574H131.604V18.8224L134.934 11.9824H137.844V18.7924H139.404V20.1574H137.844V22.0174H136.179ZM133.284 18.7924H136.239L136.284 12.3574L133.284 18.7924Z" fill="white"/><path d="M122 22.0174V11.9824H123.755V16.1824H128.15V11.9824H129.905V22.0174H128.15V17.6524H123.755V22.0174H122Z" fill="white"/><defs><clipPath id="h4e-logo-clip"><rect width="107" height="32" fill="white"/></clipPath></defs></svg>
+  </a>
+  <nav class="main-nav" role="navigation" aria-label="H4E Products">
+    <button class="nav-link on" onclick="go('master')">Overview</button>
+    <span class="nav-sep" aria-hidden="true"></span>
+    <button class="nav-link" onclick="go('idtrust')">IDTrust</button>
+    <button class="nav-link" onclick="go('tracktrace')">TrackTrace</button>
+    <button class="nav-link" onclick="go('ecoguard')">EcoGuard</button>
+    <button class="nav-link" onclick="go('brandboost')">BrandBoost</button>
+    <button class="nav-link" onclick="go('assetguard')">AssetGuard</button>
+    <button class="nav-link" onclick="go('transact')">TransAct</button>
+    <button class="nav-link" onclick="go('hashcare')">HashCare</button>
+  </nav>
+</header>
+
+<!-- ============================================================
+     H4E MEGA HERO  (particle canvas + animated headline + tickers)
+     ============================================================ -->
+<section class="h4e-mega-hero" aria-label="H4E Master Roadmap hero">
+  <canvas class="mh-canvas" aria-hidden="true"></canvas>
+  <div class="mh-glow" aria-hidden="true"></div>
+  <div class="mh-breathe" aria-hidden="true"></div>
+  <div class="mh-noise" aria-hidden="true"></div>
+  <div class="mh-glyph-wrap" aria-hidden="true">
+    <div class="mh-glyph">
+      <svg viewBox="0 0 200 200">
+        <circle cx="100" cy="100" r="80" fill="none" stroke="#605EFF" stroke-width="0.5"/>
+        <circle cx="100" cy="100" r="60" fill="none" stroke="#605EFF" stroke-width="0.5" stroke-dasharray="2 4"/>
+        <circle cx="100" cy="100" r="40" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="0.5"/>
+        <circle cx="100" cy="20" r="3" fill="#605EFF"/>
+        <circle cx="180" cy="100" r="2" fill="#ffffff"/>
+        <circle cx="100" cy="160" r="2.5" fill="#605EFF"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="mh-inner mh-inner--master">
+    <div class="mh-eyebrow mh-reveal">Hashgraph for Enterprise (H4E)®</div>
+
+    <h1 class="mh-title mh-reveal" style="transition-delay:.1s">
+      <span class="mh-title-line">Master Product</span>
+      <span class="mh-title-line">Roadmap</span>
+    </h1>
+
+    <p class="mh-lead mh-reveal mh-lead--centered" style="transition-delay:.2s">Hashgraph for Enterprise (H4E)® is a <strong>modular suite</strong> of enterprise products built on the Hedera network. Each product operates independently as a <strong>building block</strong>, and together they form a <strong>unified platform</strong> for <strong>verifiable data</strong>, <strong>cross-system interoperability</strong>, and <strong>automated enterprise workflows</strong>.</p>
+
+    <div class="mh-stats mh-stats--master">
+      <div class="mh-reveal" style="transition-delay:.40s">
+        <div class="mh-stat-n"><span class="counter-num" data-counter-to="7">0</span></div>
+        <div class="mh-stat-l">Products</div>
+        <div class="mh-stat-bar"><span style="animation-delay:1.5s"></span></div>
+      </div>
+      <div class="mh-reveal" style="transition-delay:.50s">
+        <div class="mh-stat-n"><span class="counter-num" data-counter-to="150" data-counter-suffix="+">0</span></div>
+        <div class="mh-stat-l">Features</div>
+        <div class="mh-stat-bar"><span style="animation-delay:1.6s"></span></div>
+      </div>
+      <div class="mh-reveal" style="transition-delay:.60s">
+        <div class="mh-stat-n"><span class="counter-num" data-counter-to="18" data-counter-suffix="+">0</span></div>
+        <div class="mh-stat-l">Industries</div>
+        <div class="mh-stat-bar"><span style="animation-delay:1.7s"></span></div>
+      </div>
+      <div class="mh-reveal" style="transition-delay:.70s">
+        <div class="mh-stat-n"><span class="counter-num" data-counter-to="20" data-counter-suffix="+">0</span></div>
+        <div class="mh-stat-l">Releases</div>
+        <div class="mh-stat-bar"><span style="animation-delay:1.8s"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mh-marquee" aria-hidden="true">
+    <div class="mh-marquee-track">
+      <span class="mh-marquee-token">AI-FIRST ENTERPRISE SYSTEMS</span><span class="mh-marquee-token diamond">◆</span>
+      <span class="mh-marquee-token">SOVEREIGN CONNECTIVITY</span><span class="mh-marquee-token diamond">◆</span>
+      <span class="mh-marquee-token">AUTONOMOUS GOVERNANCE</span><span class="mh-marquee-token diamond">◆</span>
+      <span class="mh-marquee-token">BUILT ON HEDERA</span><span class="mh-marquee-token diamond">◆</span>
+      <span class="mh-marquee-token">AI-FIRST ENTERPRISE SYSTEMS</span><span class="mh-marquee-token diamond">◆</span>
+      <span class="mh-marquee-token">SOVEREIGN CONNECTIVITY</span><span class="mh-marquee-token diamond">◆</span>
+      <span class="mh-marquee-token">AUTONOMOUS GOVERNANCE</span><span class="mh-marquee-token diamond">◆</span>
+      <span class="mh-marquee-token">BUILT ON HEDERA</span><span class="mh-marquee-token diamond">◆</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     H4E LIVE SHIPPING TICKER
+     ============================================================ -->
+<div class="h4e-ticker" aria-label="Recent and upcoming H4E shipments" style="display:none">
+  <div class="h4e-ticker-track" aria-hidden="true">
+    <div class="h4e-ticker-item"><span class="ti-product" style="color:#8B6FFF">IDTRUST</span><span class="ti-name">DID Resolver v2</span><span class="ti-dot" style="background:#22C55E"></span><span class="ti-status" style="color:#22C55E">SHIPPED</span></div>
+    <div class="h4e-ticker-item"><span class="ti-product" style="color:#605EFF">TRANSACT</span><span class="ti-name">Stablecoin Rails</span><span class="ti-dot" style="background:#22C55E"></span><span class="ti-status" style="color:#22C55E">LIVE</span></div>
+    <div class="h4e-ticker-item"><span class="ti-product" style="color:#E8963A">TRACKTRACE</span><span class="ti-name">Anomaly Agent</span><span class="ti-dot" style="background:#605EFF"></span><span class="ti-status" style="color:#605EFF">Q2 2026</span></div>
+    <div class="h4e-ticker-item"><span class="ti-product" style="color:#27AE60">ECOGUARD</span><span class="ti-name">CSRD Builder</span><span class="ti-dot" style="background:#605EFF"></span><span class="ti-status" style="color:#605EFF">Q2 2026</span></div>
+    <div class="h4e-ticker-item"><span class="ti-product" style="color:#2E9CCA">ASSETGUARD</span><span class="ti-name">Compliance Hooks</span><span class="ti-dot" style="background:#605EFF"></span><span class="ti-status" style="color:#605EFF">Q2 2026</span></div>
+    <div class="h4e-ticker-item"><span class="ti-product" style="color:#00C5BE">BRANDBOOST</span><span class="ti-name">Gamified Quest Platform</span><span class="ti-dot" style="background:#605EFF"></span><span class="ti-status" style="color:#605EFF">Q2 2026</span></div>
+    <div class="h4e-ticker-item"><span class="ti-product" style="color:#8B6FFF">IDTRUST</span><span class="ti-name">DID Resolver v2</span><span class="ti-dot" style="background:#22C55E"></span><span class="ti-status" style="color:#22C55E">SHIPPED</span></div>
+    <div class="h4e-ticker-item"><span class="ti-product" style="color:#605EFF">TRANSACT</span><span class="ti-name">Stablecoin Rails</span><span class="ti-dot" style="background:#22C55E"></span><span class="ti-status" style="color:#22C55E">LIVE</span></div>
+  </div>
+</div>
+
+<main>
+
+<!-- MASTER OVERVIEW -->
+<section id="sec-master" class="sec on">
+
+  <!-- 1. Unified Web3 Enterprise Platform -->
+  <div class="overview-hero">
+    <div class="overview-hero-content">
+      <h2 class="overview-title">Unified Web3 Enterprise Platform</h2>
+      <p class="overview-desc">Hashgraph for Enterprise (H4E)® is a <strong>modular suite</strong> of enterprise products built on the Hedera network. Each product operates independently as a <strong>building block</strong>, and together they form a <strong>unified platform</strong> for <strong>verifiable data</strong>, <strong>cross-system interoperability</strong>, and <strong>automated enterprise workflows</strong>.</p>
+    </div>
+    <div class="overview-hero-image">
+      <img src="images/h4eplatform-diagram.png" alt="H4E Platform Architecture" class="platform-diagram">
+    </div>
+  </div>
+
+  <!-- 2. The Scalable Platform -->
+  <div class="split-section">
+    <div class="split-left">
+      <div class="split-eyebrow">Foundation</div>
+      <h2 class="split-title">The Scalable Platform</h2>
+      <p class="split-intro">Every H4E product is built on the <strong>same infrastructure</strong> so adopting more products <strong>never means adopting more complexity</strong>. Scale across the H4E Suite without increasing your <strong>operational overhead</strong>.</p>
+
+      <p class="split-intro"><strong>One ledger, one audit stream, one reporting surface, and one orchestration layer.</strong></p>
+    </div>
+    <div class="split-right">
+      <div class="icon-list-item">
+        <div class="ili-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M7 9v6M17 9v6M7 12h10"/></svg>
+        </div>
+        <div class="ili-content">
+          <div class="ili-title">Hedera Governance Ledger</div>
+          <div class="ili-desc">All products anchor directly to the Hedera network, providing <strong>governance, security, finality, tamper-evidence</strong>, and <strong>ledger-level assurance</strong>.</div>
+        </div>
+      </div>
+      <div class="icon-list-item">
+        <div class="ili-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8V5.5A2.5 2.5 0 0 1 5.5 3H8M16 3h2.5A2.5 2.5 0 0 1 21 5.5V8M21 16v2.5a2.5 2.5 0 0 1-2.5 2.5H16M8 21H5.5A2.5 2.5 0 0 1 3 18.5V16"/><path d="M7 12h10M7 9h6M7 15h8"/></svg>
+        </div>
+        <div class="ili-content">
+          <div class="ili-title">Distributed Audit Ledger</div>
+          <div class="ili-desc">A <strong>unified, immutable event stream</strong> captures lifecycle data across all products, enabling <strong>decentralized audit, reconciliation, and reporting</strong> without a single point of failure.</div>
+        </div>
+      </div>
+      <div class="icon-list-item">
+        <div class="ili-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="13" width="3.5" height="8" rx="0.6"/><rect x="10.25" y="8" width="3.5" height="13" rx="0.6"/><rect x="17.5" y="4" width="3.5" height="17" rx="0.6"/></svg>
+        </div>
+        <div class="ili-content">
+          <div class="ili-title">Unified Enterprise Reporting</div>
+          <div class="ili-desc">A <strong>consolidated reporting layer</strong> aggregates data across identity, ESG, assets, supply chain, and transactions into a <strong>single operational view</strong>.</div>
+        </div>
+      </div>
+      <div class="icon-list-item">
+        <div class="ili-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l8 3v6.5c0 4.6-3.4 8.6-8 10-4.6-1.4-8-5.4-8-10V5.5l8-3z"/><path d="M9 12.5l2 2 4-4.5"/></svg>
+        </div>
+        <div class="ili-content">
+          <div class="ili-title">Enterprise Grade Standards</div>
+          <div class="ili-desc">A <strong>common SDK, API gateway, and integration layer</strong> with <strong>pre-built connectors</strong> (SAP, Oracle, Salesforce) enabling <strong>production readiness</strong> across regulated environments.</div>
+        </div>
+      </div>
+      <div class="icon-list-item">
+        <div class="ili-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.2"/><circle cx="5" cy="18" r="2.2"/><circle cx="19" cy="18" r="2.2"/><circle cx="12" cy="13" r="2.2"/><path d="M12 7.2v3.6M10.4 14.4l-3.8 2.4M13.6 14.4l3.8 2.4"/></svg>
+        </div>
+        <div class="ili-content">
+          <div class="ili-title">Ecosystem Interoperability</div>
+          <div class="ili-desc"><strong>Cross-product integration</strong> enables <strong>unified identity access, automated workflows</strong>, and <strong>API-driven connectivity</strong> across internal systems and external partners.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Technology Roadmap -->
+  <div class="split-section">
+    <div class="split-left">
+      <div class="split-eyebrow">Future Direction</div>
+      <h2 class="split-title">Technology Roadmap</h2>
+      <p class="split-intro">The future of the H4E Product Suite is defined by <strong>three core themes</strong> that shift the paradigm from <strong>reactive management to predictive governance</strong>.</p>
+    </div>
+    <div class="split-right">
+      <div class="icon-list-item">
+        <div class="ili-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4.5a4 4 0 0 0-3.6 5.7A3.5 3.5 0 0 0 6 17a3.5 3.5 0 0 0 3 1.5"/><path d="M15 4.5a4 4 0 0 1 3.6 5.7A3.5 3.5 0 0 1 18 17a3.5 3.5 0 0 1-3 1.5"/><path d="M12 4.5v15M9.5 9.5h5M9.5 14h5"/></svg>
+        </div>
+        <div class="ili-content">
+          <div class="ili-title">AI‑First Enterprise Solutions</div>
+          <div class="ili-desc">THG products embed an <strong>enterprise-grade AI layer</strong> to drive <strong>faster, autonomous, and accountable decisions</strong> by:</div>
+          <div class="ili-list">
+            <div class="ili-li">Powering identity and credentialed autonomous agents.</div>
+            <div class="ili-li">Drafting regulatory disclosures with verifiable sources.</div>
+            <div class="ili-li">Detecting risk and anomalies across supply chains and ESG data.</div>
+            <div class="ili-li">Interpreting and validating smart contracts.</div>
+            <div class="ili-li">Enabling natural-language access to audit-grade data.</div>
+          </div>
+        </div>
+      </div>
+      <div class="icon-list-item">
+        <div class="ili-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l8 3.5v6c0 4.6-3.4 8.6-8 10-4.6-1.4-8-5.4-8-10v-6l8-3.5z"/><circle cx="12" cy="12" r="2.2"/><path d="M12 14.2v3"/></svg>
+        </div>
+        <div class="ili-content">
+          <div class="ili-title">Sovereign Data Connectivity</div>
+          <div class="ili-desc">THG lets organizations <strong>share verifiable data without surrendering control</strong> via <strong>expanded data residency, regional deployments</strong>, and <strong>zero-knowledge proofs</strong>, so they can:</div>
+          <div class="ili-list">
+            <div class="ili-li">Data protection in accordance with privacy laws.</div>
+            <div class="ili-li">Prove compliance without exposing sensitive data.</div>
+            <div class="ili-li">Maintain jurisdictional control over data and workflows.</div>
+            <div class="ili-li">Interoperate securely across regulatory regimes.</div>
+          </div>
+        </div>
+      </div>
+      <div class="icon-list-item">
+        <div class="ili-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .35 1.86l.06.07a2 2 0 1 1-2.83 2.83l-.07-.06a1.7 1.7 0 0 0-1.86-.35 1.7 1.7 0 0 0-1.05 1.56V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.05-1.56 1.7 1.7 0 0 0-1.86.35l-.07.06a2 2 0 1 1-2.83-2.83l.06-.07A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.05H3a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 4.6 8.95a1.7 1.7 0 0 0-.35-1.86l-.06-.07a2 2 0 1 1 2.83-2.83l.07.06A1.7 1.7 0 0 0 8.95 4.6 1.7 1.7 0 0 0 10 3.04V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1.05 1.56 1.7 1.7 0 0 0 1.86-.35l.07-.06a2 2 0 1 1 2.83 2.83l-.06.07a1.7 1.7 0 0 0-.35 1.86V9a1.7 1.7 0 0 0 1.56 1.05H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1.05z"/></svg>
+        </div>
+        <div class="ili-content">
+          <div class="ili-title">Autonomous Governance</div>
+          <div class="ili-desc">THG turns governance into an <strong>automated, continuous system</strong> by encoding policy into <strong>smart contracts and AI-assisted workflows</strong> to:</div>
+          <div class="ili-list">
+            <div class="ili-li">Detect and respond to compliance events in real time.</div>
+            <div class="ili-li">Automate settlement, escalation, and reporting.</div>
+            <div class="ili-li">Preserve continuous, tamper-proof audit trails.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Our Product Suite -->
+  <div class="suite-cards-section">
+    <h2 class="suite-heading-title" style="margin-bottom:28px">Our Products</h2>
+    <div class="pgrid" id="suite-pgrid"></div>
+  </div>
+
+</section>
+
+<!-- Product sections are now dynamically generated with Gantt charts -->
+<section id="sec-idtrust" class="sec product-section" data-product="idtrust"></section>
+
+<section id="sec-tracktrace" class="sec product-section" data-product="tracktrace"></section>
+
+<section id="sec-ecoguard" class="sec product-section" data-product="ecoguard"></section>
+<section id="sec-brandboost" class="sec product-section" data-product="brandboost"></section>
+<section id="sec-assetguard" class="sec product-section" data-product="assetguard"></section>
+<section id="sec-transact" class="sec product-section" data-product="transact"></section>
+<section id="sec-hashcare" class="sec product-section" data-product="hashcare"></section>
+
+<!-- Feature drawer overlay container -->
+<div id="fd-overlay-root"></div>
+
+</main>
+
+<footer>
+  <div class="ft-l">© 2026 The Hashgraph Group AG · Zentrum Staldenbach 5, 8808 Pfäffikon SZ, Switzerland · <a href="https://www.hashgraph-group.com" style="color:inherit;text-decoration:none;">hashgraph-group.com</a></div>
+  <div class="ft-r">
+    <span style="color:#E8963A;background:rgba(232,150,58,.08);border:1px solid rgba(232,150,58,.2);padding:3px 10px;border-radius:4px;font-size:9px;text-transform:uppercase;letter-spacing:0.08em;">Confidential</span>
+    H4E Master Roadmap · April 2026
+  </div>
+</footer>
+</div>
+
+<script>
+  const IDS = ['master','idtrust','tracktrace','ecoguard','brandboost','assetguard','transact','hashcare'];
+
+  var SLOGANS = {
+    idtrust:    'Simple. Seamless. Secure.',
+    tracktrace: 'Transparent. Traceable. Verifiable.',
+    ecoguard:   'Transparent. Trusted. Sustainable.',
+    brandboost: 'Engaged. Gamified. Rewarded.',
+    assetguard: 'Enterprise. Compliant. Secure.',
+    transact:   'Simple. Abstract. Secure.',
+    hashcare:   'Agentic. Efficient. Proactive.'
+  };
+
+  var CATEGORIES = {
+    idtrust:    'Identity',
+    tracktrace: 'Supply Chain',
+    ecoguard:   'ESG',
+    brandboost: 'Engagement',
+    assetguard: 'Wallet',
+    transact:   'Gateway',
+    hashcare:   'Support'
+  };
+
+  /* ---- Product hero helpers ---- */
+  var masterHeroHTML = null;
+  setTimeout(function() {
+    var inner = document.querySelector('.h4e-mega-hero .mh-inner');
+    if (inner) masterHeroHTML = inner.innerHTML;
+  }, 2600);
+
+  function getProductSymbolHTML(product) {
+    if (product.id === 'idtrust') {
+      return '<svg width="56" height="56" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#cl_h)"><path d="M52.0342 15.9658C42.075 6.00667 25.9321 6.00667 15.9729 15.9658L0.06375 31.875C0.02125 32.5763 0 33.2917 0 34C0 52.7779 15.2221 68 34 68C34.7154 68 35.4238 67.9788 36.125 67.9363L52.0271 52.0342C61.9863 42.075 61.9863 25.9321 52.0271 15.9729L52.0342 15.9658ZM34 56.6667C21.4838 56.6667 11.3333 46.5163 11.3333 34C11.3333 21.4838 21.4838 11.3333 34 11.3333C46.5163 11.3333 56.6667 21.4838 56.6667 34C56.6667 46.5163 46.5163 56.6667 34 56.6667Z" fill="url(#p0h)"/><path d="M58.0411 9.95917C44.7669 -3.32208 23.2335 -3.32208 9.95938 9.95917C3.86063 16.0579 0.566882 23.8921 0.0639648 31.8679L15.966 15.9658C25.9252 6.00667 42.0681 6.00667 52.0273 15.9658C61.9865 25.925 61.9865 42.0679 52.0273 52.0271L36.1252 67.9292C44.1011 67.4333 51.9423 64.1325 58.0411 58.0408C71.3223 44.7596 71.3223 23.2333 58.0411 9.95917Z" fill="url(#p1h)"/><path opacity="0.49" d="M34.0002 56.6666C46.5186 56.6666 56.6668 46.5184 56.6668 34C56.6668 21.4815 46.5186 11.3333 34.0002 11.3333C21.4817 11.3333 11.3335 21.4815 11.3335 34C11.3335 46.5184 21.4817 56.6666 34.0002 56.6666Z" fill="#605EFF" fill-opacity="0.46"/><path d="M52.0342 15.9658C42.075 6.00667 25.9321 6.00667 15.9729 15.9658L0.06375 31.875C0.02125 32.5763 0 33.2917 0 34C0 52.7779 15.2221 68 34 68C34.7154 68 35.4238 67.9788 36.125 67.9363L52.0271 52.0342C61.9863 42.075 61.9863 25.9321 52.0271 15.9729L52.0342 15.9658ZM34 56.6667C21.4838 56.6667 11.3333 46.5163 11.3333 34C11.3333 21.4838 21.4838 11.3333 34 11.3333C46.5163 11.3333 56.6667 21.4838 56.6667 34C56.6667 46.5163 46.5163 56.6667 34 56.6667Z" fill="url(#p2h)"/><path d="M34.0002 56.6666C46.5186 56.6666 56.6668 46.5184 56.6668 34C56.6668 21.4815 46.5186 11.3333 34.0002 11.3333C21.4817 11.3333 11.3335 21.4815 11.3335 34C11.3335 46.5184 21.4817 56.6666 34.0002 56.6666Z" fill="url(#p3h)"/><path d="M25.0678 51.0071C23.5945 48.4075 23.0065 46.2966 22.9782 43.5058C22.957 39.9854 24.3807 36.5358 26.8811 34.0566C28.737 32.2008 31.8395 32.2858 33.8016 34.2479C35.7636 36.21 35.8486 39.3125 33.9928 41.1612C32.137 43.01 32.2432 46.07 34.184 48.0108C36.1249 49.9516 39.1991 50.0367 41.0336 48.2021C46.5657 42.67 46.3107 33.405 40.4599 27.5541C36.302 23.3962 30.1891 21.9158 24.8836 23.7929C23.0986 24.4162 21.4128 25.5141 19.8828 27.0441C18.7565 28.1704 17.092 30.0333 15.6611 33.1925M18.2961 43.6687C18.2961 41.3596 18.4165 40.0066 19.1249 37.5346C19.819 35.0625 21.2924 32.6541 23.3961 30.5504C27.1007 26.8458 33.2986 27.0087 37.2086 30.9187C41.1186 34.8287 41.2815 41.0266 37.577 44.7312M32.3424 52.3387C31.4428 51.7296 30.784 51.085 30.6565 50.9575C29.1549 49.4558 28.2199 47.7841 27.887 45.985C27.2849 42.8612 28.2199 39.7091 30.3803 37.5416M49.6328 41.7916C50.1216 38.7316 49.8949 35.5796 48.9528 32.6541C47.9682 29.5941 46.1832 26.7183 43.7961 24.3241C41.4091 21.93 38.5049 20.1379 35.4378 19.1675C32.4911 18.2254 29.4099 18.0129 26.272 18.53M53.0966 30.9612C51.7649 26.8033 49.987 23.8283 47.1536 20.995C44.3061 18.1475 40.9486 16.15 37.1803 15.0521" stroke="#605EFF" stroke-linecap="round" stroke-linejoin="round"/></g><defs><linearGradient id="p0h" x1="57.5379" y1="44.71" x2="0.708335" y2="29.4808" gradientUnits="userSpaceOnUse"><stop stop-color="#605EFF" stop-opacity="0.1"/><stop offset="1" stop-color="#605EFF"/></linearGradient><radialGradient id="p1h" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(41.1686 32.5408) scale(41.0054 41.0054)"><stop stop-color="#605EFF" stop-opacity="0"/><stop offset="1" stop-color="#605EFF"/></radialGradient><linearGradient id="p2h" x1="59.5" y1="38.25" x2="0" y2="38.25" gradientUnits="userSpaceOnUse"><stop stop-color="#605EFF" stop-opacity="0.1"/><stop offset="1" stop-color="#605EFF"/></linearGradient><linearGradient id="p3h" x1="55.9018" y1="39.865" x2="12.0985" y2="28.135" gradientUnits="userSpaceOnUse"><stop stop-color="#605EFF" stop-opacity="0.05"/><stop offset="1" stop-color="#605EFF" stop-opacity="0.5"/></linearGradient><clipPath id="cl_h"><rect width="68" height="68" fill="white"/></clipPath></defs></svg>';
+    }
+    var ext = product.id === 'brandboost' ? 'svg' : 'png';
+    return '<img src="images/'+product.id+'-logo.'+ext+'" alt="'+product.name+' symbol">';
+  }
+
+  function renderSuiteCards() {
+    var grid = document.getElementById('suite-pgrid');
+    if (!grid) return;
+    var D = window.H4E_DATA;
+    function badgeFor(p) {
+      var maturity = null;
+      if (p.meta && p.meta.length > 0) {
+        for (var i = 0; i < p.meta.length; i++) {
+          if (p.meta[i].label === 'Maturity') {
+            maturity = p.meta[i].value.toLowerCase();
+            break;
+          }
+        }
+      }
+      if (maturity === 'beta') return { cls: 'b-new', label: 'BETA' };
+      if (maturity === 'production') return { cls: 'b-live', label: 'PRODUCTION' };
+      return { cls: 'b-active', label: 'IN DEVELOPMENT' };
+    }
+    var pillBorder = 'rgba(96,94,255,0.25)';
+    grid.innerHTML = D.products.map(function(p) {
+      var total = p.features.length;
+      var shipped = p.features.filter(function(f){ return f.status === 'shipped'; }).length;
+      var inprog  = p.features.filter(function(f){ return f.status === 'progress'; }).length;
+      var pct = Math.round(shipped / total * 100);
+      var badge = badgeFor(p);
+      var _s = p.summary.split('.')[0] + '.';
+      var desc = _s.length > 130 ? p.summary.slice(0, p.summary.lastIndexOf(' ', 127)) + '…' : _s;
+      var logoHTML = p.id === 'idtrust'
+        ? getProductSymbolHTML(p)
+        : '<img src="images/'+p.id+'-logo.'+(p.id==='brandboost'?'svg':'png')+'" alt="'+p.name+'">';
+      var pills = '<span class="pill" style="border-color:'+pillBorder+';color:var(--text-2)">'+shipped+' shipped</span>'
+        + (inprog > 0 ? '<span class="pill" style="border-color:'+pillBorder+';color:var(--text-2)">'+inprog+' in progress</span>' : '');
+      return '<div class="pcard" onclick="go(\''+p.id+'\')" role="button" tabindex="0">'
+        + '<div class="pcard-top">'
+        +   '<div class="pcard-logo-ph" style="background:rgba(255,255,255,0.04)">'+logoHTML+'</div>'
+        +   '<span class="pbadge '+badge.cls+'">'+badge.label+'</span>'
+        + '</div>'
+        + '<div class="pcard-name">'+p.name+'</div>'
+        + '<div class="pcard-tag">'+(SLOGANS[p.id] || p.tagline)+'</div>'
+        + '<div class="pcard-desc">'+desc+'</div>'
+        + '<div class="pill-row">'+pills+'</div>'
+        + '<div class="prog-meta"><span>Progress</span><span>'+total+' features</span></div>'
+        + '<div class="prog-bar"><div class="prog-fill" style="width:'+pct+'%;background:var(--accent)"></div></div>'
+        + '<div class="pcard-cta">View full roadmap →</div>'
+        + '</div>';
+    }).join('');
+  }
+
+  function buildProductTicker(product) {
+    var c = '#605EFF';
+    var dotColor = { shipped: '#22C55E', progress: c, planned: 'rgba(255,255,255,0.35)', exploring: 'rgba(255,255,255,0.25)' };
+    var labelColor = { shipped: '#22C55E', progress: c, planned: 'rgba(255,255,255,0.45)', exploring: 'rgba(255,255,255,0.35)' };
+    var label = { shipped: 'SHIPPED', progress: 'IN PROGRESS', planned: null, exploring: 'EXPLORING' };
+    var unit = product.features.map(function(f) {
+      var lc = labelColor[f.status];
+      var dc = dotColor[f.status];
+      var lbl = label[f.status] || f.quarter;
+      return '<div class="h4e-ticker-item">'
+        + '<span class="ti-name">'+f.title+'</span>'
+        + '<span class="ti-dot" style="background:'+dc+'"></span>'
+        + '<span class="ti-status" style="color:'+lc+'">'+lbl+'</span>'
+        + '</div>';
+    }).join('');
+    return unit + unit; // duplicate for seamless loop
+  }
+
+  function renderProductHero(product) {
+    var feats     = product.features;
+    var shipped   = feats.filter(function(f){return f.status==='shipped';}).length;
+    var progress  = feats.filter(function(f){return f.status==='progress';}).length;
+    var planned   = feats.filter(function(f){return f.status==='planned';}).length;
+    var exploring = feats.filter(function(f){return f.status==='exploring';}).length;
+    var total     = feats.length;
+    var status    = product.meta && product.meta[0] ? product.meta[0].value : 'Live';
+    var category  = CATEGORIES[product.id] || 'Product';
+
+    var logoHTML = product.id === 'idtrust'
+      ? getProductSymbolHTML(product)
+      : '<img src="images/'+product.id+'-logo.'+(product.id==='brandboost'?'svg':'png')+'" alt="'+product.name+'">';
+
+    var statsCard = '<div class="ph-card">'
+      + (product.meta || []).map(function(m) {
+          return '<div class="ph-stat-row"><span class="ph-stat-lbl">'+m.label+'</span><span class="ph-stat-val">'+m.value+'</span></div>';
+        }).join('')
+      + '</div>';
+
+    var strip = '<div class="ph-strip">'
+      + '<div class="ph-strip-item"><span class="ph-strip-lbl">Shipped</span><span class="ph-strip-val">'+shipped+'</span></div>'
+      + '<div class="ph-strip-item"><span class="ph-strip-lbl">In Progress</span><span class="ph-strip-val">'+progress+'</span></div>'
+      + '<div class="ph-strip-item"><span class="ph-strip-lbl">Planned</span><span class="ph-strip-val">'+planned+'</span></div>'
+      + '<div class="ph-strip-item"><span class="ph-strip-lbl">Total Features</span><span class="ph-strip-val">'+total+'</span></div>'
+      + '</div>';
+
+    return '<div class="ph-layout">'
+      +   '<div class="ph-left">'
+      +     '<div class="mh-product-symbol">'+logoHTML+'</div>'
+      +     '<h1 class="mh-product-name" style="margin-bottom:14px">'+product.name+'</h1>'
+      +     '<p class="ph-tagline">'+(SLOGANS[product.id] || product.tagline)+'</p>'
+      +     '<p class="ph-summary">'+product.summary+'</p>'
+      +   '</div>'
+      +   '<div class="ph-right">'+statsCard+'</div>'
+      + '</div>'
+      + strip;
+  }
+
+  function go(id) {
+    // Switch hero content
+    var mhInner = document.querySelector('.h4e-mega-hero .mh-inner');
+    var heroEl  = document.querySelector('.h4e-mega-hero');
+    var prod = id !== 'master' ? window.H4E_DATA.products.find(function(p){ return p.id === id; }) : null;
+    var marqueeEl = document.querySelector('.mh-marquee');
+    var tickerEl  = document.querySelector('.h4e-ticker');
+    if (id === 'master') {
+      if (marqueeEl) marqueeEl.style.display = '';
+      if (tickerEl)  tickerEl.style.display  = 'none';
+    } else {
+      if (marqueeEl) marqueeEl.style.display = 'none';
+      if (tickerEl) {
+        tickerEl.style.display = '';
+        var tickerTrack = tickerEl.querySelector('.h4e-ticker-track');
+        if (tickerTrack && prod) tickerTrack.innerHTML = buildProductTicker(prod);
+      }
+    }
+    if (mhInner && heroEl) {
+      if (id === 'master') {
+        if (masterHeroHTML) mhInner.innerHTML = masterHeroHTML;
+        mhInner.classList.add('mh-inner--master');
+      } else {
+        if (prod) mhInner.innerHTML = renderProductHero(prod);
+        mhInner.classList.remove('mh-inner--master');
+      }
+      heroEl.classList.remove('in');
+      requestAnimationFrame(function(){ heroEl.classList.add('in'); });
+    }
+    // Toggle content sections
+    IDS.forEach(s => {
+      document.getElementById('sec-'+s).classList.toggle('on', s===id);
+    });
+    // Update nav tabs
+    document.querySelectorAll('.nav-link').forEach((t,i) => t.classList.toggle('on', IDS[i]===id));
+    // Animate progress bars when returning to master
+    if (id==='master') {
+      requestAnimationFrame(() => {
+        document.querySelectorAll('.prog-fill').forEach(b => {
+          const w=b.style.width; b.style.width='0%';
+          setTimeout(()=>{b.style.width=w;},80);
+        });
+      });
+    }
+    // Scroll to top and set gantt initial scroll
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    requestAnimationFrame(() => {
+      const sec = document.getElementById('sec-'+id);
+      if (!sec) return;
+      const wrapper = sec.querySelector('.gantt-wrapper');
+      const ganttEl = sec.querySelector('.gantt');
+      if (wrapper && ganttEl && wrapper.dataset.scrolled !== '1') {
+        wrapper.scrollLeft = (ganttEl.scrollWidth - 180) / 12 * 2;
+        wrapper.dataset.scrolled = '1';
+      }
+    });
+  }
+  // Initial progress bar animation
+  setTimeout(()=>{
+    document.querySelectorAll('.prog-fill').forEach(b=>{
+      const w=b.style.width;b.style.width='0%';
+      setTimeout(()=>{b.style.width=w;},100);
+    });
+  },400);
+
+  /* ============================================================
+     H4E MEGA HERO — canvas, parallax, reveals, counters, tickers
+     ============================================================ */
+  (function(){
+    const heroEl = document.querySelector('.h4e-mega-hero');
+    if (!heroEl) return;
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // --- Build the marquee track ---
+    const marqueeTrack = heroEl.querySelector('.mh-marquee-track');
+    if (marqueeTrack) {
+      const phrases = ['AI-FIRST ENTERPRISE SYSTEMS','SOVEREIGN CONNECTIVITY','AUTONOMOUS GOVERNANCE','BUILT ON HEDERA'];
+      let unit = '';
+      for (let i = 0; i < 12; i++) {
+        unit += '<span class="mh-marquee-token">' + phrases[i % phrases.length] + '</span>'
+              + '<span class="mh-marquee-token diamond">◆</span>';
+      }
+      marqueeTrack.innerHTML = unit + unit; // duplicated for seamless -50% loop
+    }
+
+    // --- Build the live ticker ---
+    const tickerTrack = document.querySelector('.h4e-ticker-track');
+    if (tickerTrack) {
+      const items = [
+        ['IDTRUST',    'DID Resolver v2',           'SHIPPED',  '#8B6FFF'],
+        ['TRANSACT',   'Stablecoin Rails',          'LIVE',     '#605EFF'],
+        ['TRACKTRACE', 'Anomaly Agent',             'Q2 2026',  '#E8963A'],
+        ['ECOGUARD',   'CSRD Builder',              'Q2 2026',  '#27AE60'],
+        ['ASSETGUARD', 'Compliance Hooks',          'Q2 2026',  '#2E9CCA'],
+        ['BRANDBOOST', 'Gamified Quest Platform',   'Q2 2026',  '#00C5BE'],
+        ['HASHCARE',   'Cross-Product Diagnostics', 'Q2 2026',  '#E84393'],
+        ['IDTRUST',    'ZK Selective Disclosure',   'PROGRESS', '#8B6FFF']
+      ];
+      const unit = items.map(function(it){
+        return '<div class="h4e-ticker-item">'
+             +   '<span class="ti-dot mh-pulse-dot" style="background:'+it[3]+'"></span>'
+             +   '<span class="ti-product">'+it[0]+'</span>'
+             +   '<span class="ti-name">'+it[1]+'</span>'
+             +   '<span class="ti-status" style="color:'+it[3]+'">'+it[2]+'</span>'
+             + '</div>';
+      }).join('');
+      tickerTrack.innerHTML = unit + unit;
+    }
+
+    // --- Mouse position shared by canvas + glyph parallax ---
+    const mouse = { x: 0, y: 0 };
+    const glyphWrap = heroEl.querySelector('.mh-glyph-wrap');
+    if (!reduceMotion) {
+      window.addEventListener('mousemove', function(e){
+        mouse.x = (e.clientX / window.innerWidth - 0.5) * 2;
+        mouse.y = (e.clientY / window.innerHeight - 0.5) * 2;
+        if (glyphWrap) {
+          glyphWrap.style.transform = 'translate(' + (mouse.x * 12) + 'px,' + (mouse.y * 12) + 'px)';
+        }
+      }, { passive: true });
+    }
+
+    // --- Particle network canvas ---
+    const canvas = heroEl.querySelector('.mh-canvas');
+    if (canvas && !reduceMotion) {
+      const ctx = canvas.getContext('2d');
+      let w = 0, h = 0, dpr = 1, raf = 0, running = false;
+      const N = 60;
+      let pts = [];
+
+      function resize(){
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        w = canvas.clientWidth;
+        h = canvas.clientHeight;
+        if (w === 0 || h === 0) return;
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      function init(){
+        resize();
+        pts = Array.from({ length: N }, function(){
+          return {
+            x: Math.random() * w, y: Math.random() * h,
+            vx: (Math.random() - 0.5) * 0.25,
+            vy: (Math.random() - 0.5) * 0.25,
+            r: Math.random() * 1.4 + 0.4
+          };
+        });
+      }
+      function draw(){
+        if (!running) return;
+        const mx = mouse.x * 30, my = mouse.y * 30;
+        ctx.clearRect(0, 0, w, h);
+        for (let i = 0; i < N; i++) {
+          const p = pts[i];
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0 || p.x > w) p.vx *= -1;
+          if (p.y < 0 || p.y > h) p.vy *= -1;
+        }
+        for (let i = 0; i < N; i++) {
+          for (let j = i + 1; j < N; j++) {
+            const a = pts[i], b = pts[j];
+            const dx = a.x - b.x, dy = a.y - b.y;
+            const d = Math.sqrt(dx * dx + dy * dy);
+            if (d < 140) {
+              ctx.strokeStyle = 'rgba(139,111,255,' + (0.22 * (1 - d / 140)) + ')';
+              ctx.lineWidth = 0.6;
+              ctx.beginPath();
+              ctx.moveTo(a.x + mx * 0.1, a.y + my * 0.1);
+              ctx.lineTo(b.x + mx * 0.1, b.y + my * 0.1);
+              ctx.stroke();
+            }
+          }
+        }
+        ctx.fillStyle = 'rgba(255,255,255,0.55)';
+        for (let i = 0; i < N; i++) {
+          const p = pts[i];
+          ctx.beginPath();
+          ctx.arc(p.x + mx * 0.1, p.y + my * 0.1, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        raf = requestAnimationFrame(draw);
+      }
+      function start(){ if (!running) { running = true; raf = requestAnimationFrame(draw); } }
+      function stop(){ if (running) { running = false; cancelAnimationFrame(raf); } }
+
+      init();
+      window.addEventListener('resize', function(){ resize(); });
+      // Pause when hero scrolls out of view (saves CPU/battery on long pages)
+      const cio = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ e.isIntersecting ? start() : stop(); });
+      }, { threshold: 0 });
+      cio.observe(canvas);
+    }
+
+    // --- Reveal-on-scroll + stat bar growth ---
+    // Observe every .mh-reveal on the page (mega-hero + Strategic Themes section).
+    const revealEls = document.querySelectorAll('.mh-reveal');
+    if (reduceMotion) {
+      heroEl.classList.add('in');
+      revealEls.forEach(function(el){ el.classList.add('in'); });
+    } else {
+      const rio = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if (e.isIntersecting) {
+            e.target.classList.add('in');
+            rio.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      revealEls.forEach(function(el){ rio.observe(el); });
+      // Run the stat bar grow animation on first paint (hero is at top)
+      requestAnimationFrame(function(){ heroEl.classList.add('in'); });
+    }
+
+    // --- Animated counters ---
+    const counters = heroEl.querySelectorAll('.counter-num');
+    if (counters.length) {
+      const countIO = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if (!e.isIntersecting) return;
+          const el = e.target;
+          const target = parseFloat(el.dataset.counterTo || '0');
+          const suffix = el.dataset.counterSuffix || '';
+          const prefix = el.dataset.counterPrefix || '';
+          const duration = 1600;
+          let startT = null;
+          function tick(t){
+            if (!startT) startT = t;
+            const p = Math.min((t - startT) / duration, 1);
+            const eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = prefix + Math.round(target * eased) + suffix;
+            if (p < 1) requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+          countIO.unobserve(el);
+        });
+      }, { threshold: 0.5 });
+      counters.forEach(function(el){ countIO.observe(el); });
+    }
+  })();
+
+  // ============================================================
+  // PRODUCT SECTION + GANTT CHART RENDERING
+  // ============================================================
+  (function() {
+    var D = window.H4E_DATA;
+    var QUARTERS = D.quarters;
+    var NOW = D.nowIndex;
+    
+    function rgba(hex, alpha) {
+      var r = parseInt(hex.slice(1, 3), 16);
+      var g = parseInt(hex.slice(3, 5), 16);
+      var b = parseInt(hex.slice(5, 7), 16);
+      return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+    }
+    
+    function countByStatus(features) {
+      var c = { shipped: 0, progress: 0, planned: 0, exploring: 0 };
+      features.forEach(function(f) { c[f.status] = (c[f.status] || 0) + 1; });
+      return c;
+    }
+    
+    // Capability numbered list from highlights data
+    function renderCapabilities(product, color) {
+      var highlights = D.highlights && D.highlights[product.id];
+      if (!highlights || !highlights.length) return '';
+
+      // Premium horizontal strip — all products
+      var stripItems = highlights.map(function(h, i) {
+        // Smart split into title + description (prefer the first separator that appears)
+        var emDashIdx = h.indexOf(' — ');
+        var colonIdx = h.indexOf(': ');
+        var title, desc;
+        if (colonIdx >= 0 && (emDashIdx < 0 || colonIdx < emDashIdx)) {
+          title = h.substring(0, colonIdx);
+          desc = h.substring(colonIdx + 2);
+        } else if (emDashIdx >= 0) {
+          title = h.substring(0, emDashIdx);
+          desc = h.substring(emDashIdx + 3);
+        } else {
+          // No explicit separator — try to find natural break
+          // Look for " for " or " with " as split point
+          var withIdx = h.indexOf(' for ');
+          if (withIdx > 20) { // At least 20 chars for title
+            title = h.substring(0, withIdx);
+            desc = h.substring(withIdx + 5);
+          } else {
+            withIdx = h.indexOf(' with ');
+            if (withIdx > 20) {
+              title = h.substring(0, withIdx);
+              desc = h.substring(withIdx + 6);
+            } else {
+              // No good break point, use whole thing as title
+              title = h;
+              desc = '';
+            }
+          }
+        }
+        var num = (i + 1 < 10 ? '0' : '') + (i + 1);
+        return '<div class="ps-strip-item">'
+          + '<div class="ps-strip-marker">'
+          +   '<span class="ps-strip-dot" style="background:' + color + ';color:' + color + '"></span>'
+          +   '<span class="ps-strip-num">' + num + '</span>'
+          + '</div>'
+          + '<div class="ps-strip-title">' + title + '</div>'
+          + (desc ? '<div class="ps-strip-desc">' + desc + '</div>' : '')
+          + '</div>';
+      }).join('');
+
+      return '<div class="ps-cap-section mh-reveal">'
+        + '<div class="ps-cap-eyebrow" style="color:' + color + '">Product Highlights</div>'
+        + '<div class="ps-highlights-strip">'
+        +   '<div class="ps-highlights-strip-inner">' + stripItems + '</div>'
+        + '</div>'
+        + '</div>';
+    }
+
+    // Product section renderer — no duplicate hero; capabilities + roadmap only
+    function renderProductSection(product, idx) {
+      var color = '#605EFF';
+      var total = product.features.length;
+
+      return '<div class="ps-glow" style="background:radial-gradient(ellipse 50% 80% at 50% 0%,' + rgba(color, 0.07) + ' 0%,transparent 70%)"></div>' +
+        '<div class="ps-inner">' +
+          renderCapabilities(product, color) +
+          '<div class="ps-gantt-head mh-reveal">' +
+            '<div class="ps-gantt-label" style="color:' + color + '"><span style="background:' + color + '"></span>Capability Roadmap · 2025 — 2027</div>' +
+            '<div class="ps-gantt-meta">' + total + ' features · click any bar</div>' +
+          '</div>' +
+          '<div class="mh-reveal">' + renderGanttChart(product) + '</div>' +
+          '<div class="ps-legend mh-reveal">' +
+            '<span><span class="ps-legend-dot" style="background:#22C55E"></span>Delivered</span>' +
+            '<span><span class="ps-legend-dot pulse-dot" style="background:' + D.statuses.progress.dot + '"></span>In Progress</span>' +
+            '<span><span class="ps-legend-dot" style="background:' + D.statuses.planned.dot + '"></span>Planned</span>' +
+            '<span><span class="ps-legend-dot" style="background:' + D.statuses.exploring.dot + '"></span>Exploring</span>' +
+          '</div>' +
+        '</div>';
+    }
+    
+    function renderProgressArc(counts, color, total) {
+      var C = 2 * Math.PI * 60;
+      var fractions = [
+        { f: (counts.shipped || 0) / total, color: '#22C55E' },
+        { f: (counts.progress || 0) / total, color: color },
+        { f: (counts.planned || 0) / total, color: '#525978' },
+        { f: (counts.exploring || 0) / total, color: '#F59E0B' }
+      ];
+      var acc = 0;
+      var circles = fractions.map(function(s, i) {
+        var len = s.f * C;
+        var off = -acc * C;
+        var svg = '<circle cx="80" cy="80" r="60" fill="none" stroke="' + s.color + '" stroke-width="6" stroke-dasharray="0 ' + C + '" stroke-dashoffset="' + off + '" transform="rotate(-90 80 80)" stroke-linecap="butt" class="ps-arc" data-len="' + len + '" data-c="' + C + '" style="transition:stroke-dasharray 1.4s cubic-bezier(.2,.8,.2,1) ' + (0.1 * i) + 's" />';
+        acc += s.f;
+        return svg;
+      }).join('');
+      return '<svg viewBox="0 0 160 160" width="140" height="140">' +
+        '<circle cx="80" cy="80" r="60" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="6" />' +
+        circles +
+        '<text x="80" y="76" text-anchor="middle" font-size="28" font-weight="700" font-family="THG Swinton, Georgia, serif" fill="var(--text)" letter-spacing="-0.02em">' + total + '</text>' +
+        '<text x="80" y="94" text-anchor="middle" font-size="9" fill="var(--text-3)" font-family="THG Swinton, Georgia, serif" font-weight="400" letter-spacing="0.1em">FEATURES</text>' +
+      '</svg>';
+    }
+    
+    function renderGanttChart(product) {
+      var features = product.features;
+      var color = '#605EFF';
+
+      var yearRow = '<div class="gantt-year-row">' +
+        '<div class="gantt-yr-cell label">Feature</div>' +
+        '<div class="gantt-yr-cell y25">◆ 2025</div>' +
+        '<div class="gantt-yr-cell y26">◆ 2026</div>' +
+        '<div class="gantt-yr-cell y27">◆ 2027</div>' +
+      '</div>';
+
+      var head = '<div class="gantt-head">' +
+        '<div class="gantt-hc">Feature</div>' +
+        QUARTERS.map(function(q, i) {
+          return '<div class="gantt-hc' + (i === NOW ? ' now' : '') + '">' + q + '</div>';
+        }).join('') +
+      '</div>';
+
+      // Separate shipped (history) from active roadmap
+      var shipped = features.filter(function(f) { return f.status === 'shipped'; });
+      var active  = features.filter(function(f) { return f.status !== 'shipped'; });
+
+      // Build single "Live Today" row for all shipped features
+      var liveLabel = '<div class="gantt-feat-col">' +
+        '<div class="gantt-feat-title">Live Today</div>' +
+        '<div class="gantt-feat-sub">' +
+          '<span style="width:6px;height:6px;border-radius:99px;background:#22c55e;display:inline-block"></span>' +
+          '<span>Delivered</span>' +
+        '</div>' +
+      '</div>';
+
+      // Only show shipped bars whose start quarter is at or before NOW
+      var pastShipped = shipped.filter(function(f) { return f.gantt[0] <= NOW; });
+
+      var coveredCols = {};
+      pastShipped.forEach(function(f) {
+        for (var i = f.gantt[0] + 1; i < f.gantt[0] + f.gantt[1]; i++) coveredCols[i] = true;
+      });
+      var startMap = {};
+      pastShipped.forEach(function(f) {
+        var c = f.gantt[0];
+        if (!startMap[c]) startMap[c] = [];
+        startMap[c].push(f);
+      });
+
+      var greenStyle = '--bar-bg:rgba(34,197,94,0.14);--bar-border:rgba(34,197,94,0.35);--bar-color:#22c55e;--bar-glow:rgba(34,197,94,0.6)';
+
+      var liveGrid = '';
+      for (var c = 0; c < 12; c++) {
+        liveGrid += '<div class="gantt-cell' + (c === NOW ? ' gantt-cell--now' : '') + '" style="grid-column:' + (c + 2) + '"></div>';
+      }
+      // Bars only in past/current columns, spans capped at NOW
+      var liveBars = '';
+      for (var c = 0; c <= NOW; c++) {
+        if (coveredCols[c]) continue;
+        var items = startMap[c] || [];
+        if (items.length === 0) continue;
+        var rawSpan = items.length === 1 ? items[0].gantt[1] : 1;
+        var sp = Math.min(rawSpan, NOW - c + 1);
+        var bars = items.map(function(f) {
+          return '<div class="gantt-bar status-shipped" data-feature-id="' + f.id + '" data-product-id="' + product.id + '" style="' + greenStyle + '">' +
+            '<span class="gantt-bar-label">' + f.title + '</span>' +
+          '</div>';
+        }).join('');
+        var wrapStyle = items.length > 1
+          ? 'grid-column:' + (c + 2) + '/span 1;flex-direction:column;gap:4px;align-items:stretch'
+          : 'grid-column:' + (c + 2) + '/span ' + sp;
+        liveBars += '<div class="gantt-bar-wrap" style="' + wrapStyle + '">' + bars + '</div>';
+      }
+
+      var rows = pastShipped.length > 0
+        ? '<div class="gantt-row gantt-row--shipped" data-status="shipped">' + liveLabel + liveGrid + liveBars + '</div>'
+        : '';
+
+      // Active roadmap rows
+      active.forEach(function(f) {
+        var start = f.gantt[0];
+        var span = f.gantt[1];
+        var status = D.statuses[f.status];
+
+        var featCol = '<div class="gantt-feat-col">' +
+          '<div class="gantt-feat-title">' + f.title + '</div>' +
+          '<div class="gantt-feat-sub">' +
+            '<span style="width:6px;height:6px;border-radius:99px;background:' + status.dot + ';display:inline-block" class="' + (f.status === 'progress' ? 'pulse-dot' : '') + '"></span>' +
+            '<span>' + status.label + '</span>' +
+            '<span style="color:var(--border-strong)">·</span>' +
+            '<span>' + D.themes[f.theme].label + '</span>' +
+          '</div>' +
+        '</div>';
+
+        // Always render all 12 grid cells with explicit positions
+        var cells = '';
+        for (var c = 0; c < 12; c++) {
+          cells += '<div class="gantt-cell' + (c === NOW ? ' gantt-cell--now' : '') + '" style="grid-column:' + (c + 2) + '"></div>';
+        }
+        // Bar overlaps the grid cells via z-index
+        var barStyle = '--bar-bg:' + rgba(color,0.14) + ';--bar-border:' + rgba(color,0.35) + ';--bar-color:' + color + ';--bar-glow:' + rgba(color,0.6);
+        var barWrap = '<div class="gantt-bar-wrap" style="grid-column:' + (start + 2) + '/span ' + span + '">' +
+          '<div class="gantt-bar status-' + f.status + '" data-feature-id="' + f.id + '" data-product-id="' + product.id + '" style="' + barStyle + '">' +
+            '<span class="gantt-bar-label">' + f.title + '</span>' +
+          '</div>' +
+        '</div>';
+
+        var rowStyle = f.status === 'progress' ? ' style="--row-bg:' + rgba(color, 0.06) + '"' : '';
+        rows += '<div class="gantt-row" data-status="' + f.status + '" data-feature-id="' + f.id + '"' + rowStyle + '>' + featCol + cells + barWrap + '</div>';
+      });
+
+      return '<div class="gantt-wrapper"><div class="gantt" style="--now-col:' + NOW + '">' + yearRow + head + rows + '<div class="gantt-now-line"></div></div></div>';
+    }
+    
+    // Product highlights renderer
+    function renderHighlights(productId, color) {
+      var highlights = D.highlights && D.highlights[productId];
+      if (!highlights || highlights.length === 0) return '';
+      
+      var items = highlights.map(function(h) {
+        return '<div class="ps-highlight-item">' +
+          '<div class="ps-highlight-check" style="background:' + rgba(color, 0.15) + '">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="' + color + '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>' +
+          '</div>' +
+          '<span>' + h + '</span>' +
+        '</div>';
+      }).join('');
+      
+      return '<div class="ps-highlights mh-reveal">' +
+        '<div class="ps-highlights-title">Product Highlights</div>' +
+        '<div class="ps-highlights-list">' + items + '</div>' +
+      '</div>';
+    }
+    
+    // Ensure the persistent panel exists in the DOM
+    function ensurePanel() {
+      var p = document.getElementById('fd-panel');
+      if (!p) {
+        p = document.createElement('div');
+        p.id = 'fd-panel';
+        p.className = 'fd-panel';
+        document.body.appendChild(p);
+      }
+      return p;
+    }
+
+    // Feature panel renderer
+    function openFeatureDrawer(productId, featureId) {
+      var product = D.products.find(function(p) { return p.id === productId; });
+      var feature = product && product.features.find(function(f) { return f.id === featureId; });
+      if (!product || !feature) return;
+
+      // Highlight active row, clear previous
+      document.querySelectorAll('.gantt-row.fd-active').forEach(function(r) { r.classList.remove('fd-active'); });
+      var activeRow = document.querySelector('.gantt-row[data-feature-id="' + featureId + '"]');
+      if (activeRow) activeRow.classList.add('fd-active');
+
+      var color = '#605EFF';
+      var status = D.statuses[feature.status];
+      var theme = D.themes[feature.theme];
+
+      var html = '<div class="fd-accent" style="background:' + color + '"></div>' +
+        '<button class="fd-close" onclick="closeFeatureDrawer()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>' +
+        '<div class="fd-panel-inner">' +
+          '<div class="fd-eyebrow" style="color:' + color + '">' + product.name + ' · Feature</div>' +
+          '<h2 class="fd-title">' + feature.title + '</h2>' +
+          '<div class="fd-pills">' +
+            '<span class="fd-status-pill"><span style="width:6px;height:6px;border-radius:99px;background:' + status.dot + '" class="' + (feature.status === 'progress' ? 'pulse-dot' : '') + '"></span>' + status.label + '</span>' +
+            '<span class="fd-theme-pill" style="background:' + rgba(color, 0.1) + ';border-color:' + rgba(color, 0.25) + ';color:' + color + '">' + theme.label + '</span>' +
+            '<span class="fd-target">' + feature.quarter + '</span>' +
+          '</div>' +
+          '<p class="fd-desc">' + feature.desc + '</p>' +
+          '<div class="fd-section-label">Details</div>' +
+          '<div class="fd-details-grid">' +
+            '<div class="fd-detail-cell"><div class="fd-detail-label">Product</div><div class="fd-detail-value">' + product.name + '</div></div>' +
+            '<div class="fd-detail-cell"><div class="fd-detail-label">Status</div><div class="fd-detail-value" style="display:flex;align-items:center;gap:6px"><span style="width:6px;height:6px;border-radius:99px;background:' + status.dot + '"></span>' + status.label + '</div></div>' +
+            '<div class="fd-detail-cell"><div class="fd-detail-label">Theme</div><div class="fd-detail-value">' + theme.label + '</div></div>' +
+            '<div class="fd-detail-cell"><div class="fd-detail-label">Community</div><div class="fd-detail-value">' + feature.votes + ' votes</div></div>' +
+          '</div>' +
+          '<button class="fd-vote-btn" style="background:' + rgba(color, 0.1) + ';color:' + color + ';border-color:' + rgba(color, 0.35) + '">' +
+            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>' +
+            'Upvote · ' + feature.votes + ' votes' +
+          '</button>' +
+        '</div>';
+
+      var panel = ensurePanel();
+      panel.innerHTML = html;
+      requestAnimationFrame(function() { panel.classList.add('open'); });
+      // legacy anchor kept empty
+      var root = document.getElementById('fd-overlay-root');
+      if (root) root.innerHTML = '';
+
+    }
+
+    window.closeFeatureDrawer = function() {
+      var panel = document.getElementById('fd-panel');
+      if (panel) {
+        panel.classList.remove('open');
+      }
+      document.querySelectorAll('.gantt-row.fd-active').forEach(function(r) { r.classList.remove('fd-active'); });
+    };
+    
+    // Escape key to close drawer
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeFeatureDrawer();
+    });
+    
+    // Initialize product sections
+    function initProductSections() {
+      renderSuiteCards();
+      D.products.forEach(function(product, idx) {
+        var section = document.querySelector('[data-product="' + product.id + '"]');
+        if (section) {
+          section.innerHTML = renderProductSection(product, idx);
+
+          // Attach click handlers to gantt bars (active and compact shipped)
+          section.querySelectorAll('.gantt-bar').forEach(function(bar) {
+            bar.addEventListener('click', function(e) {
+              e.stopPropagation();
+              var productId = bar.getAttribute('data-product-id');
+              var featureId = bar.getAttribute('data-feature-id');
+              openFeatureDrawer(productId, featureId);
+            });
+          });
+          
+          // Animate progress arc circles when visible
+          var arcObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+              if (entry.isIntersecting) {
+                entry.target.querySelectorAll('.ps-arc').forEach(function(circle) {
+                  var len = parseFloat(circle.getAttribute('data-len'));
+                  var c = parseFloat(circle.getAttribute('data-c'));
+                  circle.setAttribute('stroke-dasharray', len + ' ' + c);
+                });
+                arcObserver.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.3 });
+          
+          var arcSvg = section.querySelector('svg');
+          if (arcSvg) arcObserver.observe(arcSvg);
+        }
+      });
+      
+      // Trigger reveal animations for product sections
+      var revealEls = document.querySelectorAll('.product-section .mh-reveal');
+      var revealIO = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            revealIO.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      revealEls.forEach(function(el) { revealIO.observe(el); });
+    }
+    
+    // Run on DOM ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initProductSections);
+    } else {
+      initProductSections();
+    }
+  })();
+</script>
+</body>
+</html>

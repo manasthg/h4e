@@ -1,0 +1,546 @@
+/* ============================================================
+   Hashgraph Design System — Tokens
+   Ported from Figma variables export (May 2026).
+   ------------------------------------------------------------
+   Layers:
+     1. Primitives      — raw values (colors, spacing, radius, font)
+     2. Semantic        — purpose-named, branded, themed
+     3. Back-compat     — aliases for the older c-/s- names
+                          so existing components keep working.
+
+   Modes (set both on <body> or a root container):
+     .brand-tha .theme-dark    — Hashgraph Association · always dark
+     .brand-thg .theme-light   — Hashgraph Group · default
+     .brand-thg .theme-dark    — Hashgraph Group · product variant
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800&family=Roboto:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap");
+
+@font-face { font-family: "THG Swinton"; src: url("fonts/THGSwinton-Regular.otf") format("opentype"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "THG Swinton"; src: url("fonts/THGSwinton-Medium.otf")  format("opentype"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "THG Swinton"; src: url("fonts/THGSwinton-Bold.otf")    format("opentype"); font-weight: 700; font-style: normal; font-display: swap; }
+
+
+/* ============================================================
+   PRIMITIVES — never reference directly in product code.
+   Always go through a semantic token.
+   ============================================================ */
+:root {
+  /* ---- Fonts ---- */
+  --font-body:        "Work Sans", "Inter", system-ui, sans-serif;
+  --font-button:      "Roboto", "Work Sans", system-ui, sans-serif;
+  --font-mono:        ui-monospace, "JetBrains Mono", "SF Mono", Menlo, monospace;
+  --font-display-tha: "Styrene A", "Inter", "Helvetica Neue", system-ui, sans-serif;
+  --font-display-thg: "THG Swinton", "Inter", "Helvetica Neue", system-ui, sans-serif;
+  --font-display:     var(--font-display-tha); /* swapped per brand below */
+
+  /* ---- Gray ramp ---- */
+  --p-gray-50:  #ffffff;  --p-gray-100: #f5f3f7;  --p-gray-150: #e8e3ed;
+  --p-gray-200: #d0c9d9;  --p-gray-300: #938ba0;  --p-gray-400: #7a798c;
+  --p-gray-500: #636778;  --p-gray-600: #4a4d5c;  --p-gray-700: #313340;
+  --p-gray-800: #1a1a26;  --p-gray-850: #15151e;  --p-gray-900: #010113;
+  --p-white: #ffffff;
+  --p-black: #000000;
+
+  /* ---- White/Black alpha ramps (rgba values for compositing) ---- */
+  --p-white-a4:  rgba(255,255,255,0.04); --p-white-a8:  rgba(255,255,255,0.08);
+  --p-white-a10: rgba(255,255,255,0.10); --p-white-a12: rgba(255,255,255,0.12);
+  --p-white-a20: rgba(255,255,255,0.20); --p-white-a30: rgba(255,255,255,0.30);
+  --p-white-a40: rgba(255,255,255,0.40); --p-white-a50: rgba(255,255,255,0.50);
+  --p-white-a60: rgba(255,255,255,0.60); --p-white-a90: rgba(255,255,255,0.90);
+
+  --p-black-a4:  rgba(0,0,0,0.04); --p-black-a8:  rgba(0,0,0,0.08);
+  --p-black-a10: rgba(0,0,0,0.10); --p-black-a12: rgba(0,0,0,0.12);
+  --p-black-a20: rgba(0,0,0,0.20); --p-black-a30: rgba(0,0,0,0.30);
+  --p-black-a40: rgba(0,0,0,0.40); --p-black-a50: rgba(0,0,0,0.50);
+  --p-black-a60: rgba(0,0,0,0.60); --p-black-a90: rgba(0,0,0,0.90);
+
+  /* ---- THA brand (lavender purple) ---- */
+  --p-tha-100: #e9e1f9;  --p-tha-200: #d4c6f4;
+  --p-tha-300: #a88def;  /* 300-main */
+  --p-tha-400: #8f75d4;  --p-tha-500: #755db9;  --p-tha-600: #5d459f;
+  --p-tha-700: #4a2f85;  --p-tha-800: #38176e;  --p-tha-900: #220e43;
+  --p-tha-a4:  rgba(168,141,239,0.04);  --p-tha-a8:  rgba(168,141,239,0.08);
+  --p-tha-a10: rgba(168,141,239,0.10);  --p-tha-a12: rgba(168,141,239,0.12);
+  --p-tha-a20: rgba(168,141,239,0.20);  --p-tha-a30: rgba(168,141,239,0.30);
+  --p-tha-a40: rgba(168,141,239,0.40);  --p-tha-a60: rgba(168,141,239,0.60);
+
+  /* ---- THG brand (indigo purple + secondary green) ---- */
+  --p-thg-50:  #f0f0ff;  --p-thg-100: #e5e5ff;  --p-thg-200: #c1c1ff;
+  --p-thg-300: #9b98f9;  --p-thg-400: #726ef4;
+  --p-thg-500: #605eff;  /* 500-base */
+  --p-thg-600: #4647d2;  --p-thg-700: #2d2b94;  --p-thg-800: #1d1c5a;
+  --p-thg-a4:  rgba(96,94,255,0.04);  --p-thg-a8:  rgba(96,94,255,0.08);
+  --p-thg-a10: rgba(96,94,255,0.10);  --p-thg-a12: rgba(96,94,255,0.12);
+  --p-thg-a20: rgba(96,94,255,0.20);  --p-thg-a30: rgba(96,94,255,0.30);
+  --p-thg-a40: rgba(96,94,255,0.40);  --p-thg-a60: rgba(96,94,255,0.60);
+
+  --p-thg-sec-100: #e4f0e4;  --p-thg-sec-200: #c7e0cc;  --p-thg-sec-300: #b7ffc5;
+  --p-thg-sec-400: #91dda4;  --p-thg-sec-500: #7ac58b;  --p-thg-sec-600: #6ba278;
+  --p-thg-sec-700: #637c68;  --p-thg-sec-800: #414940;
+
+  /* ---- Feedback ramps ---- */
+  --p-red-100: #feeceb;  --p-red-200: #fdd8d6;  --p-red-300: #eb6b6b;
+  --p-red-400: #c53030;  --p-red-500: #9b2c2c;  --p-red-600: #4b1515;
+  --p-green-100: #f0fff4;  --p-green-200: #c6f6d5;  --p-green-300: #38a169;
+  --p-green-400: #2f855a;  --p-green-500: #276749;  --p-green-600: #123022;
+  --p-orange-100: #fff8e1;  --p-orange-200: #e5e5e5;  --p-orange-300: #ed8936;
+  --p-orange-400: #dd6b20;  --p-orange-500: #c05621;  --p-orange-600: #682f12;
+  --p-blue-100: #ebf8ff;  --p-blue-200: #bee3f8;  --p-blue-300: #3182ce;
+  --p-blue-400: #2b6cb0;  --p-blue-500: #2c5282;  --p-blue-600: #122235;
+
+  /* ---- Spacing scale (raw, 4-pt + a couple extras) ---- */
+  --p-space-2: 2px;     --p-space-4: 4px;     --p-space-8: 8px;
+  --p-space-12: 12px;   --p-space-14: 14px;   --p-space-16: 16px;
+  --p-space-24: 24px;   --p-space-32: 32px;   --p-space-40: 40px;
+  --p-space-48: 48px;   --p-space-56: 56px;   --p-space-64: 64px;
+  --p-space-96: 96px;   --p-space-128: 128px;
+
+  /* ---- Radius scale ---- */
+  --p-radius-none: 0;
+  --p-radius-xs:   2px;
+  --p-radius-sm:   4px;
+  --p-radius-md:   8px;
+  --p-radius-lg:   16px;
+  --p-radius-xl:   24px;
+  --p-radius-full: 9999px;
+
+  /* ---- Font scales ---- */
+  --p-fw-light: 300; --p-fw-regular: 400; --p-fw-medium: 500; --p-fw-bold: 700;
+}
+
+/* ============================================================
+   SEMANTIC — what product code consumes.
+   ============================================================
+   Default = THA-dark (matches base :root for back-compat with
+   existing previews). Brand × theme classes override.        */
+:root,
+.brand-tha,
+.brand-tha.theme-dark {
+  /* Display face + body */
+  --font-display: var(--font-display-tha);
+
+  /* Primary container = the brand color */
+  --c-primary-container:           var(--p-tha-300);   /* #a88def */
+  --c-on-primary:                  var(--p-gray-900);  /* dark ink on lavender */
+  --c-primary-container-high:      var(--p-tha-800);
+  --c-primary-container-low:       var(--p-tha-400);
+  --c-on-primary-container-high:   var(--p-gray-50);
+  --c-primary-tonal-container:     var(--p-tha-a20);
+
+  /* Secondary (used sparingly — THA uses a deep navy from THG-800) */
+  --c-secondary:           var(--p-thg-800);
+  --c-on-secondary:        var(--p-gray-100);
+  --c-secondary-container: var(--p-thg-800);
+  --c-on-secondary-container: var(--p-gray-100);
+
+  /* Background */
+  --c-background:                       var(--p-gray-900);
+  --c-on-background:                    var(--p-gray-50);
+  --c-on-background-secondary:          var(--p-gray-200);
+  --c-background-inverse:               var(--p-white);
+  --c-on-background-inverse:            var(--p-gray-900);
+  --c-on-background-secondary-inverse:  var(--p-gray-700);
+  --c-overlay:                          var(--p-black-a60);
+
+  /* Surface */
+  --c-surface-container:             var(--p-gray-800);
+  --c-on-surface:                    var(--p-gray-50);
+  --c-surface-inverse:               var(--p-gray-50);
+  --c-on-surface-container-inverse:  var(--p-gray-900);
+  --c-surface-container-high:        var(--p-gray-700);
+  --c-on-surface-container-high:     var(--p-gray-200);
+  --c-surface-container-low:         var(--p-gray-850);
+  --c-on-surface-container-low:      var(--p-gray-400);
+
+  /* Outlines */
+  --c-outline:         var(--p-gray-700);
+  --c-outline-high:    var(--p-gray-600);
+  --c-outline-variant: var(--p-tha-300);
+
+  /* State layers · over surface */
+  --c-state-hover:    var(--p-white-a20);
+  --c-state-focus:    var(--p-white-a12);
+  --c-state-pressed:  var(--p-white-a10);
+  --c-state-selected: var(--p-white-a8);
+  --c-state-disabled-content:   var(--p-white-a30);
+  --c-state-disabled-container: var(--p-white-a10);
+
+  /* State layers · over primary */
+  --c-state-primary-hover:   var(--p-tha-a20);
+  --c-state-primary-focus:   var(--p-tha-a8);
+  --c-state-primary-pressed: var(--p-tha-a20);
+  --c-state-primary-selected:var(--p-tha-a20);
+
+  /* Text */
+  --c-text-primary:   var(--p-gray-50);
+  --c-text-secondary: var(--p-gray-300);
+  --c-text-disabled:  var(--p-white-a40);
+  --c-text-on-primary: var(--p-gray-50);
+  --c-text-inverted:  var(--p-gray-900);
+  --c-text-disabled-inverted: var(--p-black-a40);
+
+  /* Inputs */
+  --c-input-border-default:  var(--p-gray-600);
+  --c-input-border-filled:   var(--p-gray-300);
+  --c-input-border-focused:  var(--p-tha-300);
+  --c-input-border-disabled: var(--p-gray-700);
+  --c-input-bg:              var(--p-gray-900);
+  --c-input-bg-disabled:     var(--p-white-a10);
+
+  /* Feedback (dark variants) */
+  --c-success: var(--p-green-300);  --c-on-success: var(--p-gray-50);
+  --c-success-container: var(--p-green-600);  --c-on-success-container: var(--p-gray-50);
+  --c-warning: var(--p-orange-300); --c-on-warning: var(--p-gray-50);
+  --c-warning-container: var(--p-orange-600); --c-on-warning-container: var(--p-gray-50);
+  --c-error:   var(--p-red-300);    --c-on-error:   var(--p-gray-900);
+  --c-error-container:   var(--p-red-600);    --c-on-error-container:   var(--p-gray-50);
+  --c-info:    var(--p-blue-300);   --c-on-info:    var(--p-gray-900);
+  --c-info-container:    var(--p-blue-600);   --c-on-info-container:    var(--p-gray-50);
+
+  --c-logo: var(--p-gray-50);
+
+  /* Hover / focus carbon-style overlays */
+  --c-hover-primary: var(--p-white-a30);
+  --c-focus-primary: var(--p-black-a10);
+
+  /* Type weights for THA */
+  --fw-light: 300;
+}
+
+.brand-thg.theme-light,
+.brand-thg:not(.theme-dark) {
+  --font-display: var(--font-display-thg);
+
+  /* Primary */
+  --c-primary-container:           var(--p-thg-500);    /* #605eff */
+  --c-on-primary:                  var(--p-gray-50);
+  --c-primary-container-high:      var(--p-thg-100);
+  --c-primary-container-low:       var(--p-thg-400);
+  --c-on-primary-container-high:   var(--p-gray-900);
+  --c-primary-tonal-container:     var(--p-thg-a20);
+
+  /* Secondary (THG green) */
+  --c-secondary:               var(--p-thg-sec-400);
+  --c-on-secondary:            var(--p-thg-sec-800);
+  --c-secondary-container:     var(--p-thg-sec-200);
+  --c-on-secondary-container:  var(--p-thg-sec-700);
+
+  /* Background */
+  --c-background:                       var(--p-white);
+  --c-on-background:                    var(--p-gray-900);
+  --c-on-background-secondary:          var(--p-gray-600);
+  --c-background-inverse:               var(--p-thg-800);
+  --c-on-background-inverse:            var(--p-gray-50);
+  --c-on-background-secondary-inverse:  var(--p-gray-200);
+  --c-overlay:                          var(--p-white-a60);
+
+  /* Surface */
+  --c-surface-container:             var(--p-white);
+  --c-on-surface:                    var(--p-gray-900);
+  --c-surface-inverse:               var(--p-thg-700);
+  --c-on-surface-container-inverse:  var(--p-gray-50);
+  --c-surface-container-high:        var(--p-gray-150);
+  --c-on-surface-container-high:     var(--p-gray-500);
+  --c-surface-container-low:         var(--p-thg-50);
+  --c-on-surface-container-low:      var(--p-gray-200);
+
+  /* Outlines */
+  --c-outline:         var(--p-gray-150);
+  --c-outline-high:    var(--p-gray-200);
+  --c-outline-variant: var(--p-thg-500);
+
+  /* State layers · over surface */
+  --c-state-hover:    var(--p-black-a12);
+  --c-state-focus:    var(--p-black-a8);
+  --c-state-pressed:  var(--p-black-a10);
+  --c-state-selected: var(--p-black-a8);
+  --c-state-disabled-content:   var(--p-black-a30);
+  --c-state-disabled-container: var(--p-black-a10);
+
+  /* State layers · over primary */
+  --c-state-primary-hover:    var(--p-thg-a20);
+  --c-state-primary-focus:    var(--p-thg-a8);
+  --c-state-primary-pressed:  var(--p-thg-a20);
+  --c-state-primary-selected: var(--p-thg-a20);
+
+  /* Text */
+  --c-text-primary:   var(--p-gray-900);
+  --c-text-secondary: var(--p-gray-700);
+  --c-text-disabled:  var(--p-black-a40);
+  --c-text-on-primary: var(--p-gray-50);
+  --c-text-inverted:  var(--p-gray-50);
+  --c-text-disabled-inverted: var(--p-gray-50);
+
+  /* Inputs */
+  --c-input-border-default:  var(--p-gray-200);
+  --c-input-border-filled:   var(--p-gray-400);
+  --c-input-border-focused:  var(--p-thg-500);
+  --c-input-border-disabled: var(--p-black-a10);
+  --c-input-bg:              var(--p-white);
+  --c-input-bg-disabled:     var(--p-black-a4);
+
+  /* Feedback (light variants) */
+  --c-success: var(--p-green-400);  --c-on-success: var(--p-gray-900);
+  --c-success-container: var(--p-green-100); --c-on-success-container: var(--p-gray-900);
+  --c-warning: var(--p-orange-400); --c-on-warning: var(--p-gray-900);
+  --c-warning-container: var(--p-orange-100); --c-on-warning-container: var(--p-gray-900);
+  --c-error:   var(--p-red-400);    --c-on-error:   var(--p-gray-50);
+  --c-error-container:   var(--p-red-100); --c-on-error-container:   var(--p-gray-900);
+  --c-info:    var(--p-blue-400);   --c-on-info:    var(--p-gray-50);
+  --c-info-container:    var(--p-blue-100); --c-on-info-container:    var(--p-gray-900);
+
+  --c-logo: var(--p-gray-900);
+
+  --c-hover-primary: var(--p-black-a20);
+  --c-focus-primary: var(--p-black-a10);
+
+  /* THG light face doesn't ship a 300 weight; map light → 400 */
+  --fw-light: 400;
+}
+
+.brand-thg.theme-dark {
+  --font-display: var(--font-display-thg);
+
+  /* Primary */
+  --c-primary-container:           var(--p-thg-500);
+  --c-on-primary:                  var(--p-gray-50);
+  --c-primary-container-high:      var(--p-thg-800);
+  --c-primary-container-low:       var(--p-thg-400);
+  --c-on-primary-container-high:   var(--p-gray-50);
+  --c-primary-tonal-container:     var(--p-thg-a20);
+
+  /* Secondary */
+  --c-secondary:               var(--p-thg-sec-400);
+  --c-on-secondary:            var(--p-thg-sec-800);
+  --c-secondary-container:     var(--p-thg-sec-800);
+  --c-on-secondary-container:  var(--p-thg-sec-400);
+
+  /* Background */
+  --c-background:                       var(--p-gray-900);
+  --c-on-background:                    var(--p-gray-50);
+  --c-on-background-secondary:          var(--p-gray-200);
+  --c-background-inverse:               var(--p-white);
+  --c-on-background-inverse:            var(--p-gray-900);
+  --c-on-background-secondary-inverse:  var(--p-gray-700);
+  --c-overlay:                          var(--p-black-a60);
+
+  /* Surface */
+  --c-surface-container:             var(--p-gray-800);
+  --c-on-surface:                    var(--p-gray-50);
+  --c-surface-inverse:               var(--p-gray-50);
+  --c-on-surface-container-inverse:  var(--p-gray-900);
+  --c-surface-container-high:        var(--p-gray-700);
+  --c-on-surface-container-high:     var(--p-gray-200);
+  --c-surface-container-low:         var(--p-gray-850);
+  --c-on-surface-container-low:      var(--p-gray-400);
+
+  /* Outlines */
+  --c-outline:         var(--p-gray-700);
+  --c-outline-high:    var(--p-gray-700);
+  --c-outline-variant: var(--p-thg-400);   /* lighter on dark for legibility */
+
+  --c-state-hover:    var(--p-white-a4);
+  --c-state-focus:    var(--p-white-a12);
+  --c-state-pressed:  var(--p-white-a10);
+  --c-state-selected: var(--p-white-a8);
+  --c-state-disabled-content:   var(--p-white-a30);
+  --c-state-disabled-container: var(--p-white-a10);
+
+  --c-state-primary-hover:    var(--p-thg-a20);
+  --c-state-primary-focus:    var(--p-thg-a12);
+  --c-state-primary-pressed:  var(--p-thg-a20);
+  --c-state-primary-selected: var(--p-thg-a20);
+
+  --c-text-primary:   var(--p-gray-50);
+  --c-text-secondary: var(--p-gray-300);
+  --c-text-disabled:  var(--p-white-a40);
+  --c-text-on-primary: var(--p-gray-50);
+  --c-text-inverted:  var(--p-gray-900);
+  --c-text-disabled-inverted: var(--p-black-a40);
+
+  --c-input-border-default:  var(--p-gray-600);
+  --c-input-border-filled:   var(--p-gray-300);
+  --c-input-border-focused:  var(--p-thg-400);
+  --c-input-border-disabled: var(--p-gray-700);
+  --c-input-bg:              var(--p-gray-900);
+  --c-input-bg-disabled:     var(--p-white-a30);
+
+  --c-success: var(--p-green-300);  --c-on-success: var(--p-gray-50);
+  --c-success-container: var(--p-green-600);  --c-on-success-container: var(--p-gray-50);
+  --c-warning: var(--p-orange-300); --c-on-warning: var(--p-gray-50);
+  --c-warning-container: var(--p-orange-600); --c-on-warning-container: var(--p-gray-50);
+  --c-error:   var(--p-red-300);    --c-on-error:   var(--p-gray-900);
+  --c-error-container:   var(--p-red-600);    --c-on-error-container:   var(--p-gray-50);
+  --c-info:    var(--p-blue-300);   --c-on-info:    var(--p-gray-900);
+  --c-info-container:    var(--p-blue-600);   --c-on-info-container:    var(--p-gray-50);
+
+  --c-logo: var(--p-gray-50);
+
+  --c-hover-primary: var(--p-white-a20);
+  --c-focus-primary: var(--p-black-a10);
+
+  --fw-light: 400;
+}
+
+
+/* ============================================================
+   Spacing, radius, type — shared, semantic.
+   ============================================================ */
+:root {
+  /* Semantic spacing (per export: xxs..xxl) */
+  --s-xxs: var(--p-space-2);
+  --s-xs:  var(--p-space-4);
+  --s-sm:  var(--p-space-8);
+  --s-md:  var(--p-space-16);
+  --s-lg:  var(--p-space-24);
+  --s-xl:  var(--p-space-32);
+  --s-xxl: var(--p-space-64);
+
+  /* Semantic radius */
+  --r-none: var(--p-radius-none);
+  --r-xs:   var(--p-radius-xs);
+  --r-sm:   var(--p-radius-sm);
+  --r-md:   var(--p-radius-md);
+  --r-lg:   var(--p-radius-lg);   /* 16 — was 12 */
+  --r-xl:   var(--p-radius-xl);   /* 24 — was 16 */
+  --r-pill: var(--p-radius-full);
+
+  /* Component radii (all sm per export) */
+  --r-button: var(--r-sm);
+  --r-card:   var(--r-sm);
+  --r-tag:    var(--r-sm);
+  --r-icon:   var(--r-sm);
+
+  /* Type — Desktop scale (per Responsive.Desktop) */
+  --fs-heading-2xl: 64px;  --lh-heading-2xl: 72px;
+  --fs-heading-xl:  48px;  --lh-heading-xl:  56px;
+  --fs-heading-lg:  32px;  --lh-heading-lg:  48px;
+  --fs-heading-md:  24px;  --lh-heading-md:  32px;
+  --fs-heading-sm:  20px;  --lh-heading-sm:  28px;
+  --fs-heading-xs:  18px;  --lh-heading-xs:  22px;
+  --fs-body-lg:     20px;  --lh-body-lg:     28px;
+  --fs-body:        16px;  --lh-body:        24px;
+  --fs-body-sm:     14px;  --lh-body-sm:     22px;
+  --fs-caption:     12px;  --lh-caption:     16px;
+
+  /* Legacy display-N + body-N aliases (kept for existing previews) */
+  --fs-display-1: var(--fs-heading-2xl); --lh-display-1: var(--lh-heading-2xl); --ls-display-1: -0.02em;
+  --fs-display-2: 60px; --lh-display-2: 72px; --ls-display-2: -0.02em;
+  --fs-display-3: var(--fs-heading-xl);  --lh-display-3: 60px; --ls-display-3: -0.02em;
+  --fs-display-4: var(--fs-heading-lg);  --lh-display-4: 40px; --ls-display-4: -0.02em;
+  --fs-display-5: 30px; --lh-display-5: 38px; --ls-display-5: -0.01em;
+  --fs-display-6: var(--fs-heading-md);  --lh-display-6: var(--lh-heading-md); --ls-display-6: 0;
+  --fs-body-xl: var(--fs-body-lg); --lh-body-xl: 30px;
+  --fs-body-md: var(--fs-body);    --lh-body-md: var(--lh-body);
+  --fs-body-xs: var(--fs-caption); --lh-body-xs: var(--lh-caption);
+}
+
+/* Responsive font scale — mobile narrower scale per Responsive.Mobile */
+@media (max-width: 640px) {
+  :root {
+    --fs-heading-2xl: 32px;  --lh-heading-2xl: 48px;
+    --fs-heading-xl:  32px;  --lh-heading-xl:  48px;
+    --fs-heading-lg:  24px;  --lh-heading-lg:  32px;
+    --fs-heading-md:  20px;  --lh-heading-md:  28px;
+    --fs-heading-sm:  18px;  --lh-heading-sm:  24px;
+    --fs-heading-xs:  16px;  --lh-heading-xs:  20px;
+    --fs-body-lg:     18px;  --lh-body-lg:     24px;
+    --fs-body-sm:     14px;  --lh-body-sm:     22px;
+  }
+}
+
+/* ----------  Shadow  ---------- */
+:root {
+  --shadow-xs: 0 1px 2px 0 rgba(16, 24, 40, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(16, 24, 40, 0.10), 0 1px 2px 0 rgba(16, 24, 40, 0.06);
+  --shadow-md: 0 4px 8px -2px rgba(16, 24, 40, 0.10), 0 2px 4px -2px rgba(16, 24, 40, 0.06);
+  --shadow-lg: 0 12px 16px -4px rgba(16, 24, 40, 0.08), 0 4px 6px -2px rgba(16, 24, 40, 0.03);
+  --shadow-xl: 0 20px 24px -4px rgba(16, 24, 40, 0.08), 0 8px 8px -4px rgba(16, 24, 40, 0.03);
+  --shadow-glow: 0 0 0 4px var(--c-primary-tonal-container);
+
+  /* Motion */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 120ms; --dur-base: 200ms; --dur-slow: 320ms;
+}
+
+
+/* ============================================================
+   BACK-COMPAT — old --c-* and --s-* names alias new semantic
+   tokens so existing previews and components keep working.
+   ============================================================ */
+:root {
+  /* Color aliases */
+  --c-bg:               var(--c-background);
+  --c-surface:          var(--c-surface-container);
+  --c-surface-2:        var(--c-surface-container-high);
+  --c-border:           var(--c-outline);
+  --c-border-strong:    var(--c-outline-high);
+  --c-text:             var(--c-text-primary);
+  --c-text-muted:       var(--c-text-secondary);
+  --c-text-subtle:      var(--c-on-surface-container-high);
+  --c-brand-primary:        var(--c-primary-container);
+  --c-brand-primary-strong: var(--c-primary-container-high);
+  --c-brand-accent:         var(--c-primary-container-low);
+  --c-text-on-brand:        var(--c-on-primary);
+  --c-danger:           var(--c-error);
+  --c-danger-soft:      var(--c-error-container);
+  --c-success-soft:     var(--c-success-container);
+  --c-warning-soft:     var(--c-warning-container);
+  --c-info-soft:        var(--c-info-container);
+  --c-focus-ring:       var(--c-primary-tonal-container);
+  --c-brand-tint-soft:    color-mix(in srgb, var(--c-primary-container) 12%, transparent);
+  --c-brand-tint-med:     color-mix(in srgb, var(--c-primary-container) 20%, transparent);
+  --c-brand-tint-strong:  color-mix(in srgb, var(--c-primary-container) 40%, transparent);
+
+  /* Numeric spacing aliases (existing components use --s-1..14) */
+  --s-0:  0;            --s-1:  var(--p-space-2);
+  --s-2:  var(--p-space-4);   --s-3:  var(--p-space-8);
+  --s-4:  var(--p-space-12);  --s-5:  var(--p-space-16);
+  --s-6:  20px;               --s-7:  var(--p-space-24);
+  --s-8:  var(--p-space-32);  --s-9:  var(--p-space-40);
+  --s-10: var(--p-space-48);  --s-11: var(--p-space-64);
+  --s-12: 80px;               --s-13: var(--p-space-96);
+  --s-14: var(--p-space-128);
+}
+
+
+/* ----------  Typographic helpers  ---------- */
+.t-display-1 { font-family: var(--font-display); font-weight: 400; font-size: var(--fs-heading-2xl); line-height: var(--lh-heading-2xl); letter-spacing: -0.02em; }
+.t-display-2 { font-family: var(--font-display); font-weight: 400; font-size: 60px; line-height: 72px; letter-spacing: -0.02em; }
+.t-display-3 { font-family: var(--font-display); font-weight: 400; font-size: var(--fs-heading-xl); line-height: var(--lh-heading-xl); letter-spacing: -0.02em; }
+.t-display-4 { font-family: var(--font-display); font-weight: 400; font-size: var(--fs-heading-lg); line-height: var(--lh-heading-lg); letter-spacing: -0.02em; }
+.t-display-5 { font-family: var(--font-display); font-weight: 400; font-size: 30px; line-height: 38px; letter-spacing: -0.01em; }
+.t-display-6 { font-family: var(--font-display); font-weight: 400; font-size: var(--fs-heading-md); line-height: var(--lh-heading-md); }
+
+.t-heading-2xl { font-family: var(--font-display); font-weight: 500; font-size: var(--fs-heading-2xl); line-height: var(--lh-heading-2xl); letter-spacing: -0.02em; }
+.t-heading-xl  { font-family: var(--font-display); font-weight: 500; font-size: var(--fs-heading-xl);  line-height: var(--lh-heading-xl);  letter-spacing: -0.02em; }
+.t-heading-lg  { font-family: var(--font-display); font-weight: 500; font-size: var(--fs-heading-lg);  line-height: var(--lh-heading-lg);  letter-spacing: -0.02em; }
+.t-heading-md  { font-family: var(--font-display); font-weight: 500; font-size: var(--fs-heading-md);  line-height: var(--lh-heading-md); }
+.t-heading-sm  { font-family: var(--font-body);    font-weight: 600; font-size: var(--fs-heading-sm);  line-height: var(--lh-heading-sm); }
+.t-heading-xs  { font-family: var(--font-body);    font-weight: 600; font-size: var(--fs-heading-xs);  line-height: var(--lh-heading-xs); }
+
+.t-body-xl { font-family: var(--font-body); font-weight: 400; font-size: var(--fs-body-lg); line-height: 30px; }
+.t-body-lg { font-family: var(--font-body); font-weight: 400; font-size: var(--fs-body-lg); line-height: var(--lh-body-lg); }
+.t-body-md { font-family: var(--font-body); font-weight: 400; font-size: var(--fs-body);    line-height: var(--lh-body); }
+.t-body    { font-family: var(--font-body); font-weight: 400; font-size: var(--fs-body);    line-height: var(--lh-body); }
+.t-body-sm { font-family: var(--font-body); font-weight: 400; font-size: var(--fs-body-sm); line-height: var(--lh-body-sm); }
+.t-body-xs { font-family: var(--font-body); font-weight: 400; font-size: var(--fs-caption); line-height: var(--lh-caption); }
+.t-caption { font-family: var(--font-body); font-weight: 400; font-size: var(--fs-caption); line-height: var(--lh-caption); color: var(--c-text-secondary); }
+
+.t-eyebrow { font-family: var(--font-body); font-weight: 700; font-size: 14px; line-height: 20px; letter-spacing: 0.02em; text-transform: uppercase; color: var(--c-primary-container); }
+
+
+/* ----------  Base reset  ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--c-background);
+  color: var(--c-text-primary);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
