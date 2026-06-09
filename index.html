@@ -672,8 +672,6 @@
   .fd-detail-cell{background:var(--surface);padding:12px 14px;}
   .fd-detail-label{font-family:var(--font-body);font-weight:400;font-size:9.5px;color:var(--text-3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:5px;}
   .fd-detail-value{font-size:13px;color:var(--text);font-weight:500;}
-  .fd-vote-btn{width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:13px 20px;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:12px;font-size:13px;font-weight:500;transition:all .2s ease;cursor:pointer;}
-  .fd-vote-btn:hover{transform:translateY(-1px);border-color:var(--border-active);}
   .fd-nav{display:flex;align-items:center;gap:8px;margin-bottom:20px;}
   .fd-nav-btn{width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--text-3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;font-size:14px;line-height:1;}
   .fd-nav-btn:hover:not(:disabled){background:rgba(255,255,255,0.1);color:var(--text);border-color:var(--border-active);}
@@ -869,7 +867,6 @@
     .fd-detail-cell{padding:10px 12px;}
     .fd-detail-label{font-size:8px;}
     .fd-detail-value{font-size:12px;}
-    .fd-vote-btn{padding:12px 18px;font-size:13px;border-radius:10px;}
   }
 
   /* ---- PHONE (max-width: 480px) ---- */
@@ -1046,7 +1043,6 @@
     .fd-detail-cell{padding:8px 10px;}
     .fd-detail-label{font-size:7px;margin-bottom:4px;}
     .fd-detail-value{font-size:11px;}
-    .fd-vote-btn{padding:10px 14px;font-size:12px;border-radius:8px;gap:8px;}
   }
 
   /* ---- EXTRA SMALL PHONE (max-width: 360px) ---- */
@@ -2581,10 +2577,6 @@ window.H4E_DATA = {
             '<span class="fd-target">' + feature.quarter + '</span>' +
           '</div>' +
           '<p class="fd-desc">' + feature.desc + '</p>' +
-          '<button class="fd-vote-btn" style="background:' + rgba(color, 0.1) + ';color:' + color + ';border-color:' + rgba(color, 0.35) + '">' +
-            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>' +
-            'Upvote · ' + feature.votes + ' votes' +
-          '</button>' +
         '</div>';
 
       var panel = ensurePanel();
