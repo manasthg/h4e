@@ -1174,13 +1174,13 @@ window.H4E_DATA = {
         { id: "id-6", title: "Verifier Service (OID4VP)", desc: "VP verification with DCQL-based presentation policies and trusted issuer management.", status: "shipped", theme: "sovereign", quarter: "Q4 2025", votes: 344, gantt: [3,1] },
         { id: "id-7", title: "dSSO — Decentralised Single Sign-On", desc: "Wallet-based login across applications. Users authenticate by presenting VCs — no passwords, no centralised identity provider.", status: "shipped", theme: "sovereign", quarter: "Q1 2026", votes: 498, gantt: [4,1] },
         { id: "id-8", title: "Auxiliary Services", desc: "Revocation Registry, VC/VP Schema Service, Universal DID Registrar & Resolver, and Audit Trail Service.", status: "shipped", theme: "governance", quarter: "Q2 2026", votes: 271, gantt: [5,1] },
-        { id: "id-9", title: "DID Management Service v2.0", desc: "Centralised DID operations with caching, did:hedera Universal Resolver adapters, and optimised resolution at scale.", status: "planned", theme: "governance", quarter: "Q3 2026", votes: 318, gantt: [6,1] },
+        { id: "id-9", title: "DID Management Service v2.0", desc: "Centralised DID operations with caching, did:hedera Universal Resolver adapters, and optimised resolution at scale.", status: "progress", theme: "governance", quarter: "Q3 2026", votes: 318, gantt: [6,1] },
         { id: "id-10", title: "Agentic Identity — Agent ID & Authorization", desc: "AI agents receive their own did:hedera identity and credentials, enabling cryptographically verified, auditable agent-to-service authentication — no shared API keys.", status: "progress", theme: "ai", quarter: "Q3 2026", votes: 445, gantt: [6,1] },
         { id: "id-11", title: "Cloud Identity Wallet v1.0", desc: "Web-based, enterprise-custodied wallet that lets organisations securely manage credentials on behalf of staff, service accounts, and connected systems — backed by enterprise-grade key management controls, with the same verification guarantees as our mobile wallet.", status: "progress", theme: "sovereign", quarter: "Q4 2026", votes: 276, gantt: [7,1] },
         { id: "id-12", title: "Multi-tenancy", desc: "IDTrust is expanding to support multiple organisations on shared infrastructure, each with its own isolated data, credentials, and policy configuration — enabling faster onboarding and efficient scaling across industries and regions.", status: "progress", theme: "governance", quarter: "Q4 2026", votes: 298, gantt: [7,1] },
         { id: "id-13", title: "Unified Documentation v1.0", desc: "Consolidated developer and integration documentation covering all platform services and SDKs.", status: "progress", theme: "governance", quarter: "Q4 2026", votes: 214, gantt: [7,1] },
         { id: "id-14", title: "DID SDK v2.0", desc: "Full support for did:hedera 2.0 specification, powering the next generation of identity operations across the platform.", status: "planned", theme: "sovereign", quarter: "Q1 2027", votes: 389, gantt: [8,1] },
-        { id: "id-15", title: "AI-powered credential workflows", desc: "Conversational schema creation and policy configuration powered by AI — reducing setup time for new credential programmes.", status: "exploring", theme: "ai", quarter: "Q2 2027", votes: 187, gantt: [9,1] },
+        { id: "id-15", title: "AI-powered credential workflows", desc: "Conversational schema creation and policy configuration powered by AI — reducing setup time for new credential programmes.", status: "planned", theme: "ai", quarter: "Q2 2027", votes: 187, gantt: [9,1] },
         { id: "id-16", title: "eIDAS 2.0 / EUDI", desc: "Native alignment with the EU Digital Identity regulation and EUDI Wallet framework — our first compliance milestones, enabling issuance and verification of Person Identification Data (PID) and Qualified Electronic Attestations of Attributes (QEAA) that interoperate with the EUDI ecosystem.", status: "planned", theme: "sovereign", quarter: "Q3 2027", votes: 312, gantt: [10,1] }
       ]
     },
@@ -1219,7 +1219,7 @@ window.H4E_DATA = {
         { id: "tt-21", title: "Compliance Framework Configuration", desc: "Configure which regulations (EUDR, CSRD, CSDDD, CBAM, ESPR) apply to which workflow steps, to serve customers across multiple regulatory regimes.", status: "planned", theme: "governance", quarter: "Q2 2028", votes: 312, gantt: [11,1] },
         { id: "tt-22", title: "Verifier Dashboard & Audit CLI/SDK", desc: "Independent verification tooling for auditors and regulators — a web dashboard and a public CLI/SDK to verify TrackTrace records against the Hedera ledger without trusting our UI.", status: "planned", theme: "sovereign", quarter: "Q2 2028", votes: 256, gantt: [11,1] },
         { id: "tt-23", title: "Reporting & Analytics", desc: "Aggregate dashboards, trend analysis, and threshold alerting. An operational intelligence layer on top of the trust layer.", status: "planned", theme: "governance", quarter: "Q3 2028", votes: 267, gantt: [11,1] },
-        { id: "tt-24", title: "AssetGuard DPP Ownership Transfer", desc: "Transfer a product's Digital Product Passport to a buyer's wallet for high-value goods (luxury, automotive, art), so verified provenance and chain of ownership travel with the item.", status: "exploring", theme: "sovereign", quarter: "Q3 2028", votes: 189, gantt: [11,1] }
+        { id: "tt-24", title: "AssetGuard DPP Ownership Transfer", desc: "Transfer a product's Digital Product Passport to a buyer's wallet for high-value goods (luxury, automotive, art), so verified provenance and chain of ownership travel with the item.", status: "planned", theme: "sovereign", quarter: "Q3 2028", votes: 189, gantt: [11,1] }
       ]
     },
     {
@@ -1371,7 +1371,7 @@ window.H4E_DATA = {
       meta: [
         { label: "Status", value: "Live" },
         { label: "Maturity", value: "Production" },
-        { label: "Last Update", value: "Apr 2026" },
+        { label: "Last Update", value: "Jul 2026" },
         { label: "Support", value: "24/7 GCC" }
       ],
       lead: { name: "Dr. Sara Mendel", role: "VP, Enterprise Support" },
@@ -2146,36 +2146,9 @@ window.H4E_DATA = {
       if (!highlights || !highlights.length) return '';
 
       // Premium horizontal strip — all products
+      // Each highlight renders as a single title line only (no subtitle/description).
       var stripItems = highlights.map(function(h, i) {
-        // Smart split into title + description (prefer the first separator that appears)
-        var emDashIdx = h.indexOf(' — ');
-        var colonIdx = h.indexOf(': ');
-        var title, desc;
-        if (colonIdx >= 0 && (emDashIdx < 0 || colonIdx < emDashIdx)) {
-          title = h.substring(0, colonIdx);
-          desc = h.substring(colonIdx + 2);
-        } else if (emDashIdx >= 0) {
-          title = h.substring(0, emDashIdx);
-          desc = h.substring(emDashIdx + 3);
-        } else {
-          // No explicit separator — try to find natural break
-          // Look for " for " or " with " as split point
-          var withIdx = h.indexOf(' for ');
-          if (withIdx > 20) { // At least 20 chars for title
-            title = h.substring(0, withIdx);
-            desc = h.substring(withIdx + 5);
-          } else {
-            withIdx = h.indexOf(' with ');
-            if (withIdx > 20) {
-              title = h.substring(0, withIdx);
-              desc = h.substring(withIdx + 6);
-            } else {
-              // No good break point, use whole thing as title
-              title = h;
-              desc = '';
-            }
-          }
-        }
+        var title = h;
         var labels = D.hlabels && D.hlabels[product.id];
         var lbl = labels && labels[i] ? labels[i] : '';
         return '<div class="ps-strip-item">'
@@ -2184,7 +2157,6 @@ window.H4E_DATA = {
           +   (lbl ? '<span class="ps-strip-label">' + lbl + '</span>' : '')
           + '</div>'
           + '<div class="ps-strip-title">' + title + '</div>'
-          + (desc ? '<div class="ps-strip-desc">' + desc + '</div>' : '')
           + '</div>';
       }).join('');
 
@@ -2204,7 +2176,7 @@ window.H4E_DATA = {
         '<div class="ps-inner">' +
           renderCapabilities(product, color) +
           '<div class="ps-gantt-head mh-reveal">' +
-            '<div class="ps-gantt-label" style="color:' + color + '"><span style="background:' + color + '"></span>Delivery Climb · 2025 — 2027</div>' +
+            '<div class="ps-gantt-label" style="color:' + color + '"><span style="background:' + color + '"></span>Delivery Climb</div>' +
             '<div class="ps-gantt-meta">' + product.name + ' · select any milestone to explore</div>' +
           '</div>' +
           '<div class="mh-reveal">' + renderMilestonePath(product) + '</div>' +
@@ -2238,24 +2210,31 @@ window.H4E_DATA = {
     function renderMilestonePath(product) {
       var features = product.features;
 
-      // Group features by delivery quarter
-      var byQ = {};
-      features.forEach(function(f) {
-        var qi = f.gantt[0] + f.gantt[1] - 1;
-        if (!byQ[qi]) byQ[qi] = [];
-        byQ[qi].push(f);
-      });
-      var sPri = { progress:0, exploring:1, planned:2, shipped:3 };
-      Object.keys(byQ).forEach(function(k) {
-        byQ[k].sort(function(a,b){ return (sPri[a.status]||3)-(sPri[b.status]||3)||(b.votes||0)-(a.votes||0); });
+      // Sort into status groups first (Delivered, then In Progress, then Planned/Exploring) so the
+      // groups are always contiguous — this is what lets the NOW marker sit cleanly between
+      // Delivered and In Progress for every product, regardless of individual quarter assignments.
+      // Within a group, order chronologically by target quarter, then by votes.
+      var grpPri = { shipped:0, progress:1, planned:2, exploring:2 };
+      var sorted = features.slice().sort(function(a,b) {
+        var ga = grpPri[a.status] != null ? grpPri[a.status] : 3;
+        var gb = grpPri[b.status] != null ? grpPri[b.status] : 3;
+        if (ga !== gb) return ga - gb;
+        var qa = a.gantt[0] + a.gantt[1] - 1, qb = b.gantt[0] + b.gantt[1] - 1;
+        return qa - qb || (b.votes||0)-(a.votes||0);
       });
 
-      // Build stops (one per non-empty quarter)
-      var stops = [];
-      QUARTERS.forEach(function(q, i) {
-        var items = byQ[i] || [];
-        if (!items.length) return;
-        stops.push({ i:i, q:q, items:items, state: i < NOW ? 'past' : i === NOW ? 'now' : 'future' });
+      // One stop per feature — features are never merged/combined, even when they
+      // share a quarter. Visual state reflects each feature's actual status (not
+      // just its target quarter), so a shipped item always reads "Delivered" even
+      // if its quarter happens to be the current one.
+      function displayState(f) {
+        if (f.status === 'shipped') return 'past';
+        if (f.status === 'progress') return 'now';
+        return 'future'; // planned, exploring
+      }
+      var stops = sorted.map(function(f) {
+        var qi = f.gantt[0] + f.gantt[1] - 1;
+        return { i: qi, q: QUARTERS[qi], items: [f], state: displayState(f) };
       });
       if (!stops.length) return '<p style="color:var(--text-3);padding:20px 0">No roadmap data.</p>';
       var N = stops.length;
@@ -2277,9 +2256,14 @@ window.H4E_DATA = {
       ];
 
       // SVG canvas — all coordinates in SVG px (1:1 with CSS px at display size)
-      var W = 1700, H = 560;
-      var padL = 100, padR = 100, trackW = W - padL - padR;
-      var yBot = 390, yTop = 150;   // path rises from yBot (Q1'25) to yTop (Q4'27)
+      // trackW grows with the number of stops so that every feature gets its own
+      // card with no overlap — the wrapper scrolls horizontally when it's wide.
+      var H = 560;
+      var padL = 100, padR = 100;
+      var MIN_PITCH = 190; // min spacing between adjacent stops (card is 162px wide)
+      var trackW = Math.max(1500, (N - 1) * MIN_PITCH);
+      var W = padL + padR + trackW;
+      var yBot = 390, yTop = 150;   // path rises from the earliest stop to the latest
       var QLY  = 530;               // quarter label y
       var STEM_A = 28, STEM_B = 22; // stem lengths above/below
       var CIR_R = 9, CIR_NOW = 12;
@@ -2287,10 +2271,12 @@ window.H4E_DATA = {
       var BG = '#010113';
       var Rnd = Math.round;
 
-      // x for quarter index qi (evenly across all 12 quarters)
+      // x for a fixed quarter index (background quarter grid only — always spread across all 12 quarters)
       function xq(qi) { return Rnd(padL + (qi / 11) * trackW); }
-      // y on the rising line for quarter qi (linear rise)
-      function yq(qi) { return Rnd(yBot - (qi / 11) * (yBot - yTop)); }
+      // x/y for a feature stop, evenly spaced by chronological order (index among stops) —
+      // this is what keeps every feature on its own card even when several share a quarter.
+      function xs(orderIdx) { return Rnd(padL + (N > 1 ? orderIdx / (N - 1) : 0.5) * trackW); }
+      function ys(orderIdx) { return Rnd(yBot - (N > 1 ? orderIdx / (N - 1) : 0.5) * (yBot - yTop)); }
       // card alternates above/below; last stop forced below to avoid top clip
       function isAbove(si) { return si !== N - 1 && si % 2 === 0; }
 
@@ -2303,16 +2289,24 @@ window.H4E_DATA = {
           '<text x="'+cx+'" y="20" text-anchor="middle" font-size="8" font-family="Work Sans,sans-serif" font-weight="700" letter-spacing="0.18em" fill="rgba(255,255,255,0.15)" pointer-events="none">'+ph.label.toUpperCase()+'</text>';
       }).join('');
 
-      // ── Quarter guide lines + labels ──
+      // ── Quarter guide lines (decorative background grid only) ──
       var guidesSvg = QUARTERS.map(function(q, i) {
-        var x = xq(i), isN = (i === NOW);
-        return '<line x1="'+x+'" y1="34" x2="'+x+'" y2="'+(yBot+28)+'" stroke="'+(isN?'rgba(96,94,255,0.3)':'rgba(255,255,255,0.048)')+'" stroke-width="1" stroke-dasharray="'+(isN?'':'2 7')+'" pointer-events="none"/>'+
-          '<text x="'+x+'" y="'+QLY+'" text-anchor="middle" font-size="9" font-family="Work Sans,sans-serif" letter-spacing="0.06em" fill="'+(isN?'#605EFF':'rgba(255,255,255,0.26)')+'" font-weight="'+(isN?600:400)+'" pointer-events="none">'+q+'</text>'+
-          (isN?'<text x="'+x+'" y="'+(QLY+13)+'" text-anchor="middle" font-size="7" font-family="Work Sans,sans-serif" letter-spacing="0.22em" fill="#605EFF" font-weight="700" pointer-events="none">NOW</text>':'');
+        var x = xq(i);
+        return '<line x1="'+x+'" y1="34" x2="'+x+'" y2="'+(yBot+28)+'" stroke="rgba(255,255,255,0.048)" stroke-width="1" stroke-dasharray="2 7" pointer-events="none"/>';
       }).join('');
 
+      // ── NOW marker — sits between the last Delivered stop and the first In Progress stop,
+      // for this product specifically (not tied to a fixed calendar quarter).
+      var deliveredCount = 0;
+      while (deliveredCount < N && stops[deliveredCount].state === 'past') deliveredCount++;
+      var nowX = deliveredCount <= 0 ? padL
+        : deliveredCount >= N ? padL + trackW
+        : Rnd(padL + ((deliveredCount - 0.5) / (N - 1)) * trackW);
+      var nowSvg = '<line x1="'+nowX+'" y1="34" x2="'+nowX+'" y2="'+(yBot+28)+'" stroke="rgba(96,94,255,0.3)" stroke-width="1" pointer-events="none"/>'+
+        '<text x="'+nowX+'" y="'+QLY+'" text-anchor="middle" font-size="7" font-family="Work Sans,sans-serif" letter-spacing="0.22em" fill="#605EFF" font-weight="700" pointer-events="none">NOW</text>';
+
       // ── Smooth rising path (Catmull-Rom through milestone points) ──
-      var pts = stops.map(function(s) { return [xq(s.i), yq(s.i)]; });
+      var pts = stops.map(function(s, si) { return [xs(si), ys(si)]; });
       var pathSegs = '';
       for (var ii = 0; ii < N - 1; ii++) {
         var p0=pts[Math.max(0,ii-1)], p1=pts[ii], p2=pts[ii+1], p3=pts[Math.min(N-1,ii+2)];
@@ -2331,7 +2325,7 @@ window.H4E_DATA = {
 
       // ── Stem lines from circle edge to card ──
       var stemsSvg = stops.map(function(s, si) {
-        var cx=xq(s.i), cy=yq(s.i);
+        var cx=xs(si), cy=ys(si);
         var r=s.state==='now'?CIR_NOW:CIR_R;
         var col=stateColor(s);
         var above=isAbove(si);
@@ -2349,7 +2343,7 @@ window.H4E_DATA = {
         var col=stateColor(s), rgb=stateRGB(s);
         var isNow=s.state==='now';
         var r=isNow?CIR_NOW:CIR_R;
-        var cx=xq(s.i), cy=yq(s.i);
+        var cx=xs(si), cy=ys(si);
         var stroke=s.state==='past'?'rgba('+rgb+',.46)':col;
         var sw=s.state==='past'?'1.5':isNow?'2.5':'1.8';
         var dash=s.state==='future'?'stroke-dasharray="4 3.5"':'';
@@ -2374,21 +2368,17 @@ window.H4E_DATA = {
         var col=stateColor(s), rgb=stateRGB(s), lbl=stateLabel(s);
         var r=s.state==='now'?CIR_NOW:CIR_R;
         var above=isAbove(si);
-        var cx=xq(s.i), cy=yq(s.i);
+        var cx=xs(si), cy=ys(si);
         var lp=(cx/W*100).toFixed(2);
         var topStyle = above
           ? 'top:'+((cy-r-STEM_A)/H*100).toFixed(2)+'%;transform:translate(-50%,-100%)'
           : 'top:'+((cy+r+STEM_B)/H*100).toFixed(2)+'%;transform:translateX(-50%)';
-        var nRel=s.items.length;
-        var more = nRel>1?'<div class="mp2-card-more">+' + (nRel-1) + ' more release'+(nRel>2?'s':'')+'</div>':'';
         return '<div class="mp2-card" data-mp2-idx="'+si+'" data-mp2-state="'+s.state+'" '+
           'style="left:'+lp+'%;'+topStyle+';width:'+CARD_W+'px;--mp2-c:'+col+';--mp2-rgb:'+rgb+'" '+
           'onclick="mpSelect(\''+product.id+'\','+si+');openFeatureDrawer(\''+product.id+'\',\''+s.items[0].id+'\')">' +
           '<div class="mp2-card-inner">'+
-            '<div class="mp2-card-q">'+s.q+'<span class="mp2-card-releases">'+nRel+(nRel>1?' releases':' release')+'</span></div>'+
             '<div class="mp2-card-title">'+s.items[0].title+'</div>'+
             '<div class="mp2-badge"><span class="mp2-badge-dot" style="background:'+col+'"></span><span style="color:'+col+'">'+lbl+'</span></div>'+
-            more+
           '</div>'+
         '</div>';
       }).join('');
@@ -2396,13 +2386,13 @@ window.H4E_DATA = {
       var legendHtml = '<div class="mp2-footer">'+
         '<div class="mp2-legend">'+
           '<span class="mp2-legend-item"><span class="mp2-legend-dot" style="background:#22C55E"></span>Delivered</span>'+
-          '<span class="mp2-legend-item"><span class="mp2-legend-dot" style="background:#605EFF"></span>In Progress</span>'+
+          '<span class="mp2-legend-item"><span class="mp2-legend-dot" style="background:#605EFF"></span>In Progress · Q3-Q4 2026</span>'+
           '<span class="mp2-legend-item"><span class="mp2-legend-dot" style="background:#8B6FFF"></span>Planned</span>'+
         '</div>'+
         '<span class="mp2-cta">Select a milestone to explore</span>'+
       '</div>';
 
-      var svgContent = phaseSvg + guidesSvg + pathSegs + stemsSvg + circlesSvg;
+      var svgContent = phaseSvg + guidesSvg + nowSvg + pathSegs + stemsSvg + circlesSvg;
 
       return '<div class="mp2-wrap" data-mp2-product="'+product.id+'">' +
         '<div class="mp2-scroll-outer">' +
@@ -2574,10 +2564,9 @@ window.H4E_DATA = {
       var nextSib = sibIdx < siblings.length - 1 ? siblings[sibIdx + 1] : null;
       var navHtml = '';
       if (siblings.length > 1) {
-        var qLabel = QUARTERS[qi] || feature.quarter;
         navHtml = '<div class="fd-nav">' +
           '<button class="fd-nav-btn" ' + (prevSib ? 'onclick="openFeatureDrawer(\'' + productId + '\',\'' + prevSib.id + '\')"' : 'disabled') + '>&#8592;</button>' +
-          '<span class="fd-nav-pos">' + (sibIdx + 1) + ' of ' + siblings.length + ' in ' + qLabel + '</span>' +
+          '<span class="fd-nav-pos">' + (sibIdx + 1) + ' of ' + siblings.length + '</span>' +
           '<button class="fd-nav-btn" ' + (nextSib ? 'onclick="openFeatureDrawer(\'' + productId + '\',\'' + nextSib.id + '\')"' : 'disabled') + '>&#8594;</button>' +
         '</div>';
       }
@@ -2600,7 +2589,6 @@ window.H4E_DATA = {
           '<div class="fd-pills">' +
             '<span class="fd-status-pill"><span style="width:6px;height:6px;border-radius:99px;background:' + status.dot + '" class="' + (feature.status === 'progress' ? 'pulse-dot' : '') + '"></span>' + status.label + '</span>' +
             '<span class="fd-theme-pill" style="background:' + rgba(color, 0.1) + ';border-color:' + rgba(color, 0.25) + ';color:' + color + '">' + theme.label + '</span>' +
-            '<span class="fd-target">' + feature.quarter + '</span>' +
           '</div>' +
           '<p class="fd-desc">' + feature.desc + '</p>' +
         '</div>';
