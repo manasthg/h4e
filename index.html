@@ -626,8 +626,6 @@
   .gantt-row.selected,.gantt-row.fd-active{background:rgba(96,94,255,0.05) !important;}
   .gantt-row[data-status="progress"]{background:var(--row-bg,rgba(255,255,255,0.02));}
   .gantt-row[data-status="planned"]{background:transparent;}
-  .gantt-row[data-status="exploring"]{background:repeating-linear-gradient(135deg,transparent 0,transparent 10px,rgba(255,255,255,0.022) 10px,rgba(255,255,255,0.022) 11px);}
-  .gantt-row[data-status="exploring"]:hover{background:rgba(255,255,255,0.03);}
   /* Shipped group row — single "Live Today" row */
   .gantt-row--shipped{background:rgba(34,197,94,0.025) !important;cursor:default;}
   .gantt-row--shipped:hover{background:rgba(34,197,94,0.05) !important;}
@@ -648,7 +646,6 @@
   .gantt-bar .gantt-bar-meta{font-family:var(--font-body);font-weight:400;font-size:8px;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-3);flex-shrink:0;}
   .gantt-bar.status-progress::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.06) 50%,transparent 100%);background-size:200% 100%;animation:shimmer 3s linear infinite;}
   .gantt-bar.status-planned{background:repeating-linear-gradient(45deg,var(--bar-bg) 0 8px,transparent 8px 16px),var(--bar-bg);}
-  .gantt-bar.status-exploring{background:repeating-linear-gradient(90deg,var(--bar-bg) 0 2px,transparent 2px 6px),var(--bar-bg);opacity:0.85;}
   .gantt-bar.status-shipped{}
   .gantt-empty{padding:36px;text-align:center;color:var(--text-3);font-size:13px;border-bottom:1px solid var(--border);}
   @keyframes shimmer{from{background-position:-200% 0;}to{background-position:200% 0;}}
@@ -1116,7 +1113,12 @@
   .mp2-card-title{font-family:'THG Swinton',Georgia,serif;font-size:12.5px;font-weight:500;line-height:1.35;color:var(--text);margin-bottom:7px;}
   .mp2-badge{display:inline-flex;align-items:center;gap:5px;font-size:8px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;}
   .mp2-badge-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0;}
-  .mp2-card-more{margin-top:6px;font-size:10px;color:var(--text-3);font-style:italic;}
+  /* Multi-release quarters: every release gets its own row inside the card so
+     nothing is hidden behind a "+N more" note. */
+  .mp2-card-row{padding:7px 0;border-top:1px solid rgba(255,255,255,.06);}
+  .mp2-card-row:first-child{padding-top:0;border-top:none;}
+  .mp2-card-row .mp2-card-title{font-size:11.5px;margin-bottom:5px;}
+  .mp2-card-row:hover .mp2-card-title{color:var(--mp2-c,#605EFF);}
   /* SVG circle and number hover effects */
   svg [data-mp2-ci]:hover{filter:drop-shadow(0 0 8px rgba(255,255,255,0.3)) brightness(1.2);}
   svg [data-mp2-ni]:hover{filter:drop-shadow(0 0 6px rgba(255,255,255,0.25)) brightness(1.15);font-weight:700;}
@@ -1139,7 +1141,7 @@
 window.H4E_DATA = {
   meta: { year: "2025 — 2027", productsCount: 7, activeMarkets: 12, plannedFeatures: 100, releasePhases: 4 },
   quarters: ["Q1 '25", "Q2 '25", "Q3 '25", "Q4 '25", "Q1 '26", "Q2 '26", "Q3 '26", "Q4 '26", "Q1 '27", "Q2 '27", "Q3 '27", "Q4 '27"],
-  nowIndex: 5,
+  nowIndex: 6,
   themes: {
     ai:        { id: "ai",        label: "AI-First Enterprise", color: "#605EFF" },
     sovereign: { id: "sovereign", label: "Sovereign Data",      color: "#605EFF" },
@@ -1148,8 +1150,7 @@ window.H4E_DATA = {
   statuses: {
     shipped:   { id: "shipped",   label: "Shipped",     dot: "#22C55E" },
     progress:  { id: "progress",  label: "In Progress", dot: "#605EFF" },
-    planned:   { id: "planned",   label: "Planned",     dot: "#A1A1AA" },
-    exploring: { id: "exploring", label: "Exploring",   dot: "#F59E0B" }
+    planned:   { id: "planned",   label: "Planned",     dot: "#A1A1AA" }
   },
   products: [
     {
@@ -1307,13 +1308,13 @@ window.H4E_DATA = {
         { id: "ag-4", title: "Seamless onboarding & secure recovery", desc: "Low‑friction create/import flows with secure backup options for user convenience.", status: "shipped", theme: "governance", quarter: "Q4 2025", votes: 334, gantt: [3,1] },
         { id: "ag-5", title: "Security, settings & network controls", desc: "Features including biometrics/PIN, wallet reset, theming, mainnet/testnet switching.", status: "shipped", theme: "governance", quarter: "Q1 2026", votes: 298, gantt: [4,1] },
         { id: "ag-6", title: "dApp connectivity & production validation", desc: "WalletConnect support; proven in Hedera quests and hackathons demonstrating real-world reliability.", status: "shipped", theme: "governance", quarter: "Q2 2026", votes: 312, gantt: [5,1] },
-        { id: "ag-7", title: "Rewards via THA Academy certificates", desc: "Course‑completion credentials issued as NFTs directly into AssetGuard.", status: "shipped", theme: "governance", quarter: "Q3 2026", votes: 267, gantt: [6,1] },
+        { id: "ag-7", title: "Rewards via THA Academy certificates", desc: "Course‑completion credentials issued as NFTs directly into AssetGuard.", status: "shipped", theme: "governance", quarter: "Q2 2026", votes: 267, gantt: [5,1] },
         { id: "ag-8", title: "Membership Portal Rewards", desc: "Making AssetGuard the default destination for membership NFTs and rewards that builds trust and repeat participation.", status: "progress", theme: "governance", quarter: "Q4 2026", votes: 387, gantt: [7,1] },
         { id: "ag-9", title: "Engagement loops with education & quests", desc: "Connecting learning paths, quests, and on-chain actions into ongoing engagement journeys.", status: "progress", theme: "governance", quarter: "Q1 2027", votes: 312, gantt: [8,1] },
         { id: "ag-10", title: "Agentic wallet foundations", desc: "Agent DIDs & verifiable credentials via IDTrust; MCP-compatible, non-extractable signing patterns; and a policy manifest with guardrails and kill-switch controls.", status: "progress", theme: "ai", quarter: "Q2 2027", votes: 445, gantt: [9,1] },
         { id: "ag-11", title: "AssetGuard MCP server & guardrail UI", desc: "Agent toolset with operator policies, approvals, and observability capabilities.", status: "planned", theme: "ai", quarter: "Q1 2027", votes: 398, gantt: [8,1] },
         { id: "ag-12", title: "Autonomous treasury & A2A pilots", desc: "Pilot safe agentic value flows on Hedera and publish a reference architecture with audit and logging patterns.", status: "planned", theme: "ai", quarter: "Q2 2027", votes: 334, gantt: [9,1] },
-        { id: "ag-13", title: "Open Wallet Standard (OWS) compatibility", desc: "Exploring AssetGuard compatibility with the Open Wallet Standard (OWS).", status: "exploring", theme: "sovereign", quarter: "Q3 2027", votes: 276, gantt: [10,1] },
+        { id: "ag-13", title: "Open Wallet Standard (OWS) compatibility", desc: "Exploring AssetGuard compatibility with the Open Wallet Standard (OWS).", status: "planned", theme: "sovereign", quarter: "Q3 2027", votes: 276, gantt: [10,1] },
         { id: "ag-14", title: "Commercial expansion (where compliant)", desc: "Evaluate buy/sell/swap, staking, and broader availability in permitted jurisdictions.", status: "planned", theme: "governance", quarter: "Q4 2027", votes: 198, gantt: [11,1] },
         { id: "ag-15", title: "Enterprise readiness (partner-led track)", desc: "When driven by demand: OAuth/SSO and recovery, RBAC + admin console (MVP), audit logging & compliance exports, and an API-first tenant model for white-label deployments.", status: "planned", theme: "governance", quarter: "Q1 2028", votes: 189, gantt: [10,1] },
         { id: "ag-16", title: "Standardised enterprise digital-asset governance", desc: "Consistent control plane for policy engines, approvals, reporting, and integrations across HR, CRM, ERP, and Finance systems.", status: "planned", theme: "governance", quarter: "Q2 2028", votes: 156, gantt: [11,1] }
@@ -1821,9 +1822,9 @@ window.H4E_DATA = {
 
   function buildProductTicker(product) {
     var c = '#605EFF';
-    var dotColor = { shipped: '#22C55E', progress: c, planned: 'rgba(255,255,255,0.35)', exploring: 'rgba(255,255,255,0.25)' };
-    var labelColor = { shipped: '#22C55E', progress: c, planned: 'rgba(255,255,255,0.45)', exploring: 'rgba(255,255,255,0.35)' };
-    var label = { shipped: 'SHIPPED', progress: 'IN PROGRESS', planned: null, exploring: 'EXPLORING' };
+    var dotColor = { shipped: '#22C55E', progress: c, planned: 'rgba(255,255,255,0.35)' };
+    var labelColor = { shipped: '#22C55E', progress: c, planned: 'rgba(255,255,255,0.45)' };
+    var label = { shipped: 'SHIPPED', progress: 'IN PROGRESS', planned: null };
     var unit = product.features.map(function(f) {
       var lc = labelColor[f.status];
       var dc = dotColor[f.status];
@@ -1842,7 +1843,6 @@ window.H4E_DATA = {
     var shipped   = feats.filter(function(f){return f.status==='shipped';}).length;
     var progress  = feats.filter(function(f){return f.status==='progress';}).length;
     var planned   = feats.filter(function(f){return f.status==='planned';}).length;
-    var exploring = feats.filter(function(f){return f.status==='exploring';}).length;
     var total     = feats.length;
     var status    = product.meta && product.meta[0] ? product.meta[0].value : 'Live';
     var category  = CATEGORIES[product.id] || 'Product';
@@ -2135,7 +2135,7 @@ window.H4E_DATA = {
     }
     
     function countByStatus(features) {
-      var c = { shipped: 0, progress: 0, planned: 0, exploring: 0 };
+      var c = { shipped: 0, progress: 0, planned: 0 };
       features.forEach(function(f) { c[f.status] = (c[f.status] || 0) + 1; });
       return c;
     }
@@ -2176,7 +2176,7 @@ window.H4E_DATA = {
         '<div class="ps-inner">' +
           renderCapabilities(product, color) +
           '<div class="ps-gantt-head mh-reveal">' +
-            '<div class="ps-gantt-label" style="color:' + color + '"><span style="background:' + color + '"></span>Delivery Climb</div>' +
+            '<div class="ps-gantt-label" style="color:' + color + '"><span style="background:' + color + '"></span>Delivery Climb · 2025 — 2027</div>' +
             '<div class="ps-gantt-meta">' + product.name + ' · select any milestone to explore</div>' +
           '</div>' +
           '<div class="mh-reveal">' + renderMilestonePath(product) + '</div>' +
@@ -2188,8 +2188,7 @@ window.H4E_DATA = {
       var fractions = [
         { f: (counts.shipped || 0) / total, color: '#22C55E' },
         { f: (counts.progress || 0) / total, color: color },
-        { f: (counts.planned || 0) / total, color: '#525978' },
-        { f: (counts.exploring || 0) / total, color: '#F59E0B' }
+        { f: (counts.planned || 0) / total, color: '#525978' }
       ];
       var acc = 0;
       var circles = fractions.map(function(s, i) {
@@ -2210,39 +2209,37 @@ window.H4E_DATA = {
     function renderMilestonePath(product) {
       var features = product.features;
 
-      // Sort into status groups first (Delivered, then In Progress, then Planned/Exploring) so the
-      // groups are always contiguous — this is what lets the NOW marker sit cleanly between
-      // Delivered and In Progress for every product, regardless of individual quarter assignments.
-      // Within a group, order chronologically by target quarter, then by votes.
-      var grpPri = { shipped:0, progress:1, planned:2, exploring:2 };
-      var sorted = features.slice().sort(function(a,b) {
-        var ga = grpPri[a.status] != null ? grpPri[a.status] : 3;
-        var gb = grpPri[b.status] != null ? grpPri[b.status] : 3;
-        if (ga !== gb) return ga - gb;
-        var qa = a.gantt[0] + a.gantt[1] - 1, qb = b.gantt[0] + b.gantt[1] - 1;
-        return qa - qb || (b.votes||0)-(a.votes||0);
+      // Group features by delivery quarter
+      var byQ = {};
+      features.forEach(function(f) {
+        var qi = f.gantt[0] + f.gantt[1] - 1;
+        if (!byQ[qi]) byQ[qi] = [];
+        byQ[qi].push(f);
+      });
+      var sPri = { progress:0, planned:1, shipped:2 };
+      Object.keys(byQ).forEach(function(k) {
+        byQ[k].sort(function(a,b){ return (sPri[a.status]||3)-(sPri[b.status]||3)||(b.votes||0)-(a.votes||0); });
       });
 
-      // One stop per feature — features are never merged/combined, even when they
-      // share a quarter. Visual state reflects each feature's actual status (not
-      // just its target quarter), so a shipped item always reads "Delivered" even
-      // if its quarter happens to be the current one.
-      function displayState(f) {
-        if (f.status === 'shipped') return 'past';
-        if (f.status === 'progress') return 'now';
-        return 'future'; // planned, exploring
-      }
-      var stops = sorted.map(function(f) {
-        var qi = f.gantt[0] + f.gantt[1] - 1;
-        return { i: qi, q: QUARTERS[qi], items: [f], state: displayState(f) };
+      // Build stops (one per non-empty quarter). A quarter's state is normally driven by
+      // its position relative to NOW, but a delivered feature is always shown as
+      // "past" (already climbed) even if its tagged quarter lands on/after the
+      // current quarter — delivered work never renders as in-progress or upcoming.
+      var stops = [];
+      QUARTERS.forEach(function(q, i) {
+        var items = byQ[i] || [];
+        if (!items.length) return;
+        var chrono = i < NOW ? 'past' : i === NOW ? 'now' : 'future';
+        var state = items[0].status === 'shipped' ? 'past' : chrono;
+        stops.push({ i:i, q:q, items:items, state: state });
       });
       if (!stops.length) return '<p style="color:var(--text-3);padding:20px 0">No roadmap data.</p>';
       var N = stops.length;
 
       // Colors
-      var scol = { shipped:'#22C55E', progress:'#605EFF', planned:'#8B6FFF', exploring:'#F59E0B' };
-      var sRGB  = { shipped:'34,197,94', progress:'96,94,255', planned:'139,111,255', exploring:'245,158,11' };
-      var sLbl  = { shipped:'Delivered', progress:'In Progress', planned:'Planned', exploring:'Exploring' };
+      var scol = { shipped:'#22C55E', progress:'#605EFF', planned:'#8B6FFF' };
+      var sRGB  = { shipped:'34,197,94', progress:'96,94,255', planned:'139,111,255' };
+      var sLbl  = { shipped:'Delivered', progress:'In Progress', planned:'Planned' };
       function stateColor(s) { return s.state==='past'?'#22C55E':s.state==='now'?'#605EFF':(scol[s.items[0].status]||'#8B6FFF'); }
       function stateRGB(s)   { return s.state==='past'?'34,197,94':s.state==='now'?'96,94,255':(sRGB[s.items[0].status]||'139,111,255'); }
       function stateLabel(s) { return s.state==='past'?'Delivered':s.state==='now'?'In Progress':(sLbl[s.items[0].status]||'Planned'); }
@@ -2256,29 +2253,42 @@ window.H4E_DATA = {
       ];
 
       // SVG canvas — all coordinates in SVG px (1:1 with CSS px at display size)
-      // trackW grows with the number of stops so that every feature gets its own
-      // card with no overlap — the wrapper scrolls horizontally when it's wide.
-      var H = 560;
-      var padL = 100, padR = 100;
-      var MIN_PITCH = 190; // min spacing between adjacent stops (card is 162px wide)
-      var trackW = Math.max(1500, (N - 1) * MIN_PITCH);
-      var W = padL + padR + trackW;
-      var yBot = 390, yTop = 150;   // path rises from the earliest stop to the latest
-      var QLY  = 530;               // quarter label y
+      var W = 1700;
+      var padL = 100, padR = 100, trackW = W - padL - padR;
       var STEM_A = 28, STEM_B = 22; // stem lengths above/below
       var CIR_R = 9, CIR_NOW = 12;
       var CARD_W = 162;
       var BG = '#010113';
       var Rnd = Math.round;
 
-      // x for a fixed quarter index (background quarter grid only — always spread across all 12 quarters)
-      function xq(qi) { return Rnd(padL + (qi / 11) * trackW); }
-      // x/y for a feature stop, evenly spaced by chronological order (index among stops) —
-      // this is what keeps every feature on its own card even when several share a quarter.
-      function xs(orderIdx) { return Rnd(padL + (N > 1 ? orderIdx / (N - 1) : 0.5) * trackW); }
-      function ys(orderIdx) { return Rnd(yBot - (N > 1 ? orderIdx / (N - 1) : 0.5) * (yBot - yTop)); }
       // card alternates above/below; last stop forced below to avoid top clip
       function isAbove(si) { return si !== N - 1 && si % 2 === 0; }
+
+      // Every release renders as its own row inside its quarter's card (see cardsHtml
+      // below), so multi-release quarters produce noticeably taller cards. The canvas
+      // must grow to fit the tallest above/below card so nothing overlaps the phase
+      // labels above or the quarter axis / footer below.
+      var ROW_H = 40, HEADER_H = 20, PAD_V = 24, FIRST_ROW_SAVE = 8;
+      function estCardH(n) { return PAD_V + HEADER_H + n * ROW_H - FIRST_ROW_SAVE; }
+      var maxAboveH = 0, maxBelowH = 0;
+      stops.forEach(function(s, si) {
+        var h = estCardH(s.items.length);
+        if (isAbove(si)) { if (h > maxAboveH) maxAboveH = h; }
+        else { if (h > maxBelowH) maxBelowH = h; }
+      });
+
+      var TOP_PAD = 40;                 // room for phase-band label + guide start
+      var RISE = 240;                   // vertical rise of the climbing path
+      var GAP_BEFORE_LABEL = 14;        // gap between tallest below-card and quarter label
+      var yTop = TOP_PAD + CIR_NOW + STEM_A + maxAboveH + 8;
+      var yBot = yTop + RISE;           // path rises from yBot (Q1'25) to yTop (Q4'27)
+      var QLY  = yBot + CIR_NOW + STEM_B + maxBelowH + GAP_BEFORE_LABEL; // quarter label y
+      var H = QLY + 30;
+
+      // x for quarter index qi (evenly across all 12 quarters)
+      function xq(qi) { return Rnd(padL + (qi / 11) * trackW); }
+      // y on the rising line for quarter qi (linear rise)
+      function yq(qi) { return Rnd(yBot - (qi / 11) * (yBot - yTop)); }
 
       // ── Phase background bands ──
       var phaseSvg = phases.map(function(ph) {
@@ -2289,24 +2299,16 @@ window.H4E_DATA = {
           '<text x="'+cx+'" y="20" text-anchor="middle" font-size="8" font-family="Work Sans,sans-serif" font-weight="700" letter-spacing="0.18em" fill="rgba(255,255,255,0.15)" pointer-events="none">'+ph.label.toUpperCase()+'</text>';
       }).join('');
 
-      // ── Quarter guide lines (decorative background grid only) ──
+      // ── Quarter guide lines + labels ──
       var guidesSvg = QUARTERS.map(function(q, i) {
-        var x = xq(i);
-        return '<line x1="'+x+'" y1="34" x2="'+x+'" y2="'+(yBot+28)+'" stroke="rgba(255,255,255,0.048)" stroke-width="1" stroke-dasharray="2 7" pointer-events="none"/>';
+        var x = xq(i), isN = (i === NOW);
+        return '<line x1="'+x+'" y1="34" x2="'+x+'" y2="'+(yBot+28)+'" stroke="'+(isN?'rgba(96,94,255,0.3)':'rgba(255,255,255,0.048)')+'" stroke-width="1" stroke-dasharray="'+(isN?'':'2 7')+'" pointer-events="none"/>'+
+          '<text x="'+x+'" y="'+QLY+'" text-anchor="middle" font-size="9" font-family="Work Sans,sans-serif" letter-spacing="0.06em" fill="'+(isN?'#605EFF':'rgba(255,255,255,0.26)')+'" font-weight="'+(isN?600:400)+'" pointer-events="none">'+q+'</text>'+
+          (isN?'<text x="'+x+'" y="'+(QLY+13)+'" text-anchor="middle" font-size="7" font-family="Work Sans,sans-serif" letter-spacing="0.22em" fill="#605EFF" font-weight="700" pointer-events="none">NOW</text>':'');
       }).join('');
 
-      // ── NOW marker — sits between the last Delivered stop and the first In Progress stop,
-      // for this product specifically (not tied to a fixed calendar quarter).
-      var deliveredCount = 0;
-      while (deliveredCount < N && stops[deliveredCount].state === 'past') deliveredCount++;
-      var nowX = deliveredCount <= 0 ? padL
-        : deliveredCount >= N ? padL + trackW
-        : Rnd(padL + ((deliveredCount - 0.5) / (N - 1)) * trackW);
-      var nowSvg = '<line x1="'+nowX+'" y1="34" x2="'+nowX+'" y2="'+(yBot+28)+'" stroke="rgba(96,94,255,0.3)" stroke-width="1" pointer-events="none"/>'+
-        '<text x="'+nowX+'" y="'+QLY+'" text-anchor="middle" font-size="7" font-family="Work Sans,sans-serif" letter-spacing="0.22em" fill="#605EFF" font-weight="700" pointer-events="none">NOW</text>';
-
       // ── Smooth rising path (Catmull-Rom through milestone points) ──
-      var pts = stops.map(function(s, si) { return [xs(si), ys(si)]; });
+      var pts = stops.map(function(s) { return [xq(s.i), yq(s.i)]; });
       var pathSegs = '';
       for (var ii = 0; ii < N - 1; ii++) {
         var p0=pts[Math.max(0,ii-1)], p1=pts[ii], p2=pts[ii+1], p3=pts[Math.min(N-1,ii+2)];
@@ -2325,7 +2327,7 @@ window.H4E_DATA = {
 
       // ── Stem lines from circle edge to card ──
       var stemsSvg = stops.map(function(s, si) {
-        var cx=xs(si), cy=ys(si);
+        var cx=xq(s.i), cy=yq(s.i);
         var r=s.state==='now'?CIR_NOW:CIR_R;
         var col=stateColor(s);
         var above=isAbove(si);
@@ -2343,7 +2345,7 @@ window.H4E_DATA = {
         var col=stateColor(s), rgb=stateRGB(s);
         var isNow=s.state==='now';
         var r=isNow?CIR_NOW:CIR_R;
-        var cx=xs(si), cy=ys(si);
+        var cx=xq(s.i), cy=yq(s.i);
         var stroke=s.state==='past'?'rgba('+rgb+',.46)':col;
         var sw=s.state==='past'?'1.5':isNow?'2.5':'1.8';
         var dash=s.state==='future'?'stroke-dasharray="4 3.5"':'';
@@ -2368,17 +2370,30 @@ window.H4E_DATA = {
         var col=stateColor(s), rgb=stateRGB(s), lbl=stateLabel(s);
         var r=s.state==='now'?CIR_NOW:CIR_R;
         var above=isAbove(si);
-        var cx=xs(si), cy=ys(si);
+        var cx=xq(s.i), cy=yq(s.i);
         var lp=(cx/W*100).toFixed(2);
         var topStyle = above
           ? 'top:'+((cy-r-STEM_A)/H*100).toFixed(2)+'%;transform:translate(-50%,-100%)'
           : 'top:'+((cy+r+STEM_B)/H*100).toFixed(2)+'%;transform:translateX(-50%)';
+        var nRel=s.items.length;
+        // Every release in the quarter gets its own row — nothing is hidden behind a
+        // "+N more" note. Each row keeps its own feature's real status/color and opens
+        // its own drawer, so multi-release quarters stay fully visible on the map.
+        var rowsHtml = s.items.map(function(it) {
+          var iCol = scol[it.status] || col;
+          var iLbl = sLbl[it.status] || lbl;
+          return '<div class="mp2-card-row" title="'+it.title+'" onclick="event.stopPropagation();mpSelect(\''+product.id+'\','+si+');openFeatureDrawer(\''+product.id+'\',\''+it.id+'\')">'+
+            '<div class="mp2-card-title">'+it.title+'</div>'+
+            '<div class="mp2-badge"><span class="mp2-badge-dot" style="background:'+iCol+'"></span><span style="color:'+iCol+'">'+iLbl+'</span></div>'+
+          '</div>';
+        }).join('');
+        var cw = nRel > 1 ? CARD_W + 40 : CARD_W;
         return '<div class="mp2-card" data-mp2-idx="'+si+'" data-mp2-state="'+s.state+'" '+
-          'style="left:'+lp+'%;'+topStyle+';width:'+CARD_W+'px;--mp2-c:'+col+';--mp2-rgb:'+rgb+'" '+
+          'style="left:'+lp+'%;'+topStyle+';width:'+cw+'px;--mp2-c:'+col+';--mp2-rgb:'+rgb+'" '+
           'onclick="mpSelect(\''+product.id+'\','+si+');openFeatureDrawer(\''+product.id+'\',\''+s.items[0].id+'\')">' +
           '<div class="mp2-card-inner">'+
-            '<div class="mp2-card-title">'+s.items[0].title+'</div>'+
-            '<div class="mp2-badge"><span class="mp2-badge-dot" style="background:'+col+'"></span><span style="color:'+col+'">'+lbl+'</span></div>'+
+            '<div class="mp2-card-q">'+s.q+'<span class="mp2-card-releases">'+nRel+(nRel>1?' releases':' release')+'</span></div>'+
+            rowsHtml+
           '</div>'+
         '</div>';
       }).join('');
@@ -2386,13 +2401,13 @@ window.H4E_DATA = {
       var legendHtml = '<div class="mp2-footer">'+
         '<div class="mp2-legend">'+
           '<span class="mp2-legend-item"><span class="mp2-legend-dot" style="background:#22C55E"></span>Delivered</span>'+
-          '<span class="mp2-legend-item"><span class="mp2-legend-dot" style="background:#605EFF"></span>In Progress · Q3-Q4 2026</span>'+
+          '<span class="mp2-legend-item"><span class="mp2-legend-dot" style="background:#605EFF"></span>In Progress</span>'+
           '<span class="mp2-legend-item"><span class="mp2-legend-dot" style="background:#8B6FFF"></span>Planned</span>'+
         '</div>'+
         '<span class="mp2-cta">Select a milestone to explore</span>'+
       '</div>';
 
-      var svgContent = phaseSvg + guidesSvg + nowSvg + pathSegs + stemsSvg + circlesSvg;
+      var svgContent = phaseSvg + guidesSvg + pathSegs + stemsSvg + circlesSvg;
 
       return '<div class="mp2-wrap" data-mp2-product="'+product.id+'">' +
         '<div class="mp2-scroll-outer">' +
@@ -2562,11 +2577,12 @@ window.H4E_DATA = {
       var sibIdx = siblings.findIndex(function(f) { return f.id === featureId; });
       var prevSib = sibIdx > 0 ? siblings[sibIdx - 1] : null;
       var nextSib = sibIdx < siblings.length - 1 ? siblings[sibIdx + 1] : null;
+      var qLabel = QUARTERS[qi];
       var navHtml = '';
       if (siblings.length > 1) {
         navHtml = '<div class="fd-nav">' +
           '<button class="fd-nav-btn" ' + (prevSib ? 'onclick="openFeatureDrawer(\'' + productId + '\',\'' + prevSib.id + '\')"' : 'disabled') + '>&#8592;</button>' +
-          '<span class="fd-nav-pos">' + (sibIdx + 1) + ' of ' + siblings.length + '</span>' +
+          '<span class="fd-nav-pos">' + (sibIdx + 1) + ' of ' + siblings.length + ' in ' + qLabel + '</span>' +
           '<button class="fd-nav-btn" ' + (nextSib ? 'onclick="openFeatureDrawer(\'' + productId + '\',\'' + nextSib.id + '\')"' : 'disabled') + '>&#8594;</button>' +
         '</div>';
       }
@@ -2589,6 +2605,7 @@ window.H4E_DATA = {
           '<div class="fd-pills">' +
             '<span class="fd-status-pill"><span style="width:6px;height:6px;border-radius:99px;background:' + status.dot + '" class="' + (feature.status === 'progress' ? 'pulse-dot' : '') + '"></span>' + status.label + '</span>' +
             '<span class="fd-theme-pill" style="background:' + rgba(color, 0.1) + ';border-color:' + rgba(color, 0.25) + ';color:' + color + '">' + theme.label + '</span>' +
+            '<span class="fd-target">' + qLabel + '</span>' +
           '</div>' +
           '<p class="fd-desc">' + feature.desc + '</p>' +
         '</div>';
