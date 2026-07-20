@@ -626,8 +626,6 @@
   .gantt-row.selected,.gantt-row.fd-active{background:rgba(96,94,255,0.05) !important;}
   .gantt-row[data-status="progress"]{background:var(--row-bg,rgba(255,255,255,0.02));}
   .gantt-row[data-status="planned"]{background:transparent;}
-  .gantt-row[data-status="exploring"]{background:repeating-linear-gradient(135deg,transparent 0,transparent 10px,rgba(255,255,255,0.022) 10px,rgba(255,255,255,0.022) 11px);}
-  .gantt-row[data-status="exploring"]:hover{background:rgba(255,255,255,0.03);}
   /* Shipped group row — single "Live Today" row */
   .gantt-row--shipped{background:rgba(34,197,94,0.025) !important;cursor:default;}
   .gantt-row--shipped:hover{background:rgba(34,197,94,0.05) !important;}
@@ -648,7 +646,6 @@
   .gantt-bar .gantt-bar-meta{font-family:var(--font-body);font-weight:400;font-size:8px;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-3);flex-shrink:0;}
   .gantt-bar.status-progress::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.06) 50%,transparent 100%);background-size:200% 100%;animation:shimmer 3s linear infinite;}
   .gantt-bar.status-planned{background:repeating-linear-gradient(45deg,var(--bar-bg) 0 8px,transparent 8px 16px),var(--bar-bg);}
-  .gantt-bar.status-exploring{background:repeating-linear-gradient(90deg,var(--bar-bg) 0 2px,transparent 2px 6px),var(--bar-bg);opacity:0.85;}
   .gantt-bar.status-shipped{}
   .gantt-empty{padding:36px;text-align:center;color:var(--text-3);font-size:13px;border-bottom:1px solid var(--border);}
   @keyframes shimmer{from{background-position:-200% 0;}to{background-position:200% 0;}}
@@ -1116,7 +1113,21 @@
   .mp2-card-title{font-family:'THG Swinton',Georgia,serif;font-size:12.5px;font-weight:500;line-height:1.35;color:var(--text);margin-bottom:7px;}
   .mp2-badge{display:inline-flex;align-items:center;gap:5px;font-size:8px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;}
   .mp2-badge-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0;}
-  .mp2-card-more{margin-top:6px;font-size:10px;color:var(--text-3);font-style:italic;}
+  /* Multi-release quarters: every release gets its own block inside the card so
+     nothing is hidden behind a "+N more" note. Dense quarters (4+) arrange their
+     blocks in a multi-column grid (see inline grid-template-columns) so the card
+     grows wider instead of taller. */
+  .mp2-card-rows{min-width:0;}
+  .mp2-card-row{padding:7px 0;border-top:1px solid rgba(255,255,255,.06);min-width:0;}
+  .mp2-card-row:first-child{padding-top:0;border-top:none;}
+  .mp2-card-row .mp2-card-title{font-size:11.5px;margin-bottom:5px;}
+  .mp2-card-row:hover .mp2-card-title{color:var(--mp2-c,#605EFF);}
+  /* Dense quarters render as multiple side-by-side boxes rather than one wide card
+     with an internal grid, so a widened quarter section clearly reads as separate,
+     legible groups of releases (e.g. 2 boxes of 2, or 2 boxes of 3). */
+  .mp2-card-group{display:flex;gap:18px;}
+  .mp2-card-group .mp2-card-inner{height:100%;}
+  .mp2-card-box{flex:0 0 auto;}
   /* SVG circle and number hover effects */
   svg [data-mp2-ci]:hover{filter:drop-shadow(0 0 8px rgba(255,255,255,0.3)) brightness(1.2);}
   svg [data-mp2-ni]:hover{filter:drop-shadow(0 0 6px rgba(255,255,255,0.25)) brightness(1.15);font-weight:700;}
@@ -1139,7 +1150,7 @@
 window.H4E_DATA = {
   meta: { year: "2025 — 2027", productsCount: 7, activeMarkets: 12, plannedFeatures: 100, releasePhases: 4 },
   quarters: ["Q1 '25", "Q2 '25", "Q3 '25", "Q4 '25", "Q1 '26", "Q2 '26", "Q3 '26", "Q4 '26", "Q1 '27", "Q2 '27", "Q3 '27", "Q4 '27"],
-  nowIndex: 5,
+  nowIndex: 6,
   themes: {
     ai:        { id: "ai",        label: "AI-First Enterprise", color: "#605EFF" },
     sovereign: { id: "sovereign", label: "Sovereign Data",      color: "#605EFF" },
@@ -1148,43 +1159,39 @@ window.H4E_DATA = {
   statuses: {
     shipped:   { id: "shipped",   label: "Shipped",     dot: "#22C55E" },
     progress:  { id: "progress",  label: "In Progress", dot: "#605EFF" },
-    planned:   { id: "planned",   label: "Planned",     dot: "#A1A1AA" },
-    exploring: { id: "exploring", label: "Exploring",   dot: "#F59E0B" }
+    planned:   { id: "planned",   label: "Planned",     dot: "#A1A1AA" }
   },
   products: [
     {
       id: "idtrust", name: "IDTrust", color: "#8B6FFF",
       tagline: "IDTrust redefines how digital identity provides trust for individuals and institutions, enabling secure, efficient, and seamless authentication.",
-      summary: "A production-grade SSI platform on Hedera issuing, managing, and verifying W3C Verifiable Credentials for regulated, multi-party ecosystems.",
+      summary: "A production-grade SSI platform on Hedera — issuing, managing, and verifying W3C Verifiable Credentials for regulated, multi-party ecosystems.",
       content: "IDTrust enables organizations to issue cryptographically verifiable credentials, manage decentralized identities on Hedera, and authenticate users and AI agents without passwords or shared API keys. Built on open standards (W3C DID/VC, OID4VCI, OID4VP), IDTrust is designed to be the identity infrastructure layer for regulated enterprises, universities, and AI-driven systems.",
       lead: { name: "Dr. Anya Petrov", role: "VP, Identity Products" },
       meta: [
         { label: "Status", value: "Live" },
         { label: "Maturity", value: "Production" },
-        { label: "Last Update", value: "Apr 2026" }
+        { label: "Last Update", value: "Jul 2026" },
+        { label: "Active Markets", value: "Worldwide" },
+        { label: "Active Projects", value: "Deutsche Telekom (DE), Cofra / GridCore (IN), Fraunhofer Institute (DE)" }
       ],
       features: [
-        { id: "id-1", title: "Identity Wallet v1.0 (iOS & Android)", desc: "Secure on-device key management, DID registration, credential storage, QR-based presentation, biometric authentication, and backup & recovery.", status: "shipped", theme: "sovereign", quarter: "Q1 2025", votes: 521, gantt: [0,1] },
+        { id: "id-1", title: "Identity Wallet 1.0 (iOS & Android)", desc: "Secure on-device key management, DID registration, credential storage, QR-based presentation, biometric authentication, and backup & recovery.", status: "shipped", theme: "sovereign", quarter: "Q1 2025", votes: 521, gantt: [0,1] },
         { id: "id-2", title: "Identity Manager", desc: "Web-based backoffice for organizations to manage credential schemas, issue and revoke VCs, and configure verifiable presentation policies.", status: "shipped", theme: "governance", quarter: "Q2 2025", votes: 412, gantt: [1,1] },
-        { id: "id-3", title: "Issuer Service (OID4VCI)", desc: "Standards-based VC issuance with multi-issuer support, automated issuance flows, and Issuer SDK integration.", status: "shipped", theme: "governance", quarter: "Q3 2025", votes: 387, gantt: [2,1] },
-        { id: "id-4", title: "Verifier Service (OID4VP)", desc: "VP verification with DCQL-based presentation policies and trusted issuer management.", status: "shipped", theme: "sovereign", quarter: "Q4 2025", votes: 344, gantt: [3,1] },
-        { id: "id-5", title: "dSSO: Decentralised Single Sign-On", desc: "Wallet-based login across applications. Users authenticate by presenting VCs. No passwords, no centralised identity provider.", status: "shipped", theme: "sovereign", quarter: "Q1 2026", votes: 498, gantt: [4,1] },
-        { id: "id-6", title: "Auxiliary Services", desc: "Revocation Registry, VC/VP Schema Service, Universal DID Registrar & Resolver, and Audit Trail Service.", status: "shipped", theme: "governance", quarter: "Q1 2026", votes: 271, gantt: [4,1] },
-        { id: "id-7", title: "DID SDK v2.0", desc: "Full support for did:hedera 2.0 specification, powering the next generation of identity operations across the platform.", status: "progress", theme: "sovereign", quarter: "Q2 2026", votes: 389, gantt: [5,1] },
-        { id: "id-8", title: "IDTrust Client SDK v1.0", desc: "Client-side SSI library enabling any application to manage DIDs, request credentials, build VPs, and authenticate via dSSO.", status: "progress", theme: "sovereign", quarter: "Q3 2026", votes: 547, gantt: [6,1] },
-        { id: "id-9", title: "Identity Wallet v2.0", desc: "Enhanced mobile wallet rebuilt on Client SDK v1.0 with improved UX, performance, and support for new credential formats.", status: "progress", theme: "sovereign", quarter: "Q4 2026", votes: 412, gantt: [7,1] },
-        { id: "id-10", title: "DID Management Service v2.0", desc: "Centralised DID operations with caching, did:hedera Universal Resolver adapters, and optimised resolution at scale.", status: "progress", theme: "governance", quarter: "Q1 2027", votes: 318, gantt: [8,1] },
-        { id: "id-11", title: "Identity Manager", desc: "for enterprise credential governance", status: "progress", theme: "ai", quarter: "Q2 2027", votes: 289, gantt: [9,1] },
-        { id: "id-12", title: "Delegate to Agent", desc: "Allow human principals to delegate scoped, time-bound authority to AI agents with revocation and audit trail.", status: "progress", theme: "ai", quarter: "Q3 2027", votes: 267, gantt: [10,1] },
-        { id: "id-13", title: "Cloud Identity Wallet v1.0", desc: "Web-based, enterprise-custodied wallet with private keys secured in HashiCorp Vault. Enables organisations to manage credentials on behalf of users.", status: "progress", theme: "governance", quarter: "Q4 2027", votes: 276, gantt: [11,1] },
-        { id: "id-14", title: "Unified Documentation v1.0", desc: "Consolidated developer and integration documentation covering all platform services and SDKs.", status: "progress", theme: "governance", quarter: "Q1 2028", votes: 214, gantt: [9,1] },
-        { id: "id-15", title: "SD-JWT Selective Disclosure", desc: "Holders reveal only the credential claims required for each interaction, preserving privacy while meeting verifier requirements.", status: "planned", theme: "sovereign", quarter: "Q1 2027", votes: 198, gantt: [8,1] },
-        { id: "id-16", title: "dSSO v2.0", desc: "Enhanced decentralised SSO with improved performance, broader protocol support, and enterprise integration connectors (HRIS, CRM, ERP).", status: "planned", theme: "sovereign", quarter: "Q2 2027", votes: 176, gantt: [9,1] },
-        { id: "id-17", title: "Organisation Management & RBAC", desc: "Organisation DIDs with multi-signature governance, role-based access control, enterprise wallets, and delegated credential authority.", status: "planned", theme: "governance", quarter: "Q3 2027", votes: 198, gantt: [10,1] },
-        { id: "id-18", title: "AI-powered credential workflows", desc: "Conversational schema creation and policy configuration powered by AI, reducing setup time for new credential programmes.", status: "planned", theme: "ai", quarter: "Q4 2027", votes: 187, gantt: [11,1] },
-        { id: "id-19", title: "Federated Issuer Model", desc: "Enterprises become trusted issuers within IDTrust's trust registry, enabling cross-organisation credential recognition without central authority.", status: "planned", theme: "governance", quarter: "Q1 2028", votes: 167, gantt: [10,1] },
-        { id: "id-20", title: "Unified Documentation v2.0", desc: "Advanced features, enterprise integration guides, and agentic identity developer documentation.", status: "planned", theme: "governance", quarter: "Q2 2028", votes: 143, gantt: [11,1] },
-        { id: "id-21", title: "eIDAS 2.0 / EUDI", desc: "Native alignment with the EU Digital Identity regulation and EUDI Wallet specifications, enabling cross-border issuance and verification of Person Identification Data (PID) and Qualified Electronic Attestations of Attributes (QEAA)", status: "planned", theme: "sovereign", quarter: "Q3 2028", votes: 312, gantt: [8,1] }
+        { id: "id-3", title: "IDTrust Client SDK v1.0", desc: "Client-side SSI library enabling any application to manage DIDs, request credentials, build VPs, and authenticate via dSSO.", status: "shipped", theme: "sovereign", quarter: "Q3 2025", votes: 547, gantt: [2,1] },
+        { id: "id-4", title: "Identity Wallet v2.0", desc: "Enhanced mobile wallet rebuilt on Client SDK v1.0 with improved UX, performance, and support for new credential formats.", status: "shipped", theme: "sovereign", quarter: "Q3 2025", votes: 431, gantt: [2,1] },
+        { id: "id-5", title: "Issuer Service (OID4VCI)", desc: "Standards-based VC issuance with multi-issuer support, automated issuance flows, and Issuer SDK integration.", status: "shipped", theme: "governance", quarter: "Q4 2025", votes: 387, gantt: [3,1] },
+        { id: "id-6", title: "Verifier Service (OID4VP)", desc: "VP verification with DCQL-based presentation policies and trusted issuer management.", status: "shipped", theme: "sovereign", quarter: "Q4 2025", votes: 344, gantt: [3,1] },
+        { id: "id-7", title: "dSSO — Decentralised Single Sign-On", desc: "Wallet-based login across applications. Users authenticate by presenting VCs — no passwords, no centralised identity provider.", status: "shipped", theme: "sovereign", quarter: "Q1 2026", votes: 498, gantt: [4,1] },
+        { id: "id-8", title: "Auxiliary Services", desc: "Revocation Registry, VC/VP Schema Service, Universal DID Registrar & Resolver, and Audit Trail Service.", status: "shipped", theme: "governance", quarter: "Q2 2026", votes: 271, gantt: [5,1] },
+        { id: "id-9", title: "DID Management Service v2.0", desc: "Centralised DID operations with caching, did:hedera Universal Resolver adapters, and optimised resolution at scale.", status: "progress", theme: "governance", quarter: "Q3 2026", votes: 318, gantt: [6,1] },
+        { id: "id-10", title: "Agentic Identity — Agent ID & Authorization", desc: "AI agents receive their own did:hedera identity and credentials, enabling cryptographically verified, auditable agent-to-service authentication — no shared API keys.", status: "progress", theme: "ai", quarter: "Q3 2026", votes: 445, gantt: [6,1] },
+        { id: "id-11", title: "Cloud Identity Wallet v1.0", desc: "Web-based, enterprise-custodied wallet that lets organisations securely manage credentials on behalf of staff, service accounts, and connected systems — backed by enterprise-grade key management controls, with the same verification guarantees as our mobile wallet.", status: "progress", theme: "sovereign", quarter: "Q4 2026", votes: 276, gantt: [7,1] },
+        { id: "id-12", title: "Multi-tenancy", desc: "IDTrust is expanding to support multiple organisations on shared infrastructure, each with its own isolated data, credentials, and policy configuration — enabling faster onboarding and efficient scaling across industries and regions.", status: "progress", theme: "governance", quarter: "Q4 2026", votes: 298, gantt: [7,1] },
+        { id: "id-13", title: "Unified Documentation v1.0", desc: "Consolidated developer and integration documentation covering all platform services and SDKs.", status: "progress", theme: "governance", quarter: "Q4 2026", votes: 214, gantt: [7,1] },
+        { id: "id-14", title: "DID SDK v2.0", desc: "Full support for did:hedera 2.0 specification, powering the next generation of identity operations across the platform.", status: "planned", theme: "sovereign", quarter: "Q1 2027", votes: 389, gantt: [8,1] },
+        { id: "id-15", title: "AI-powered credential workflows", desc: "Conversational schema creation and policy configuration powered by AI — reducing setup time for new credential programmes.", status: "planned", theme: "ai", quarter: "Q2 2027", votes: 187, gantt: [9,1] },
+        { id: "id-16", title: "eIDAS 2.0 / EUDI", desc: "Native alignment with the EU Digital Identity regulation and EUDI Wallet framework — our first compliance milestones, enabling issuance and verification of Person Identification Data (PID) and Qualified Electronic Attestations of Attributes (QEAA) that interoperate with the EUDI ecosystem.", status: "planned", theme: "sovereign", quarter: "Q3 2027", votes: 312, gantt: [10,1] }
       ]
     },
     {
@@ -1196,150 +1203,174 @@ window.H4E_DATA = {
       meta: [
         { label: "Status", value: "Live" },
         { label: "Maturity", value: "Production" },
-        { label: "Last Update", value: "Apr 2026" }
+        { label: "Last Update", value: "Jul 2026" }
       ],
       features: [
-        { id: "tt-1", title: "Verifiable Workflow Execution", desc: "Multi-step business process management with DID tracking enabling workflow definition, instantiation, and cryptographic step verification.", status: "shipped", theme: "governance", quarter: "Q1 2025", votes: 412, gantt: [0,1] },
-        { id: "tt-2", title: "Mobile Data Capture with Verifiable Credentials", desc: "Field operators capture data on mobile devices, self-issue credentials, and submit as Verifiable Presentations with role-based authorization support.", status: "shipped", theme: "sovereign", quarter: "Q2 2025", votes: 334, gantt: [1,1] },
-        { id: "tt-3", title: "Hardware Device Integration", desc: "Connect IoT devices and scanning hardware including M-Trust SEC-Reader, generating verifiable credentials directly from device readings.", status: "shipped", theme: "governance", quarter: "Q3 2025", votes: 289, gantt: [2,1] },
-        { id: "tt-4", title: "Hedera-Anchored Audit Trail", desc: "Every step, every credential, every verification anchored to Hedera Consensus Service with CLI tools for independent auditor and regulator verification.", status: "shipped", theme: "governance", quarter: "Q4 2025", votes: 371, gantt: [3,1] },
-        { id: "tt-5", title: "VP Exchange & Verification", desc: "Complete Verifiable Presentation lifecycle including session management, QR-code mobile wallet exchange, and verification status tracking.", status: "shipped", theme: "sovereign", quarter: "Q1 2026", votes: 256, gantt: [4,1] },
-        { id: "tt-6", title: "Admin Dashboard Suite", desc: "Three-part admin interface: Workflow Viewer / Internal DID/DPP view / External DPP view (consumer-facing template, customizable per client).", status: "progress", theme: "governance", quarter: "Q2 2026", votes: 489, gantt: [5,1] },
-        { id: "tt-7", title: "Step & VP Data Retrieval API", desc: "Expose workflow step data and stored VPs to external systems for dashboards, mobile apps, and partner integrations.", status: "progress", theme: "governance", quarter: "Q3 2026", votes: 367, gantt: [6,1] },
-        { id: "tt-8", title: "Enterprise Authentication", desc: "Keycloak integration enabling SSO and jBPM identity authentication for multi-user, role-controlled enterprise-scale access.", status: "progress", theme: "sovereign", quarter: "Q4 2026", votes: 298, gantt: [7,1] },
-        { id: "tt-9", title: "Industry Demonstrators", desc: "Reference implementations across various industries showcasing platform capabilities.", status: "progress", theme: "governance", quarter: "Q1 2027", votes: 214, gantt: [8,1] },
-        { id: "tt-10", title: "Credential Delivery via Email", desc: "Issue credentials to recipients via email for gradual wallet adoption scenarios.", status: "progress", theme: "governance", quarter: "Q2 2027", votes: 187, gantt: [9,1] },
-        { id: "tt-11", title: "Token-Based Ownership Tracking", desc: "ERC-1155 tokens represent physical goods on the ledger enabling ownership transfer at handoffs with anti-fraud protocol-level verification.", status: "progress", theme: "governance", quarter: "Q3 2027", votes: 234, gantt: [10,1] },
-        { id: "tt-12", title: "AI-Powered Workflow Generation", desc: "Natural language supply chain process descriptions automatically generate valid BPMN 2.0 workflows for review and activation.", status: "planned", theme: "ai", quarter: "Q1 2027", votes: 342, gantt: [8,1] },
-        { id: "tt-13", title: "Enterprise Data Connectors", desc: "Native integrations with SAP, Oracle, and similar systems offering bidirectional data feeds and trust layer functionality.", status: "planned", theme: "governance", quarter: "Q2 2027", votes: 276, gantt: [9,1] },
-        { id: "tt-14", title: "Multi-Process Platform", desc: "Multi-user per organization with role-based access control, data isolation, and enterprise deployment capabilities.", status: "planned", theme: "governance", quarter: "Q3 2027", votes: 198, gantt: [10,1] },
-        { id: "tt-15", title: "Reporting & Analytics", desc: "Aggregate dashboards, trend analysis, and threshold-breach alerting for operational intelligence.", status: "planned", theme: "governance", quarter: "Q4 2027", votes: 267, gantt: [11,1] },
-        { id: "tt-16", title: "Cloud Wallet for End Users", desc: "Hosted wallet infrastructure for consumers and small operators without key management capabilities.", status: "planned", theme: "sovereign", quarter: "Q1 2028", votes: 189, gantt: [9,1] }
+        { id: "tt-1", title: "Verifiable Workflow Execution", desc: "Multi-step business process management with DID tracking. Define a workflow, instantiate it, and track every step with cryptographic proof.", status: "shipped", theme: "governance", quarter: "Q1 2025", votes: 412, gantt: [0,1] },
+        { id: "tt-2", title: "Mobile Data Capture with Verifiable Credentials", desc: "Operators capture data on mobile, self-issue credentials, and submit them as Verifiable Presentations, with role-based authorization.", status: "shipped", theme: "sovereign", quarter: "Q2 2025", votes: 334, gantt: [1,1] },
+        { id: "tt-3", title: "Hardware Device Integration", desc: "Connect scanning hardware and IoT devices (M-Trust SEC-Reader live; framework supports more). Generate verifiable credentials directly from device readings.", status: "shipped", theme: "governance", quarter: "Q3 2025", votes: 289, gantt: [2,1] },
+        { id: "tt-4", title: "Hedera-Anchored Audit Trail", desc: "Every step, credential, and verification event anchored to Hedera Consensus Service, so any record can be independently verified as tamper-evident.", status: "shipped", theme: "governance", quarter: "Q4 2025", votes: 371, gantt: [3,1] },
+        { id: "tt-5", title: "VP Exchange & Verification", desc: "Full Verifiable Presentation lifecycle: session management, request creation, QR-code mobile exchange, and verification status tracking.", status: "shipped", theme: "sovereign", quarter: "Q1 2026", votes: 256, gantt: [4,1] },
+        { id: "tt-6", title: "Dashboard Suite for Managers & Operators", desc: "Admin interface with workflow viewer, internal DID/DPP view, and external consumer-facing DPP view (customizable per client).", status: "progress", theme: "governance", quarter: "Q2 2026", votes: 489, gantt: [5,1] },
+        { id: "tt-7", title: "Role Credential Lifecycle (RBAC)", desc: "Issue, scope, and revoke role credentials for operators, managers, and devices; revocation immediately invalidates future signatures from that role.", status: "progress", theme: "sovereign", quarter: "Q2 2026", votes: 356, gantt: [5,1] },
+        { id: "tt-8", title: "Step & VP Data Retrieval API", desc: "Expose step data and stored VPs to external systems for dashboards, mobile apps, and partner integrations.", status: "progress", theme: "governance", quarter: "Q3 2026", votes: 367, gantt: [6,1] },
+        { id: "tt-9", title: "Genealogy & Traceability (Trace Explorer)", desc: "Traverse upstream and downstream from any batch at any transformation point, for full provenance and recall scoping.", status: "progress", theme: "governance", quarter: "Q3 2026", votes: 298, gantt: [6,1] },
+        { id: "tt-10", title: "Enterprise Authentication (SSO)", desc: "Keycloak integration for SSO federated with enterprise identity providers, enabling role-controlled access at enterprise scale.", status: "progress", theme: "sovereign", quarter: "Q4 2026", votes: 312, gantt: [7,1] },
+        { id: "tt-11", title: "Cloud Identity Wallet Integration", desc: "Hosted wallet (via IDTrust) that holds credentials on behalf of users, so consumers, operators, and devices can participate in verified flows without managing private keys.", status: "progress", theme: "sovereign", quarter: "Q4 2026", votes: 334, gantt: [7,1] },
+        { id: "tt-12", title: "Consumer Digital Product Passport", desc: "Branded, mobile-first DPP page resolved from a product QR, showing verified provenance at the point of purchase.", status: "progress", theme: "governance", quarter: "Q1 2027", votes: 276, gantt: [8,1] },
+        { id: "tt-13", title: "AI Document Intelligence", desc: "Upload a supplier CoA or audit PDF and receive a structured extraction of test fields with threshold validation, reducing manual data entry.", status: "progress", theme: "ai", quarter: "Q1 2027", votes: 398, gantt: [8,1] },
+        { id: "tt-14", title: "Token-Based Ownership Tracking (ERC-1155)", desc: "Each physical unit is represented by a token that transfers between actors at every handoff — mathematical proof that no more was released downstream than was received upstream. Anti-fraud at the protocol level.", status: "progress", theme: "governance", quarter: "Q2 2027", votes: 234, gantt: [9,1] },
+        { id: "tt-15", title: "Recall Flow & Cascade Propagation", desc: "Trigger a recall at any point in the chain and have it propagate automatically to all affected downstream batches, retailers, and units — completing a recall in minutes instead of weeks.", status: "planned", theme: "governance", quarter: "Q3 2027", votes: 267, gantt: [10,1] },
+        { id: "tt-16", title: "Organisation Onboarding & Product Catalog", desc: "Onboard participating organisations and define the products and raw materials a customer works with, so new customers can be configured rather than custom-built.", status: "planned", theme: "governance", quarter: "Q3 2027", votes: 245, gantt: [10,1] },
+        { id: "tt-17", title: "Industry Template Library", desc: "Pre-built templates (workflows, dashboard configs, form sets) per industry — cocoa, pharma, luxury, industrial — to stand up a new customer in days, not weeks.", status: "planned", theme: "governance", quarter: "Q4 2027", votes: 289, gantt: [11,1] },
+        { id: "tt-18", title: "AI-Powered Workflow Generation", desc: "Describe a supply chain process in natural language; the platform generates a valid BPMN 2.0 workflow ready for human review and activation.", status: "planned", theme: "ai", quarter: "Q4 2027", votes: 342, gantt: [11,1] },
+        { id: "tt-19", title: "Enterprise Data Connectors", desc: "Native integrations with SAP, Oracle, and other enterprise systems; two-way import/export. TrackTrace becomes the trust layer on top of existing infrastructure.", status: "planned", theme: "governance", quarter: "Q1 2028", votes: 276, gantt: [10,1] },
+        { id: "tt-20", title: "Multi-Tenant Platform", desc: "Tenant-level data isolation with per-tenant users, roles, and access control. Enterprise-grade shared deployment model.", status: "planned", theme: "governance", quarter: "Q1 2028", votes: 198, gantt: [10,1] },
+        { id: "tt-21", title: "Compliance Framework Configuration", desc: "Configure which regulations (EUDR, CSRD, CSDDD, CBAM, ESPR) apply to which workflow steps, to serve customers across multiple regulatory regimes.", status: "planned", theme: "governance", quarter: "Q2 2028", votes: 312, gantt: [11,1] },
+        { id: "tt-22", title: "Verifier Dashboard & Audit CLI/SDK", desc: "Independent verification tooling for auditors and regulators — a web dashboard and a public CLI/SDK to verify TrackTrace records against the Hedera ledger without trusting our UI.", status: "planned", theme: "sovereign", quarter: "Q2 2028", votes: 256, gantt: [11,1] },
+        { id: "tt-23", title: "Reporting & Analytics", desc: "Aggregate dashboards, trend analysis, and threshold alerting. An operational intelligence layer on top of the trust layer.", status: "planned", theme: "governance", quarter: "Q3 2028", votes: 267, gantt: [11,1] },
+        { id: "tt-24", title: "AssetGuard DPP Ownership Transfer", desc: "Transfer a product's Digital Product Passport to a buyer's wallet for high-value goods (luxury, automotive, art), so verified provenance and chain of ownership travel with the item.", status: "planned", theme: "sovereign", quarter: "Q3 2028", votes: 189, gantt: [11,1] }
       ]
     },
     {
       id: "ecoguard", name: "EcoGuard", color: "#27AE60",
       tagline: "EcoGuard empowers enterprises to measure and automate carbon emissions with accuracy and compliance.",
       summary: "An end-to-end platform for ESG workflows, carbon credit lifecycle, tokenization, and marketplace operations.",
-      content: "EcoGuard streamlines ESG workflows and the full carbon credit lifecycle from project setup and MRV to tokenization and trading. Built for transparency and scale, it unifies identity, compliance, and market operations for trusted climate outcomes.",
+      content: "EcoGuard streamlines ESG workflows and the full carbon credit lifecycle—from project setup and MRV to tokenization and trading. Built for transparency and scale, it unifies identity, compliance, and market operations for trusted climate outcomes.",
       lead: { name: "Lina Okafor", role: "VP, Sustainability Products" },
       meta: [
         { label: "Status", value: "Live" },
         { label: "Maturity", value: "Production" },
-        { label: "Last Update", value: "Feb 2026" }
+        { label: "Last Update", value: "Jul 2026" }
       ],
       features: [
-        { id: "eg-1", title: "VP Exchange & Validation", desc: "Share and verify VPs for validation and verification of project and monitoring data.", status: "shipped", theme: "governance", quarter: "Q1 2025", votes: 387, gantt: [0,1] },
-        { id: "eg-2", title: "DID-based Tracking", desc: "Track projects, processes, and carbon credits across their entire lifecycle using decentralized identifiers.", status: "shipped", theme: "sovereign", quarter: "Q2 2025", votes: 312, gantt: [1,1] },
-        { id: "eg-3", title: "ERC-1155 Contracts", desc: "Token schemas for carbon credits for better performance and voiding double spending.", status: "shipped", theme: "governance", quarter: "Q3 2025", votes: 445, gantt: [2,1] },
-        { id: "eg-4", title: "dMRV", desc: "Process workflow digitization with device inputs providing verified field data and immutable submission records.", status: "shipped", theme: "governance", quarter: "Q4 2025", votes: 521, gantt: [3,1] },
-        { id: "eg-5", title: "Audit & Compliance", desc: "Maintains transparent, verifiable records accessible to auditors and regulators for global carbon standard adherence.", status: "shipped", theme: "governance", quarter: "Q1 2026", votes: 267, gantt: [4,1] },
-        { id: "eg-6", title: "Verifiable Workflow Execution", desc: "Multi-step methodology processes with DID tracking, enabling cryptographic proof at each step.", status: "shipped", theme: "governance", quarter: "Q2 2026", votes: 298, gantt: [5,1] },
-        { id: "eg-7", title: "User Onboarding & KYB", desc: "Streamlined business verification and onboarding procedures.", status: "progress", theme: "sovereign", quarter: "Q3 2026", votes: 334, gantt: [6,1] },
-        { id: "eg-8", title: "Advanced Admin Console", desc: "Manage users, transactions, and configurations at scale.", status: "progress", theme: "governance", quarter: "Q4 2026", votes: 289, gantt: [7,1] },
-        { id: "eg-9", title: "Cloud Wallet", desc: "Managed key custody via cloud wallet services.", status: "progress", theme: "governance", quarter: "Q1 2027", votes: 276, gantt: [8,1] },
-        { id: "eg-10", title: "Spot Marketplace", desc: "Enable spot trading for listed credits.", status: "progress", theme: "governance", quarter: "Q2 2027", votes: 489, gantt: [9,1] },
-        { id: "eg-11", title: "AI Agent for Digitizing Methodology", desc: "Parse PDFs/docs, extract rules, map to MRV model, draft machine-readable steps, reviewer edits/approves and publishes to library to link to MRV workflows.", status: "progress", theme: "ai", quarter: "Q3 2027", votes: 412, gantt: [10,1] },
-        { id: "eg-12", title: "Simple Trade & Tokenization", desc: "Facilitate easy carbon credit minting and peer-to-peer trading.", status: "progress", theme: "governance", quarter: "Q4 2027", votes: 234, gantt: [11,1] },
-        { id: "eg-13", title: "ESG Reporting Dashboard", desc: "Configurable dashboards with exportable reports aligned to GRI, TCFD, and CSRD frameworks.", status: "progress", theme: "governance", quarter: "Q1 2028", votes: 376, gantt: [9,1] },
-        { id: "eg-14", title: "AI Anomaly Detection", desc: "Automatically detect unusual activity and potential fraud across workflows.", status: "planned", theme: "ai", quarter: "Q1 2027", votes: 287, gantt: [8,1] },
-        { id: "eg-15", title: "Registry & Payments", desc: "Integrate registries and payment rails for settlement.", status: "planned", theme: "governance", quarter: "Q2 2027", votes: 234, gantt: [9,1] },
-        { id: "eg-16", title: "OTC Trading & Reporting", desc: "Support negotiated trades with compliance-ready reporting.", status: "planned", theme: "governance", quarter: "Q3 2027", votes: 178, gantt: [10,1] },
-        { id: "eg-17", title: "AI Workflow Automation", desc: "Generate BPMN flows and automate routine steps.", status: "planned", theme: "ai", quarter: "Q4 2027", votes: 198, gantt: [11,1] },
-        { id: "eg-18", title: "External Credit Listing", desc: "Onboard third-party credits into the platform.", status: "planned", theme: "governance", quarter: "Q1 2028", votes: 167, gantt: [10,1] }
+        { id: "eg-1", title: "VP Exchange & Validation", desc: "Share and verify VPs.", status: "shipped", theme: "governance", quarter: "Q1 2025", votes: 387, gantt: [0,1] },
+        { id: "eg-2", title: "DID-based Tracking", desc: "End-to-end traceability.", status: "shipped", theme: "sovereign", quarter: "Q2 2025", votes: 312, gantt: [1,1] },
+        { id: "eg-3", title: "Identity & Credentials", desc: "Secure identity and access.", status: "shipped", theme: "sovereign", quarter: "Q3 2025", votes: 356, gantt: [2,1] },
+        { id: "eg-4", title: "ERC-1155 Contracts", desc: "Token schemas for credits.", status: "shipped", theme: "governance", quarter: "Q4 2025", votes: 445, gantt: [3,1] },
+        { id: "eg-5", title: "Project Lifecycle & MRV", desc: "Orchestrate MRV steps.", status: "shipped", theme: "governance", quarter: "Q4 2025", votes: 521, gantt: [3,1] },
+        { id: "eg-6", title: "Simple Trade & Tokenization", desc: "Basic trades and minting.", status: "shipped", theme: "governance", quarter: "Q1 2026", votes: 234, gantt: [4,1] },
+        { id: "eg-7", title: "Audit & Compliance", desc: "Verification and evidence.", status: "shipped", theme: "governance", quarter: "Q1 2026", votes: 267, gantt: [4,1] },
+        { id: "eg-8", title: "User Onboarding & KYB", desc: "Streamlined business verification and onboarding.", status: "shipped", theme: "sovereign", quarter: "Q2 2026", votes: 334, gantt: [5,1] },
+        { id: "eg-9", title: "Advanced Admin Console", desc: "Manage users, transactions, and configurations at scale.", status: "shipped", theme: "governance", quarter: "Q2 2026", votes: 289, gantt: [5,1] },
+        { id: "eg-10", title: "Cloud Wallet Integration", desc: "Offer managed key custody via cloud wallets.", status: "progress", theme: "governance", quarter: "Q3 2026", votes: 276, gantt: [6,1] },
+        { id: "eg-11", title: "AI Agent for Digitizing Methodology", desc: "Parse PDFs/docs, extract rules, map to MRV model, draft machine-readable steps, reviewer edits/approves and publishes to library to link to MRV workflows.", status: "progress", theme: "ai", quarter: "Q3 2026", votes: 412, gantt: [6,1] },
+        { id: "eg-12", title: "Methodology Expansion", desc: "Extend the methodology library with additional project types and reusable MRV templates.", status: "progress", theme: "governance", quarter: "Q4 2026", votes: 298, gantt: [7,1] },
+        { id: "eg-13", title: "Compliance & ESG Reporting", desc: "Generate ESG reports, support future corresponding adjustment tagging, export audit and core reports, track buyer emissions versus reductions from credit purchases, and export or download reports.", status: "progress", theme: "governance", quarter: "Q4 2026", votes: 376, gantt: [7,1] },
+        { id: "eg-14", title: "Trading & Revenue Configuration", desc: "Configure trading rules, fees, revenue sharing, and settlement controls for marketplace operations.", status: "planned", theme: "governance", quarter: "Q1 2027", votes: 342, gantt: [8,1] },
+        { id: "eg-15", title: "AI Anomaly Detection", desc: "Automatically detect unusual activity and potential fraud across MRV, tokenization, and trading workflows.", status: "planned", theme: "ai", quarter: "Q2 2027", votes: 287, gantt: [9,1] },
+        { id: "eg-16", title: "Registry & Payments", desc: "Integrate registries and payment rails for settlement.", status: "planned", theme: "governance", quarter: "Q3 2027", votes: 234, gantt: [10,1] },
+        { id: "eg-17", title: "OTC Trading & Reporting", desc: "Support negotiated trades with compliance-ready reports.", status: "planned", theme: "governance", quarter: "Q4 2027", votes: 178, gantt: [11,1] },
+        { id: "eg-18", title: "External Credit Listing", desc: "Onboard third-party credits into EcoGuard.", status: "planned", theme: "governance", quarter: "Q1 2028", votes: 167, gantt: [11,1] }
       ]
     },
     {
       id: "brandboost", name: "BrandBoost", color: "#00C5BE",
       tagline: "BrandBoost redefines consumer engagement by converting passive users into high-value participants through gamification to boost brand value.",
-      summary: "Next-generation consumer engagement with blockchain and gamification",
-      content: "BrandBoost is a consumer engagement platform combining gamification, blockchain technology, and behavioral science to convert passive users into actively engaged, high-value participants. It enables brands to design interactive experiences, distribute tokenized incentives, and generate actionable insights through AI-driven analytics.",
+      summary: "A real-time engagement engine that unifies proof-of-attention and on-chain reward settlement into a single no-code operator experience.",
+      content: "BrandBoost is an enterprise-grade consumer engagement and loyalty platform that converges game psychology with deep technology through real-time, in-play gamification, incentivization, and enjoyment elements of competition.",
       lead: { name: "Tomás Rivera", role: "VP, Engagement Products" },
       meta: [
-        { label: "Status", value: "Beta" },
-        { label: "Maturity", value: "Beta" },
-        { label: "Last Update", value: "Apr 2026" },
+        { label: "Status", value: "Live" },
+        { label: "Maturity", value: "Early Production" },
+        { label: "Last Update", value: "Jul 2026" },
         { label: "Engine", value: "Gamification" },
         { label: "Technology", value: "Web3 + AI" }
       ],
       features: [
-        { id: "bb-1", title: "Gamification Engine", desc: "Configurable engagement mechanics driven by behavioral science.", status: "shipped", theme: "governance", quarter: "Q1 2025", votes: 412, gantt: [0,1] },
-        { id: "bb-2", title: "Web3 Wallet Integration", desc: "Self-custody wallet for incentives, identity, and tokenized rewards.", status: "shipped", theme: "governance", quarter: "Q2 2025", votes: 378, gantt: [1,1] },
-        { id: "bb-3", title: "Token Design Studio", desc: "Create, mint, and manage tokenised incentives (currencies, XP points, vouchers, discounts); inventory management and award-rules connected to engagement features.", status: "shipped", theme: "governance", quarter: "Q3 2025", votes: 334, gantt: [2,1] },
-        { id: "bb-4", title: "Ultra-Wide Band Connectivity", desc: "Proximity-based engagement and real-time interaction triggers.", status: "shipped", theme: "governance", quarter: "Q4 2025", votes: 289, gantt: [3,1] },
-        { id: "bb-5", title: "Advanced AI/ML Insights", desc: "Delivers predictive analytics and behavior modeling for engagement optimization.", status: "progress", theme: "ai", quarter: "Q1 2026", votes: 489, gantt: [4,1] },
-        { id: "bb-6", title: "Ultra-Wide Band \"Proof of Presence\"", desc: "Uses UWB USB dongles (or TV/STB integration) plus mobile SDK for precise position relative to the screen, enabling user profiling, fraud prevention, and proximity-aware engagement.", status: "progress", theme: "governance", quarter: "Q2 2026", votes: 356, gantt: [5,1] },
-        { id: "bb-7", title: "Real-time Engagement Loop", desc: "Features personalisation, challenges, achievements, polls/quizzes/trivia, mini-games, and notifications/airdrops orchestrated through Live-Ops.", status: "progress", theme: "governance", quarter: "Q3 2026", votes: 298, gantt: [6,1] },
-        { id: "bb-8", title: "Treasury Wallet & Operator Console", desc: "Enterprise tool for treasury management, incentive issuance, inventory, and back-office reporting.", status: "progress", theme: "governance", quarter: "Q4 2026", votes: 267, gantt: [7,1] },
-        { id: "bb-9", title: "Community & Social Layer v1", desc: "Includes leaderboards, friend passes, gifting, and referrals anchored to consumer DIDs.", status: "progress", theme: "governance", quarter: "Q1 2027", votes: 234, gantt: [8,1] },
-        { id: "bb-10", title: "Targeted & Interactive TV Ads", desc: "Enables 'Ad battles' and interactive overlays activated via UWB proximity to the screen, unlocking new monetisation for broadcasters.", status: "progress", theme: "governance", quarter: "Q2 2027", votes: 312, gantt: [9,1] },
-        { id: "bb-11", title: "Operator & Broadcaster App SDK", desc: "Offers drop-in integration for TV operator and broadcaster apps, including wallet handoff and content-protection hooks.", status: "progress", theme: "governance", quarter: "Q3 2027", votes: 198, gantt: [10,1] },
-        { id: "bb-12", title: "Community Guilds", desc: "Structured user groups with shared incentives and engagement loops.", status: "planned", theme: "governance", quarter: "Q4 2027", votes: 187, gantt: [11,1] },
-        { id: "bb-13", title: "Peer-to-Peer Marketplace", desc: "Trading layer for assets, rewards, and digital incentives.", status: "planned", theme: "governance", quarter: "Q1 2028", votes: 243, gantt: [8,1] },
-        { id: "bb-14", title: "Multi-Venue Geo-Targeting", desc: "Enables cross-venue activation with hybrid UWB, GPS, and beacon signal.", status: "planned", theme: "governance", quarter: "Q2 2028", votes: 167, gantt: [9,1] },
-        { id: "bb-15", title: "Betting & Wagering Module", desc: "Features compliance-aware wagering capabilities, jurisdiction-gated, designed to meet regulatory requirements for licensed operators.", status: "planned", theme: "governance", quarter: "Q3 2028", votes: 221, gantt: [10,1] }
+        { id: "bb-1", title: "No-Code Journey Canvas", desc: "Visual drag-and-drop editor for reward journeys.", status: "shipped", theme: "governance", quarter: "Q1 2025", votes: 356, gantt: [0,1] },
+        { id: "bb-2", title: "Wallet Integration", desc: "In-app self-custody wallet on Hedera.", status: "shipped", theme: "governance", quarter: "Q2 2025", votes: 378, gantt: [1,1] },
+        { id: "bb-3", title: "Multi-Source Signal Ingestion", desc: "Accept events from any source: app, web, POS, IoT, partners.", status: "shipped", theme: "governance", quarter: "Q3 2025", votes: 298, gantt: [2,1] },
+        { id: "bb-4", title: "Integrated Token Design Studio", desc: "Mint, hold, and manage branded incentive tokens.", status: "shipped", theme: "governance", quarter: "Q3 2025", votes: 334, gantt: [2,1] },
+        { id: "bb-5", title: "Multi-Brand Token Isolation", desc: "Per-sponsor treasuries with strict spend boundaries.", status: "shipped", theme: "governance", quarter: "Q4 2025", votes: 276, gantt: [3,1] },
+        { id: "bb-6", title: "Event Catalog", desc: "Extensible registry of ingested signal types.", status: "shipped", theme: "governance", quarter: "Q4 2025", votes: 245, gantt: [3,1] },
+        { id: "bb-7", title: "UWB Proof-of-Presence", desc: "Ultra-Wideband confirmation of physical attendance.", status: "shipped", theme: "governance", quarter: "Q1 2026", votes: 356, gantt: [4,1] },
+        { id: "bb-8", title: "Sponsored Quiz", desc: "Personalized branded challenges with real-time reward settlement.", status: "shipped", theme: "governance", quarter: "Q2 2026", votes: 389, gantt: [5,1] },
+        { id: "bb-9", title: "Real-time Engagement Loop", desc: "Trigger to on-chain reward in sub-second latency.", status: "progress", theme: "governance", quarter: "Q3 2026", votes: 298, gantt: [6,1] },
+        { id: "bb-10", title: "LoopAnalytics", desc: "Dashboard for journey performance, conversion, and per-sponsor attribution.", status: "progress", theme: "governance", quarter: "Q3 2026", votes: 254, gantt: [6,1] },
+        { id: "bb-11", title: "Treasury Wallet & Operator Console", desc: "Unified admin surface for treasury operations and campaign management.", status: "progress", theme: "governance", quarter: "Q4 2026", votes: 267, gantt: [7,1] },
+        { id: "bb-12", title: "Proof-of-Presence Heatmap", desc: "Visualise UWB attendance density across venues and time.", status: "planned", theme: "governance", quarter: "Q1 2027", votes: 234, gantt: [8,1] },
+        { id: "bb-13", title: "Prediction Markets & Micro-Wagering", desc: "Fan-to-fan predictions with token-backed stakes.", status: "planned", theme: "governance", quarter: "Q1 2027", votes: 221, gantt: [8,1] },
+        { id: "bb-14", title: "Multi-Venue Geo-Targeting", desc: "Pokémon Go–style scavenger hunts and location games with UWB-precise positioning across multiple venues.", status: "planned", theme: "governance", quarter: "Q2 2027", votes: 167, gantt: [9,1] },
+        { id: "bb-15", title: "Peer-to-Peer Marketplace", desc: "Fan-to-fan token, NFT, and reward exchange.", status: "planned", theme: "governance", quarter: "Q2 2027", votes: 243, gantt: [9,1] },
+        { id: "bb-16", title: "AI-Generated Rewards Journeys", desc: "LLM-composed campaigns from plain-language intent.", status: "planned", theme: "ai", quarter: "Q3 2027", votes: 198, gantt: [10,1] },
+        { id: "bb-17", title: "Guild-vs-Guild Tournaments", desc: "Team-based competitive engagement with shared rewards.", status: "planned", theme: "governance", quarter: "Q3 2027", votes: 187, gantt: [10,1] },
+        { id: "bb-18", title: "Synthetic Fan Personas", desc: "AI-simulated fan behaviour for pre-launch journey testing.", status: "planned", theme: "ai", quarter: "Q4 2027", votes: 156, gantt: [11,1] }
       ]
     },
     {
       id: "assetguard", name: "AssetGuard", color: "#2E9CCA",
       tagline: "AssetGuard is a secure enterprise-grade wallet to manage digital assets, with enhanced security, governance, and recovery features.",
-      summary: "A secure Hedera wallet for rewards today and an agent-ready foundation for what's next.",
+      summary: "A secure Hedera wallet for rewards today — and an agent-ready foundation for what's next.",
       content: "AssetGuard is a production-grade wallet for the Hedera ecosystem. It powers reliable distribution and management of tokens, NFTs, and on-chain rewards for programs and communities. Looking forward, AssetGuard is evolving into a safe, policy-driven agentic wallet that enables AI agents to act under human-defined guardrails.",
       lead: { name: "Henrik Voss", role: "VP, Asset Products" },
       meta: [
         { label: "Status", value: "Live" },
         { label: "Maturity", value: "Production" },
-        { label: "Last Update", value: "Apr 2026" },
+        { label: "Last Update", value: "Jul 2026" },
         { label: "Platforms", value: "iOS · Android" }
       ],
       features: [
-        { id: "ag-1", title: "Cross-platform retail wallet", desc: "Cross‑platform retail wallet (Android, iOS, Chrome) serving as a dependable everyday wallet supporting ecosystem programs at scale.", status: "shipped", theme: "governance", quarter: "Q1 2025", votes: 521, gantt: [0,1] },
-        { id: "ag-2", title: "Core HBAR & token management", desc: "Send/receive with token association controls enabling reliable day-to-day cryptocurrency operations.", status: "shipped", theme: "governance", quarter: "Q2 2025", votes: 478, gantt: [1,1] },
+        { id: "ag-1", title: "Cross-platform retail wallet (Android, iOS, Chrome)", desc: "Reliable everyday wallet supporting ecosystem programs at scale.", status: "shipped", theme: "governance", quarter: "Q1 2025", votes: 521, gantt: [0,1] },
+        { id: "ag-2", title: "Core HBAR & token management (HTS)", desc: "Send/receive with token association controls for dependable day-to-day use.", status: "shipped", theme: "governance", quarter: "Q2 2025", votes: 478, gantt: [1,1] },
         { id: "ag-3", title: "NFT gallery & on-chain identity", desc: "Dedicated space for collectibles, credentials, and rewards in one place suitable for memberships and quests.", status: "shipped", theme: "governance", quarter: "Q3 2025", votes: 389, gantt: [2,1] },
         { id: "ag-4", title: "Seamless onboarding & secure recovery", desc: "Low‑friction create/import flows with secure backup options for user convenience.", status: "shipped", theme: "governance", quarter: "Q4 2025", votes: 334, gantt: [3,1] },
         { id: "ag-5", title: "Security, settings & network controls", desc: "Features including biometrics/PIN, wallet reset, theming, mainnet/testnet switching.", status: "shipped", theme: "governance", quarter: "Q1 2026", votes: 298, gantt: [4,1] },
         { id: "ag-6", title: "dApp connectivity & production validation", desc: "WalletConnect support; proven in Hedera quests and hackathons demonstrating real-world reliability.", status: "shipped", theme: "governance", quarter: "Q2 2026", votes: 312, gantt: [5,1] },
-        { id: "ag-7", title: "Rewards via THA Academy certificates", desc: "Course‑completion credentials issued as NFTs directly into AssetGuard.", status: "shipped", theme: "governance", quarter: "Q3 2026", votes: 267, gantt: [6,1] },
+        { id: "ag-7", title: "Rewards via THA Academy certificates", desc: "Course‑completion credentials issued as NFTs directly into AssetGuard.", status: "shipped", theme: "governance", quarter: "Q2 2026", votes: 267, gantt: [5,1] },
         { id: "ag-8", title: "Membership Portal Rewards", desc: "Making AssetGuard the default destination for membership NFTs and rewards that builds trust and repeat participation.", status: "progress", theme: "governance", quarter: "Q4 2026", votes: 387, gantt: [7,1] },
         { id: "ag-9", title: "Engagement loops with education & quests", desc: "Connecting learning paths, quests, and on-chain actions into ongoing engagement journeys.", status: "progress", theme: "governance", quarter: "Q1 2027", votes: 312, gantt: [8,1] },
-        { id: "ag-10", title: "Agentic wallet foundations", desc: "Including agent DIDs, verifiable credentials, MCP-compatible signing patterns, and policy guardrails with kill-switch controls.", status: "progress", theme: "ai", quarter: "Q2 2027", votes: 445, gantt: [9,1] },
+        { id: "ag-10", title: "Agentic wallet foundations", desc: "Agent DIDs & verifiable credentials via IDTrust; MCP-compatible, non-extractable signing patterns; and a policy manifest with guardrails and kill-switch controls.", status: "progress", theme: "ai", quarter: "Q2 2027", votes: 445, gantt: [9,1] },
         { id: "ag-11", title: "AssetGuard MCP server & guardrail UI", desc: "Agent toolset with operator policies, approvals, and observability capabilities.", status: "planned", theme: "ai", quarter: "Q1 2027", votes: 398, gantt: [8,1] },
-        { id: "ag-12", title: "Autonomous treasury & A2A pilots", desc: "Safe agentic value flows on Hedera with reference architecture including audit and logging patterns.", status: "planned", theme: "ai", quarter: "Q2 2027", votes: 334, gantt: [9,1] },
-        { id: "ag-13", title: "Open Wallet Standard (OWS) compatibility", desc: "Integration with OWS specifications.", status: "planned", theme: "sovereign", quarter: "Q3 2027", votes: 276, gantt: [10,1] },
-        { id: "ag-14", title: "Commercial expansion", desc: "Evaluating buy/sell/swap, staking, and broader jurisdictional availability where compliant.", status: "planned", theme: "governance", quarter: "Q4 2027", votes: 198, gantt: [11,1] },
-        { id: "ag-15", title: "Enterprise readiness", desc: "Including OAuth/SSO, RBAC admin console, audit logging, compliance exports, and white-label API models.", status: "planned", theme: "governance", quarter: "Q1 2028", votes: 189, gantt: [10,1] },
-        { id: "ag-16", title: "Standardised enterprise digital-asset governance", desc: "Unified control plane for policy engines, approvals, reporting, and integrations with business systems.", status: "planned", theme: "governance", quarter: "Q2 2028", votes: 156, gantt: [11,1] }
+        { id: "ag-12", title: "Autonomous treasury & A2A pilots", desc: "Pilot safe agentic value flows on Hedera and publish a reference architecture with audit and logging patterns.", status: "planned", theme: "ai", quarter: "Q2 2027", votes: 334, gantt: [9,1] },
+        { id: "ag-13", title: "Open Wallet Standard (OWS) compatibility", desc: "Exploring AssetGuard compatibility with the Open Wallet Standard (OWS).", status: "planned", theme: "sovereign", quarter: "Q3 2027", votes: 276, gantt: [10,1] },
+        { id: "ag-14", title: "Commercial expansion (where compliant)", desc: "Evaluate buy/sell/swap, staking, and broader availability in permitted jurisdictions.", status: "planned", theme: "governance", quarter: "Q4 2027", votes: 198, gantt: [11,1] },
+        { id: "ag-15", title: "Enterprise readiness (partner-led track)", desc: "When driven by demand: OAuth/SSO and recovery, RBAC + admin console (MVP), audit logging & compliance exports, and an API-first tenant model for white-label deployments.", status: "planned", theme: "governance", quarter: "Q1 2028", votes: 189, gantt: [10,1] },
+        { id: "ag-16", title: "Standardised enterprise digital-asset governance", desc: "Consistent control plane for policy engines, approvals, reporting, and integrations across HR, CRM, ERP, and Finance systems.", status: "planned", theme: "governance", quarter: "Q2 2028", votes: 156, gantt: [11,1] }
       ]
     },
     {
       id: "transact", name: "TransAct", color: "#605EFF",
-      tagline: "TransAct enables digital currency transactions without the need to hold any crypto or wallets, eliminating the compliance risk for enterprises.",
-      summary: "A secure, enterprise-grade transaction gateway on Hedera enabling seamless Web3 payments and settlements.",
-      content: "TransAct is a securely managed transaction gateway that enables crypto-free transactions for enterprises in the Web3 economy. By abstracting away the need to hold crypto or manage any crypto wallets, TransAct enables enterprises to settle transactions in USD and eliminate compliance risks related to transaction fees.",
+      tagline: "TransAct is evolving from a blockchain transaction gateway into the infrastructure layer that lets humans and AI agents transact on Hedera under the same set of rules.",
+      summary: "The full gateway, extended to agents — the same API, controls, and audit trail enterprise teams already use, now available to AI agents too.",
+      content: "TransAct is evolving from a blockchain transaction gateway into the infrastructure layer that lets humans and AI agents transact on Hedera under the same set of rules. Everything the platform already does for enterprise teams — crypto-free infrastructure, managed custody, self-service billing — it now does for AI agents as well, extended with native agent tooling, a policy engine, and a shared audit trail.",
       meta: [
         { label: "Status", value: "Live" },
         { label: "Maturity", value: "Production" },
-        { label: "Last Update", value: "Apr 2026" },
-        { label: "Type", value: "API Gateway" }
+        { label: "Last Update", value: "Jul 2026" },
+        { label: "Type", value: "Agentic Gateway" }
       ],
       lead: { name: "Kavi Ramesh", role: "VP, Transaction Products" },
       features: [
-        { id: "ta-1", title: "Transaction Gateway", desc: "Submit, sign, and track Hedera transactions through a unified API.", status: "shipped", theme: "sovereign", quarter: "Q1 2025", votes: 512, gantt: [0,1] },
-        { id: "ta-2", title: "Self-Serve Billing & Subscriptions", desc: "Plan management, checkout, and upgrades without manual intervention.", status: "shipped", theme: "governance", quarter: "Q2 2025", votes: 378, gantt: [1,1] },
-        { id: "ta-3", title: "Invoicing & Billing History", desc: "On-demand invoices and complete transaction-level billing records.", status: "shipped", theme: "governance", quarter: "Q3 2025", votes: 291, gantt: [2,1] },
-        { id: "ta-4", title: "Real-Time Network Monitoring", desc: "Live status tracking with configurable alerts for operators and systems.", status: "shipped", theme: "governance", quarter: "Q4 2025", votes: 263, gantt: [3,1] },
-        { id: "ta-5", title: "Transaction Metrics & Security Logs", desc: "Queryable visibility into transaction activity and security events.", status: "progress", theme: "governance", quarter: "Q1 2026", votes: 419, gantt: [4,1] },
-        { id: "ta-6", title: "Webhook Event System", desc: "Event delivery into external orchestration and monitoring systems.", status: "progress", theme: "sovereign", quarter: "Q2 2026", votes: 367, gantt: [5,1] },
-        { id: "ta-7", title: "Sandbox Environment", desc: "Isolated environment for testing integrations and simulating agent execution.", status: "progress", theme: "governance", quarter: "Q3 2026", votes: 298, gantt: [6,1] },
-        { id: "ta-8", title: "Agent Wallet Provisioning", desc: "Create and manage dedicated wallets for autonomous agents.", status: "progress", theme: "ai", quarter: "Q4 2026", votes: 445, gantt: [7,1] },
-        { id: "ta-9", title: "Per-Agent Controls", desc: "Spending limits, permissions, and kill switch for execution governance.", status: "progress", theme: "ai", quarter: "Q1 2027", votes: 398, gantt: [8,1] },
-        { id: "ta-10", title: "Native Agent Tooling (MCP)", desc: "Expose transaction capabilities through agent-compatible protocols.", status: "progress", theme: "ai", quarter: "Q2 2027", votes: 476, gantt: [9,1] },
-        { id: "ta-11", title: "Enterprise Treasury Controls", desc: "Layered capital allocation management across agents and operational units.", status: "planned", theme: "governance", quarter: "Q3 2027", votes: 312, gantt: [10,1] },
-        { id: "ta-12", title: "Multi-Operator Access Control", desc: "Role-based permissions for users and machine identities.", status: "planned", theme: "governance", quarter: "Q4 2027", votes: 267, gantt: [11,1] },
-        { id: "ta-13", title: "Predictive Usage Forecasting", desc: "Anticipate demand patterns driven by agent and system activity.", status: "planned", theme: "ai", quarter: "Q1 2028", votes: 234, gantt: [10,1] },
-        { id: "ta-14", title: "Anomaly Detection", desc: "Identify unusual transaction or agent behavior across the system.", status: "planned", theme: "ai", quarter: "Q2 2028", votes: 289, gantt: [11,1] },
-        { id: "ta-15", title: "Agent Audit Trail", desc: "Full traceability of actions with attribution across users and agents.", status: "planned", theme: "governance", quarter: "Q3 2028", votes: 245, gantt: [9,1] },
-        { id: "ta-16", title: "Agent-Native Payment Rails", desc: "Support autonomous machine-to-machine payments and transactions.", status: "planned", theme: "ai", quarter: "Q4 2028", votes: 198, gantt: [10,1] }
+        { id: "ta-1", title: "Transaction Gateway", desc: "Submit, sign, and track Hedera transactions through a unified API — no node operation, no SDK integration, no chain-level work required.", status: "shipped", theme: "sovereign", quarter: "Q1 2025", votes: 518, gantt: [0,1] },
+        { id: "ta-2", title: "Zero Crypto on the Balance Sheet", desc: "Fiat in, settlement on-chain — TransAct sources and holds the assets and executes on the customer's behalf; no token is ever bought, held, or accounted for.", status: "shipped", theme: "governance", quarter: "Q1 2025", votes: 472, gantt: [0,1] },
+        { id: "ta-3", title: "Stablecoin Settlement", desc: "Transactions settle in stablecoins on Hedera, with volatility and treasury exposure absorbed by TransAct rather than the customer.", status: "shipped", theme: "governance", quarter: "Q1 2025", votes: 456, gantt: [0,1] },
+        { id: "ta-4", title: "Managed Key Custody", desc: "Signing keys never leave secure storage — no private key handling at any point.", status: "shipped", theme: "sovereign", quarter: "Q2 2025", votes: 441, gantt: [1,1] },
+        { id: "ta-5", title: "Automated Wallet Funding", desc: "Execution wallet balances are monitored continuously and topped up from reserve without operator involvement, so transactions never fail because a wallet ran dry.", status: "shipped", theme: "governance", quarter: "Q2 2025", votes: 397, gantt: [1,1] },
+        { id: "ta-6", title: "Self-Service Onboarding", desc: "Sign up, verify, and reach a first transaction through a guided setup, without a sales call.", status: "shipped", theme: "governance", quarter: "Q2 2025", votes: 463, gantt: [1,1] },
+        { id: "ta-7", title: "Trial Tier", desc: "Evaluate against a capped transaction allowance and convert to a paid plan in-platform once the business case is proven.", status: "shipped", theme: "governance", quarter: "Q3 2025", votes: 388, gantt: [2,1] },
+        { id: "ta-8", title: "Billing & Subscription Management", desc: "Self-serve plans, checkout, and upgrades with prorated mid-cycle changes.", status: "shipped", theme: "governance", quarter: "Q3 2025", votes: 356, gantt: [2,1] },
+        { id: "ta-9", title: "Invoicing & Billing History", desc: "On-demand invoices and complete billing records, structured for automated reconciliation.", status: "shipped", theme: "governance", quarter: "Q3 2025", votes: 312, gantt: [2,1] },
+        { id: "ta-10", title: "Single Monthly USD Invoice", desc: "Network fees included, billed in the currency finance teams already work in.", status: "shipped", theme: "governance", quarter: "Q4 2025", votes: 289, gantt: [3,1] },
+        { id: "ta-11", title: "Configurable Alerts", desc: "Wallet balance thresholds, plan limit warnings, consecutive transaction failures, and API key use from unrecognized sources.", status: "shipped", theme: "governance", quarter: "Q4 2025", votes: 334, gantt: [3,1] },
+        { id: "ta-12", title: "Real-Time Network Status", desc: "Live Hedera health and gateway liveness visible to operators and automated systems alike.", status: "shipped", theme: "governance", quarter: "Q4 2025", votes: 298, gantt: [3,1] },
+        { id: "ta-13", title: "Native Agent Tooling (MCP)", desc: "Agents connect through the protocol they already speak — payment authorization, balance checks, and receipt retrieval exposed as native tool calls, no wrapper code required.", status: "shipped", theme: "ai", quarter: "Q1 2026", votes: 487, gantt: [4,1] },
+        { id: "ta-14", title: "Agent-Native Payment Rails", desc: "x402 support on Hedera lets agents pay for services and settle machine-to-machine transactions over the emerging standard for autonomous payments.", status: "shipped", theme: "ai", quarter: "Q1 2026", votes: 512, gantt: [4,1] },
+        { id: "ta-15", title: "Policy Engine", desc: "Every agent transaction is evaluated against defined rules before execution — spending caps, transaction limits, and approval thresholds enforced at the platform, not in application code.", status: "shipped", theme: "ai", quarter: "Q1 2026", votes: 445, gantt: [4,1] },
+        { id: "ta-16", title: "Human Approval Threshold", desc: "Transactions above the configured threshold route to a person; everything below executes autonomously.", status: "shipped", theme: "ai", quarter: "Q1 2026", votes: 398, gantt: [4,1] },
+        { id: "ta-17", title: "Agent Wallet Provisioning", desc: "Dedicated execution wallets per agent, separate from the main account, provisioned and managed at scale.", status: "shipped", theme: "ai", quarter: "Q2 2026", votes: 467, gantt: [5,1] },
+        { id: "ta-18", title: "Per-Agent Identity", desc: "Each agent acts under its own identity, with its own limits and permissions — no shared credentials, no ambiguity over attribution.", status: "shipped", theme: "ai", quarter: "Q2 2026", votes: 376, gantt: [5,1] },
+        { id: "ta-19", title: "Kill Switch", desc: "Instant revocation of any agent, without affecting other agents or interrupting the account.", status: "shipped", theme: "ai", quarter: "Q2 2026", votes: 423, gantt: [5,1] },
+        { id: "ta-20", title: "Agent Audit Trail", desc: "Every agent action produces a verifiable on-chain record, attributable to a specific agent and reviewable by compliance at the same standard as human-initiated activity.", status: "shipped", theme: "ai", quarter: "Q2 2026", votes: 389, gantt: [5,1] },
+        { id: "ta-21", title: "Transaction Metrics", desc: "Volume, success rate, and latency broken down per API key, with activity trends over time and exportable logs for reconciliation.", status: "progress", theme: "governance", quarter: "Q3 2026", votes: 356, gantt: [6,1] },
+        { id: "ta-22", title: "Security Event Log", desc: "API key lifecycle, signing wallet changes, failed authentication, and account setting changes — queryable and ready for audit or regulatory review.", status: "progress", theme: "governance", quarter: "Q4 2026", votes: 334, gantt: [7,1] },
+        { id: "ta-23", title: "Webhook Notifications", desc: "Event delivery into orchestration, monitoring, and incident response stacks, with signed payloads, automatic retry, and recovery for undelivered events.", status: "progress", theme: "governance", quarter: "Q1 2027", votes: 298, gantt: [8,1] },
+        { id: "ta-24", title: "Sandbox Environment", desc: "Isolated space for integration, testing, and agent simulation, with production-identical responses and a controlled path to go live.", status: "progress", theme: "governance", quarter: "Q2 2027", votes: 276, gantt: [9,1] },
+        { id: "ta-25", title: "Layered Treasury Architecture", desc: "Funding tiers across agents, teams, and business units, each governed by its own rules and limits.", status: "planned", theme: "governance", quarter: "Q3 2027", votes: 312, gantt: [10,1] },
+        { id: "ta-26", title: "Multi-Operator Access Control", desc: "Role-based permissions across admin, developer, finance, and read-only functions, applied consistently to human and machine identities.", status: "planned", theme: "governance", quarter: "Q4 2027", votes: 267, gantt: [11,1] },
+        { id: "ta-27", title: "Predictive Usage Forecasting", desc: "Anticipate agent-driven demand and plan capacity ahead of it.", status: "planned", theme: "ai", quarter: "Q1 2028", votes: 234, gantt: [10,1] },
+        { id: "ta-28", title: "Anomaly Detection", desc: "Surface unusual agent or user behavior before it becomes an incident, with per-account baselines and tunable sensitivity.", status: "planned", theme: "ai", quarter: "Q2 2028", votes: 289, gantt: [11,1] },
+        { id: "ta-29", title: "Interoperable Agent Commerce", desc: "Connect to the broader agent economy as it takes shape across platforms and protocols.", status: "planned", theme: "ai", quarter: "Q3 2028", votes: 198, gantt: [11,1] }
       ]
     },
     {
@@ -1350,7 +1381,7 @@ window.H4E_DATA = {
       meta: [
         { label: "Status", value: "Live" },
         { label: "Maturity", value: "Production" },
-        { label: "Last Update", value: "Apr 2026" },
+        { label: "Last Update", value: "Jul 2026" },
         { label: "Support", value: "24/7 GCC" }
       ],
       lead: { name: "Dr. Sara Mendel", role: "VP, Enterprise Support" },
@@ -1379,7 +1410,7 @@ window.H4E_DATA = {
       "W3C VC issuance & verification via OID4VCI / OID4VP",
       "Mobile Identity Wallet (iOS & Android) with biometric auth",
       "Identity Manager for enterprise credential governance",
-      "Decentralised SSO (dSSO): wallet-based login, no passwords",
+      "Decentralised SSO (dSSO) — wallet-based login, no passwords",
       "Validated in production: Africa Hackathon (10,000+ participants)"
     ],
     tracktrace: [
@@ -1390,17 +1421,19 @@ window.H4E_DATA = {
     ecoguard: [
       "ESG workflow management",
       "Identity & credentials",
-      "dMRV & Credit Tokenization (ERC-1155)",
+      "Tokenization (ERC-1155)",
       "Marketplace & trading",
       "Audit & compliance",
       "Dashboards & alerts"
     ],
     brandboost: [
-      "Behavioral science-driven — gamification engine",
-      "Web3 wallet — with tokenized incentives and identity",
-      "AI-powered consumer — analytics and recommendations",
-      "No-code configuration — for engagement design",
-      "Mobile-first engagement — and operations workflows"
+      "Real-time engagement engine",
+      "No-code visual journey canvas",
+      "Integrated token design studio",
+      "Ultra-Wideband proof-of-presence",
+      "Multi-source signal ingestion",
+      "Multi-brand token isolation",
+      "Sponsored content authoring"
     ],
     assetguard: [
       "Live on Android, iOS — and Chrome extension",
@@ -1410,12 +1443,12 @@ window.H4E_DATA = {
       "WalletConnect support — validated in quests and hackathons"
     ],
     transact: [
-      "Unified transaction submission — and tracking API",
-      "Agent-ready execution — infrastructure with wallet provisioning",
-      "Real-time network monitoring — and alerting",
-      "Self-serve billing — invoicing and subscription management",
-      "Event-driven architecture — with webhook integrations",
-      "Fine-grained controls — for secure and governed execution"
+      "One Gateway for All — Give people and AI agents the same governed way to submit, approve, and track Hedera transactions.",
+      "No Crypto Operations Burden — TransAct handles assets, funding, signing, and settlement so teams can use on-chain infrastructure without managing tokens or keys.",
+      "Agent-Ready Payment Rails — Enable autonomous agents to pay, settle, and retrieve receipts through native tools built for machine-to-machine commerce.",
+      "Policy-Controlled Execution — Enforce spending limits, approval thresholds, and permissions before every transaction reaches the network.",
+      "Enterprise-Grade Auditability — Capture every human and agent action in a verifiable trail that finance, operations, and compliance teams can review with confidence.",
+      "Scale Without Friction — Move from trial to production with self-service onboarding, automated billing, real-time status, and controls that grow with usage."
     ],
     hashcare: [
       "Agentic AI-driven ticket resolution engine",
@@ -1429,10 +1462,10 @@ window.H4E_DATA = {
   hlabels: {
     idtrust:    ['MAINNET', 'CREDENTIALS', 'MOBILE', 'AUTHENTICATION', 'AUTOMATION', 'ECOSYSTEM'],
     tracktrace: ['DATA INTEGRITY', 'TRACEABILITY', 'GOVERNANCE'],
-    ecoguard:   ['ESG', 'IDENTITY', 'DMRV', 'MARKETPLACE', 'COMPLIANCE', 'DASHBOARDS'],
-    brandboost: ['ENGAGEMENT', 'WEB3 WALLET', 'ANALYTICS', 'NO-CODE', 'MOBILE'],
+    ecoguard:   ['ESG', 'IDENTITY', 'TOKENIZATION', 'MARKETPLACE', 'COMPLIANCE', 'DASHBOARDS'],
+    brandboost: ['ENGAGEMENT', 'NO-CODE', 'TOKENS', 'UWB', 'INGESTION', 'ISOLATION', 'SPONSORED'],
     assetguard: ['MOBILE', 'TOKENS', 'NFT', 'ONBOARDING', 'INTEGRATION'],
-    transact:   ['INFRASTRUCTURE', 'AUTOMATION', 'MONITORING', 'BILLING', 'INTEGRATION', 'GOVERNANCE'],
+    transact:   ['UNIFIED ACCESS', 'CRYPTO-FREE', 'AGENT RAILS', 'POLICY ENGINE', 'AUDIT TRAIL', 'SCALABILITY'],
     hashcare:   ['AI', 'AUTHENTICATION', 'ORCHESTRATION', 'KNOWLEDGE', 'SLA', 'SECURITY']
   }
 };
@@ -1699,6 +1732,9 @@ window.H4E_DATA = {
 
 </main>
 
+<div style="padding:0 44px;max-width:1400px;margin:0 auto;">
+  <p style="font-size:11px;color:var(--text-3);font-style:italic;opacity:.75;line-height:1.5;margin:0 0 4px;">This is a public roadmap. Items and timelines are aspirational and may change based on customer feedback, partner priorities, and compliance or standards evolution.</p>
+</div>
 <footer>
   <div class="ft-l">© 2026 The Hashgraph Group AG · Zentrum Staldenbach 5, 8808 Pfäffikon SZ, Switzerland · <a href="https://www.hashgraph-group.com" style="color:inherit;text-decoration:none;">hashgraph-group.com</a></div>
   <div class="ft-r">
@@ -1717,7 +1753,7 @@ window.H4E_DATA = {
     ecoguard:   'Transparent. Trusted. Sustainable.',
     brandboost: 'Engaged. Gamified. Rewarded.',
     assetguard: 'Enterprise. Compliant. Secure.',
-    transact:   'Simple. Abstract. Secure.',
+    transact:   'Agentic. Governed. Instant.',
     hashcare:   'Agentic. Efficient. Proactive.'
   };
 
@@ -1727,7 +1763,7 @@ window.H4E_DATA = {
     ecoguard:   'ESG',
     brandboost: 'Engagement',
     assetguard: 'Wallet',
-    transact:   'Gateway',
+    transact:   'Agent Infrastructure',
     hashcare:   'Support'
   };
 
@@ -1795,9 +1831,9 @@ window.H4E_DATA = {
 
   function buildProductTicker(product) {
     var c = '#605EFF';
-    var dotColor = { shipped: '#22C55E', progress: c, planned: 'rgba(255,255,255,0.35)', exploring: 'rgba(255,255,255,0.25)' };
-    var labelColor = { shipped: '#22C55E', progress: c, planned: 'rgba(255,255,255,0.45)', exploring: 'rgba(255,255,255,0.35)' };
-    var label = { shipped: 'SHIPPED', progress: 'IN PROGRESS', planned: null, exploring: 'EXPLORING' };
+    var dotColor = { shipped: '#22C55E', progress: c, planned: 'rgba(255,255,255,0.35)' };
+    var labelColor = { shipped: '#22C55E', progress: c, planned: 'rgba(255,255,255,0.45)' };
+    var label = { shipped: 'SHIPPED', progress: 'IN PROGRESS', planned: null };
     var unit = product.features.map(function(f) {
       var lc = labelColor[f.status];
       var dc = dotColor[f.status];
@@ -1816,7 +1852,6 @@ window.H4E_DATA = {
     var shipped   = feats.filter(function(f){return f.status==='shipped';}).length;
     var progress  = feats.filter(function(f){return f.status==='progress';}).length;
     var planned   = feats.filter(function(f){return f.status==='planned';}).length;
-    var exploring = feats.filter(function(f){return f.status==='exploring';}).length;
     var total     = feats.length;
     var status    = product.meta && product.meta[0] ? product.meta[0].value : 'Live';
     var category  = CATEGORIES[product.id] || 'Product';
@@ -2109,7 +2144,7 @@ window.H4E_DATA = {
     }
     
     function countByStatus(features) {
-      var c = { shipped: 0, progress: 0, planned: 0, exploring: 0 };
+      var c = { shipped: 0, progress: 0, planned: 0 };
       features.forEach(function(f) { c[f.status] = (c[f.status] || 0) + 1; });
       return c;
     }
@@ -2120,36 +2155,9 @@ window.H4E_DATA = {
       if (!highlights || !highlights.length) return '';
 
       // Premium horizontal strip — all products
+      // Each highlight renders as a single title line only (no subtitle/description).
       var stripItems = highlights.map(function(h, i) {
-        // Smart split into title + description (prefer the first separator that appears)
-        var emDashIdx = h.indexOf(' — ');
-        var colonIdx = h.indexOf(': ');
-        var title, desc;
-        if (colonIdx >= 0 && (emDashIdx < 0 || colonIdx < emDashIdx)) {
-          title = h.substring(0, colonIdx);
-          desc = h.substring(colonIdx + 2);
-        } else if (emDashIdx >= 0) {
-          title = h.substring(0, emDashIdx);
-          desc = h.substring(emDashIdx + 3);
-        } else {
-          // No explicit separator — try to find natural break
-          // Look for " for " or " with " as split point
-          var withIdx = h.indexOf(' for ');
-          if (withIdx > 20) { // At least 20 chars for title
-            title = h.substring(0, withIdx);
-            desc = h.substring(withIdx + 5);
-          } else {
-            withIdx = h.indexOf(' with ');
-            if (withIdx > 20) {
-              title = h.substring(0, withIdx);
-              desc = h.substring(withIdx + 6);
-            } else {
-              // No good break point, use whole thing as title
-              title = h;
-              desc = '';
-            }
-          }
-        }
+        var title = h;
         var labels = D.hlabels && D.hlabels[product.id];
         var lbl = labels && labels[i] ? labels[i] : '';
         return '<div class="ps-strip-item">'
@@ -2158,7 +2166,6 @@ window.H4E_DATA = {
           +   (lbl ? '<span class="ps-strip-label">' + lbl + '</span>' : '')
           + '</div>'
           + '<div class="ps-strip-title">' + title + '</div>'
-          + (desc ? '<div class="ps-strip-desc">' + desc + '</div>' : '')
           + '</div>';
       }).join('');
 
@@ -2190,8 +2197,7 @@ window.H4E_DATA = {
       var fractions = [
         { f: (counts.shipped || 0) / total, color: '#22C55E' },
         { f: (counts.progress || 0) / total, color: color },
-        { f: (counts.planned || 0) / total, color: '#525978' },
-        { f: (counts.exploring || 0) / total, color: '#F59E0B' }
+        { f: (counts.planned || 0) / total, color: '#525978' }
       ];
       var acc = 0;
       var circles = fractions.map(function(s, i) {
@@ -2219,25 +2225,30 @@ window.H4E_DATA = {
         if (!byQ[qi]) byQ[qi] = [];
         byQ[qi].push(f);
       });
-      var sPri = { progress:0, exploring:1, planned:2, shipped:3 };
+      var sPri = { progress:0, planned:1, shipped:2 };
       Object.keys(byQ).forEach(function(k) {
         byQ[k].sort(function(a,b){ return (sPri[a.status]||3)-(sPri[b.status]||3)||(b.votes||0)-(a.votes||0); });
       });
 
-      // Build stops (one per non-empty quarter)
+      // Build stops (one per non-empty quarter). A quarter's state is normally driven by
+      // its position relative to NOW, but a delivered feature is always shown as
+      // "past" (already climbed) even if its tagged quarter lands on/after the
+      // current quarter — delivered work never renders as in-progress or upcoming.
       var stops = [];
       QUARTERS.forEach(function(q, i) {
         var items = byQ[i] || [];
         if (!items.length) return;
-        stops.push({ i:i, q:q, items:items, state: i < NOW ? 'past' : i === NOW ? 'now' : 'future' });
+        var chrono = i < NOW ? 'past' : i === NOW ? 'now' : 'future';
+        var state = items[0].status === 'shipped' ? 'past' : chrono;
+        stops.push({ i:i, q:q, items:items, state: state });
       });
       if (!stops.length) return '<p style="color:var(--text-3);padding:20px 0">No roadmap data.</p>';
       var N = stops.length;
 
       // Colors
-      var scol = { shipped:'#22C55E', progress:'#605EFF', planned:'#8B6FFF', exploring:'#F59E0B' };
-      var sRGB  = { shipped:'34,197,94', progress:'96,94,255', planned:'139,111,255', exploring:'245,158,11' };
-      var sLbl  = { shipped:'Delivered', progress:'In Progress', planned:'Planned', exploring:'Exploring' };
+      var scol = { shipped:'#22C55E', progress:'#605EFF', planned:'#8B6FFF' };
+      var sRGB  = { shipped:'34,197,94', progress:'96,94,255', planned:'139,111,255' };
+      var sLbl  = { shipped:'Delivered', progress:'In Progress', planned:'Planned' };
       function stateColor(s) { return s.state==='past'?'#22C55E':s.state==='now'?'#605EFF':(scol[s.items[0].status]||'#8B6FFF'); }
       function stateRGB(s)   { return s.state==='past'?'34,197,94':s.state==='now'?'96,94,255':(sRGB[s.items[0].status]||'139,111,255'); }
       function stateLabel(s) { return s.state==='past'?'Delivered':s.state==='now'?'In Progress':(sLbl[s.items[0].status]||'Planned'); }
@@ -2247,31 +2258,77 @@ window.H4E_DATA = {
         { label:'Foundation',         qi0:0,  qi1:1,  color:'#22C55E' },
         { label:'Expansion',          qi0:2,  qi1:5,  color:'#605EFF' },
         { label:'Automation',         qi0:6,  qi1:7,  color:'#8B6FFF' },
-        { label:'Regulatory Horizon', qi0:8,  qi1:11, color:'#F59E0B' }
+        { label:'Regulatory Horizon', qi0:8,  qi1:QUARTERS.length-1, color:'#F59E0B' }
       ];
 
       // SVG canvas — all coordinates in SVG px (1:1 with CSS px at display size)
-      var W = 1700, H = 560;
-      var padL = 100, padR = 100, trackW = W - padL - padR;
-      var yBot = 390, yTop = 150;   // path rises from yBot (Q1'25) to yTop (Q4'27)
-      var QLY  = 530;               // quarter label y
+      var W = 1900;
+      var padL = 120, padR = 120, trackW = W - padL - padR;
       var STEM_A = 28, STEM_B = 22; // stem lengths above/below
       var CIR_R = 9, CIR_NOW = 12;
       var CARD_W = 162;
       var BG = '#010113';
       var Rnd = Math.round;
 
-      // x for quarter index qi (evenly across all 12 quarters)
-      function xq(qi) { return Rnd(padL + (qi / 11) * trackW); }
+      // Card alternates above/below the climbing line. Anchored so the LAST stop is
+      // always below (avoids clipping at the top of the canvas), then alternates
+      // outward from there — this keeps every adjacent pair of stops on opposite
+      // sides regardless of whether N is odd or even (the previous version special-
+      // cased only the last index, which desynced the alternation whenever a
+      // product had an odd number of stops, landing two adjacent quarters on the
+      // same side and causing overlap).
+      function isAbove(si) { return (N - 1 - si) % 2 === 1; }
+
+      // Dense quarters (4+ releases) are split into multiple side-by-side boxes
+      // (see cardsHtml below) instead of one tall stacked card or one wide card with
+      // an internal grid — e.g. 4 releases -> 2 boxes of 2, 6 releases -> 2 boxes of 3.
+      // boxLayout()/chunkItems() below must stay in sync with cardsHtml's rendering
+      // so the height/width estimates match what's actually drawn.
+      var ROW_H = 40, HEADER_H = 20, PAD_V = 24, FIRST_ROW_SAVE = 8, BOX_GAP = 18;
+      function boxLayout(n) {
+        if (n <= 3) return { boxes: 1, size: n };
+        var boxes = Math.ceil(n / 3);
+        var size = Math.ceil(n / boxes);
+        return { boxes: boxes, size: size };
+      }
+      function chunkItems(items) {
+        var bl = boxLayout(items.length);
+        var chunks = [], idx = 0;
+        for (var b = 0; b < bl.boxes; b++) {
+          var remaining = items.length - idx;
+          var remainingBoxes = bl.boxes - b;
+          var take = Math.ceil(remaining / remainingBoxes);
+          chunks.push(items.slice(idx, idx + take));
+          idx += take;
+        }
+        return chunks;
+      }
+      function estCardH(n) { var bl = boxLayout(n); return PAD_V + HEADER_H + bl.size * ROW_H - FIRST_ROW_SAVE; }
+      var maxAboveH = 0, maxBelowH = 0;
+      stops.forEach(function(s, si) {
+        var h = estCardH(s.items.length);
+        if (isAbove(si)) { if (h > maxAboveH) maxAboveH = h; }
+        else { if (h > maxBelowH) maxBelowH = h; }
+      });
+
+      var TOP_PAD = 40;                 // room for phase-band label + guide start
+      var RISE = 240;                   // vertical rise of the climbing path
+      var GAP_BEFORE_LABEL = 14;        // gap between tallest below-card and quarter label
+      var yTop = TOP_PAD + CIR_NOW + STEM_A + maxAboveH + 8;
+      var yBot = yTop + RISE;           // path rises from yBot (Q1'25) to yTop (Q4'27)
+      var QLY  = yBot + CIR_NOW + STEM_B + maxBelowH + GAP_BEFORE_LABEL; // quarter label y
+      var H = QLY + 30;
+
+      // x for quarter index qi (evenly across all quarters)
+      var QMAX = QUARTERS.length - 1;
+      function xq(qi) { return Rnd(padL + (qi / QMAX) * trackW); }
       // y on the rising line for quarter qi (linear rise)
-      function yq(qi) { return Rnd(yBot - (qi / 11) * (yBot - yTop)); }
-      // card alternates above/below; last stop forced below to avoid top clip
-      function isAbove(si) { return si !== N - 1 && si % 2 === 0; }
+      function yq(qi) { return Rnd(yBot - (qi / QMAX) * (yBot - yTop)); }
 
       // ── Phase background bands ──
       var phaseSvg = phases.map(function(ph) {
         var x0 = xq(ph.qi0);
-        var x1 = ph.qi1 === 11 ? padL + trackW : xq(ph.qi1 + 1);
+        var x1 = ph.qi1 === QMAX ? padL + trackW : xq(ph.qi1 + 1);
         var cx = Rnd((x0 + x1) / 2);
         return '<rect x="'+Rnd(x0)+'" y="0" width="'+Rnd(x1-x0)+'" height="'+H+'" fill="'+ph.color+'" opacity="0.026" pointer-events="none"/>'+
           '<text x="'+cx+'" y="20" text-anchor="middle" font-size="8" font-family="Work Sans,sans-serif" font-weight="700" letter-spacing="0.18em" fill="rgba(255,255,255,0.15)" pointer-events="none">'+ph.label.toUpperCase()+'</text>';
@@ -2354,16 +2411,45 @@ window.H4E_DATA = {
           ? 'top:'+((cy-r-STEM_A)/H*100).toFixed(2)+'%;transform:translate(-50%,-100%)'
           : 'top:'+((cy+r+STEM_B)/H*100).toFixed(2)+'%;transform:translateX(-50%)';
         var nRel=s.items.length;
-        var more = nRel>1?'<div class="mp2-card-more">+' + (nRel-1) + ' more release'+(nRel>2?'s':'')+'</div>':'';
-        return '<div class="mp2-card" data-mp2-idx="'+si+'" data-mp2-state="'+s.state+'" '+
-          'style="left:'+lp+'%;'+topStyle+';width:'+CARD_W+'px;--mp2-c:'+col+';--mp2-rgb:'+rgb+'" '+
+        function buildRows(items) {
+          return items.map(function(it, ix) {
+            var iCol = scol[it.status] || col;
+            var iLbl = sLbl[it.status] || lbl;
+            return '<div class="mp2-card-row"'+(ix===0?' style="border-top:none;padding-top:0"':'')+' title="'+it.title+'" onclick="event.stopPropagation();mpSelect(\''+product.id+'\','+si+');openFeatureDrawer(\''+product.id+'\',\''+it.id+'\')">'+
+              '<div class="mp2-card-title">'+it.title+'</div>'+
+              '<div class="mp2-badge"><span class="mp2-badge-dot" style="background:'+iCol+'"></span><span style="color:'+iCol+'">'+iLbl+'</span></div>'+
+            '</div>';
+          }).join('');
+        }
+        // Every release gets its own block — nothing is hidden behind a "+N more"
+        // note. Dense quarters (4+ releases) split into multiple side-by-side boxes
+        // (rather than one tall stacked card or one wide card with an internal grid)
+        // so the quarter's whole set of releases stays legible without overflow.
+        var chunks = chunkItems(s.items);
+        if (chunks.length <= 1) {
+          var cw = nRel > 1 ? CARD_W + 40 : CARD_W;
+          return '<div class="mp2-card" data-mp2-idx="'+si+'" data-mp2-state="'+s.state+'" '+
+            'style="left:'+lp+'%;'+topStyle+';width:'+cw+'px;--mp2-c:'+col+';--mp2-rgb:'+rgb+'" '+
+            'onclick="mpSelect(\''+product.id+'\','+si+');openFeatureDrawer(\''+product.id+'\',\''+s.items[0].id+'\')">' +
+            '<div class="mp2-card-inner">'+
+              '<div class="mp2-card-q">'+s.q+'<span class="mp2-card-releases">'+nRel+(nRel>1?' releases':' release')+'</span></div>'+
+              '<div class="mp2-card-rows">'+buildRows(s.items)+'</div>'+
+            '</div>'+
+          '</div>';
+        }
+        var groupW = chunks.length * CARD_W + (chunks.length - 1) * BOX_GAP;
+        var boxesHtml = chunks.map(function(chunk) {
+          return '<div class="mp2-card-box" style="width:'+CARD_W+'px">'+
+            '<div class="mp2-card-inner">'+
+              '<div class="mp2-card-q">'+s.q+'<span class="mp2-card-releases">'+chunk.length+(chunk.length>1?' releases':' release')+'</span></div>'+
+              '<div class="mp2-card-rows">'+buildRows(chunk)+'</div>'+
+            '</div>'+
+          '</div>';
+        }).join('');
+        return '<div class="mp2-card mp2-card-group" data-mp2-idx="'+si+'" data-mp2-state="'+s.state+'" '+
+          'style="left:'+lp+'%;'+topStyle+';width:'+groupW+'px;--mp2-c:'+col+';--mp2-rgb:'+rgb+'" '+
           'onclick="mpSelect(\''+product.id+'\','+si+');openFeatureDrawer(\''+product.id+'\',\''+s.items[0].id+'\')">' +
-          '<div class="mp2-card-inner">'+
-            '<div class="mp2-card-q">'+s.q+'<span class="mp2-card-releases">'+nRel+(nRel>1?' releases':' release')+'</span></div>'+
-            '<div class="mp2-card-title">'+s.items[0].title+'</div>'+
-            '<div class="mp2-badge"><span class="mp2-badge-dot" style="background:'+col+'"></span><span style="color:'+col+'">'+lbl+'</span></div>'+
-            more+
-          '</div>'+
+          boxesHtml +
         '</div>';
       }).join('');
 
@@ -2546,9 +2632,9 @@ window.H4E_DATA = {
       var sibIdx = siblings.findIndex(function(f) { return f.id === featureId; });
       var prevSib = sibIdx > 0 ? siblings[sibIdx - 1] : null;
       var nextSib = sibIdx < siblings.length - 1 ? siblings[sibIdx + 1] : null;
+      var qLabel = QUARTERS[qi];
       var navHtml = '';
       if (siblings.length > 1) {
-        var qLabel = QUARTERS[qi] || feature.quarter;
         navHtml = '<div class="fd-nav">' +
           '<button class="fd-nav-btn" ' + (prevSib ? 'onclick="openFeatureDrawer(\'' + productId + '\',\'' + prevSib.id + '\')"' : 'disabled') + '>&#8592;</button>' +
           '<span class="fd-nav-pos">' + (sibIdx + 1) + ' of ' + siblings.length + ' in ' + qLabel + '</span>' +
@@ -2574,7 +2660,7 @@ window.H4E_DATA = {
           '<div class="fd-pills">' +
             '<span class="fd-status-pill"><span style="width:6px;height:6px;border-radius:99px;background:' + status.dot + '" class="' + (feature.status === 'progress' ? 'pulse-dot' : '') + '"></span>' + status.label + '</span>' +
             '<span class="fd-theme-pill" style="background:' + rgba(color, 0.1) + ';border-color:' + rgba(color, 0.25) + ';color:' + color + '">' + theme.label + '</span>' +
-            '<span class="fd-target">' + feature.quarter + '</span>' +
+            '<span class="fd-target">' + qLabel + '</span>' +
           '</div>' +
           '<p class="fd-desc">' + feature.desc + '</p>' +
         '</div>';
